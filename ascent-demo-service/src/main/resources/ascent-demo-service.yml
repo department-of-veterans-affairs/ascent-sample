@@ -1,0 +1,131 @@
+server:
+  # context-path: /@project.name@
+  port: 8080
+info:  
+  build:
+    version:  "@project.version@"
+    artifact: "@project.artifactId@"
+    name: "@project.name@"
+    description: "@project.description@"
+#eureka:
+#  client:
+#    #false by default in local dev mode
+#    enabled: false
+spring:
+  jackson:
+    serialization-inclusion: NON_EMPTY
+    serialization:
+      INDENT_OUTPUT: true
+  cache:
+    ehcache:
+      config: classpath:ehcache.xml        
+ascent-demo-service:
+  env: default
+  propSource: internal
+  password: secret
+  sampleProperty: >
+                  sampleProperty___env/profile:${ascent-demo-service.env}___propSource:
+                  ${ascent-demo-service.propSource}__password:${ascent-demo-service.password}
+#*********************************************************************
+# BGS-Specific SERVICE CLIENT PROPERTIES
+#*********************************************************************
+---
+spring.profiles: default
+spring.profiles.include: remote_client_sims
+
+---
+spring.profiles: local-int, docker-demo
+spring.profiles.include: remote_client_impls
+---
+#----------------------------------------
+# BGS-Specific default properties
+#----------------------------------------
+bgs:
+  url: http://localhost:58540/mockPersonWebServicePortBinding
+  username: unitTestUsername
+  password: unitTestPassword
+  systemId: eBenefits
+  vaApplicationName: eBenefits
+  vaUCApplicationName: EBENEFITS
+  stationId: 281
+#---------------------------------------------------
+#   PersonService SOAP web service client configuration
+#---------------------------------------------------
+wss-partner-person: 
+  ws:
+    client: 
+      username: ${bgs.username}
+      password: ${bgs.password}
+      systemId: {bgs.systemId}
+      vaApplicationName: ${bgs.vaApplicationName}
+      stationId: ${bgs.stationId}
+      endpoint: ${bgs.url}
+      methodWarningThreshhold: 2500
+      readTimeout: 360000
+      connectionTimeout: 120000
+#---------------------------------------------------
+#   Logging Level for packages
+#---------------------------------------------------
+logging: 
+  level:
+    gov:
+      va:
+        ascent.framework: debug
+        ascent.demo: debug
+    org:
+      springframework: 
+        ws: info
+        cache: info
+      apache:
+        http: 
+          impl.client: info
+    net:
+      sf:
+        ehcache: info
+management:
+  security:
+    enabled: false
+#sanitize properties for keys when using /configprops.
+#default "password", "secret", "key", "token", ".*credentials.*", "vcap_services"
+endpoints:
+  configprops:
+    keys-to-sanitize: 'enabled, password'
+hystrix:
+  command:
+    DemoServiceAsyncReadCommand: 
+      execution:
+        isolation:
+          thread:
+            # This property sets the time in milliseconds after which the caller will observe a timeout and 
+            # walk away from the command execution. Hystrix marks the HystrixCommand as a TIMEOUT, and performs fallback 
+            # logic. Note that there is configuration for turning off timeouts per-command, if that is desired (see command.timeout.enabled).
+            # Default Value: 1000
+            timeoutInMilliseconds: 6000
+    default:
+      metrics:
+        rollingStats:
+          # This property sets the duration of the statistical rolling window, in milliseconds. 
+          # This is how long Hystrix keeps metrics for the circuit breaker to use and for publishing 
+          # Default Value: 10000
+          timeInMilliseconds: 20000
+        # This property sets the time to wait, in milliseconds, between allowing health snapshots to be taken that calculate 
+        # success and error percentages and affect circuit breaker status. 
+        # Default Value: 500
+        healthSnapshot: 
+          intervalInMilliseconds: 1000
+      circuitBreaker:
+        # This property sets the amount of time, after tripping the circuit, to reject requests 
+        # before allowing attempts again to determine if the circuit should again be closed.
+        # Default Value: 5000
+        sleepWindowInMilliseconds: 10000
+        # This property sets the minimum number of requests in a rolling window that will trip the circuit.
+        # Default Value: 20
+        requestVolumeThreshold: 4
+      execution:
+        isolation:
+          thread:
+            # This property sets the time in milliseconds after which the caller will observe a timeout and 
+            # walk away from the command execution. Hystrix marks the HystrixCommand as a TIMEOUT, and performs fallback 
+            # logic. Note that there is configuration for turning off timeouts per-command, if that is desired (see command.timeout.enabled).
+            # Default Value: 1000
+            timeoutInMilliseconds: 5000

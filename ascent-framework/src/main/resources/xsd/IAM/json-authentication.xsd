@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.dmdc.osd.mil/identitymanagement/authorization"
+    xmlns="http://www.dmdc.osd.mil/identitymanagement/authorization"   elementFormDefault="qualified">
+    <xs:element name="authorizationResponse" type="personDetail"/>
+    
+    <xs:complexType name="personDetail">
+      <xs:complexContent>
+        <xs:extension base="person">
+          <xs:sequence>
+            <xs:element name="headOfFamily" type="person" nillable="true" minOccurs="0"/>
+            <xs:element name="personAssociated" type="personAssociated" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="subjectAuthorizationResponse" type="subjectDetail"/>
+
+    <xs:complexType name="subjectDetail">
+      <xs:sequence>
+        <xs:element name="surrogate" type="person" minOccurs="1"/>
+        <xs:element name="subject" type="subject" minOccurs="1"/>           
+      </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="subject">
+      <xs:complexContent>
+        <xs:extension base="personAssociated">
+          <xs:sequence>
+            <xs:element name="headOfFamily" type="person" minOccurs="0"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="personAssociated">
+      <xs:complexContent>
+        <xs:extension base="person">
+          <xs:sequence>
+            <xs:element name="relationshipType" type="relationshipType" form="qualified" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="permissionType" type="permissionType" form="qualified" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="person">
+      <xs:sequence>
+        <xs:element name="id" type="xs:string" minOccurs="0"/>
+        <xs:element name="idType" type="idType" minOccurs="0"/>
+        <xs:element name="edi" type="xs:string" minOccurs="0"/>
+        <xs:element name="firstName" type="xs:string" minOccurs="0"/>
+        <xs:element name="middleName" type="xs:string" minOccurs="0"/>
+        <xs:element name="lastName" type="xs:string" minOccurs="0"/>
+        <xs:element name="cadencyName" type="xs:string" minOccurs="0"/>
+        <xs:element name="gender" type="gender" minOccurs="0"/>
+        <xs:element name="birthDate" type="xs:dateTime" minOccurs="0"/>
+        <xs:element name="deceased" type="xs:boolean" minOccurs="0"/>
+        <xs:element name="deathDate" type="xs:dateTime" minOccurs="0"/>
+        <xs:element name="status" type="personStatus" minOccurs="0"/>
+        <xs:element name="associationReason" type="associationReason" minOccurs="0"/>
+        <xs:element name="personnel" type="personnel" minOccurs="0" maxOccurs="unbounded"/>
+        <xs:element name="benefit" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="personnel">
+      <xs:sequence>
+        <xs:element name="category" type="category" minOccurs="0"/>
+        <xs:element name="entitlementCondition" type="xs:string" minOccurs="0"/>
+        <xs:element name="organization" type="xs:string" minOccurs="0"/>
+        <xs:element name="rank" type="xs:string" minOccurs="0"/>
+        <xs:element name="reservistIndicator" type="xs:string" minOccurs="0"/>
+        <xs:element name="serviceBranchClassification" type="xs:string" minOccurs="0"/>
+      </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="gender">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="MALE"/>
+        <xs:enumeration value="FEMALE"/>
+        <xs:enumeration value="UNKNOWN"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="personStatus">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="DECEASED"/>
+        <xs:enumeration value="SPONSOR"/>
+        <xs:enumeration value="DEPENDENT"/>
+        <xs:enumeration value="VETERAN"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="associationReason">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="SPOUSE"/>
+        <xs:enumeration value="CHILD"/>
+        <xs:enumeration value="FOSTER_CHILD"/>
+        <xs:enumeration value="PARENT"/>
+        <xs:enumeration value="PARENT_IN_LAW"/>
+        <xs:enumeration value="STEPCHILD"/>
+        <xs:enumeration value="STEPPARENT"/>
+        <xs:enumeration value="IN_LOCO_PARENTIS"/>
+        <xs:enumeration value="EMERGENCY_CONTACT"/>
+        <xs:enumeration value="WARD"/>
+        <xs:enumeration value="FORMER_SPOUSE"/>
+        <xs:enumeration value="SELF"/>
+        <xs:enumeration value="JOINT_MARRIAGE_SPOUSE"/>
+        <xs:enumeration value="OTHER_HEALTH_INSURANCE_SUBSCRIBER"/>
+        <xs:enumeration value="PRE_ADOPTIVE_CHILD"/>
+        <xs:enumeration value="MEMBER_OF_HOUSEHOLD"/>
+        <xs:enumeration value="DOMESTIC_PARTNER"/>
+        <xs:enumeration value="UNKNOWN"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="category">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="ACTIVE_DUTY"/>
+        <xs:enumeration value="PRESIDENTIAL_APPOINTEE"/>
+        <xs:enumeration value="CIVIL_SERVICE_EMPLOYEE"/>
+        <xs:enumeration value="DISABLED_VETERAN"/>
+        <xs:enumeration value="CONTRACT_EMPLOYEE"/>
+        <xs:enumeration value="FORMER_MEMBER"/>
+        <xs:enumeration value="MEDAL_OF_HONOR"/>
+        <xs:enumeration value="NON_DOD_CIVIL_SERVICE"/>
+        <xs:enumeration value="ACADEMY_STUDENT"/>
+        <xs:enumeration value="NON_APPROPRIATED_FUND"/>
+        <xs:enumeration value="LIGHTHOUSE_SERVICE"/>
+        <xs:enumeration value="NON_FEDERAL_CIVILIAN_ASSOCIATE"/>
+        <xs:enumeration value="NATIONAL_GUARD"/>
+        <xs:enumeration value="NON_DOD_CONTRACT_EMPLOYEE"/>
+        <xs:enumeration value="GREY_AREA_RETIREE"/>
+        <xs:enumeration value="RETIRED_MILITARY"/>
+        <xs:enumeration value="FOREIGN_AFFILIATE"/>
+        <xs:enumeration value="OCONUS_HIRE"/>
+        <xs:enumeration value="RESERVE_MEMBER"/>
+        <xs:enumeration value="DOD_BENEFICIARY"/>
+        <xs:enumeration value="CIVILIAN_RETIREE"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="idType">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="DEPENDENT"/>
+        <xs:enumeration value="FOREIGN"/>
+        <xs:enumeration value="TAX_IDENITIFICATION"/>
+        <xs:enumeration value="PATIENT"/>
+        <xs:enumeration value="INVALID_SSN"/>
+        <xs:enumeration value="SERVICE"/>
+        <xs:enumeration value="CONTRACTOR"/>
+        <xs:enumeration value="SSN"/>
+        <xs:enumeration value="TEST"/>
+        <xs:enumeration value="DOD_EDI_PN_ID"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="relationshipType">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="FAMILY"/>
+        <xs:enumeration value="LEGAL_AGENT"/>
+        <xs:enumeration value="FINANCIAL_AGENT"/>
+        <xs:enumeration value="CAREGIVER"/>
+        <xs:enumeration value="HEALTH_CARE_AGENT"/>
+        <xs:enumeration value="LEGAL_GUARDIAN"/>
+        <xs:enumeration value="SPECIAL_GUARDIAN"/>
+        <xs:enumeration value="UNKNOWN"/>
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="permissionType">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="CLINICAL"/>
+        <xs:enumeration value="PLACEMENT"/>
+        <xs:enumeration value="MEDICAL_SERVICES"/>
+        <xs:enumeration value="LIVING_WILL"/>
+        <xs:enumeration value="HEALTH_CARE_ENROLLMENT"/>
+        <xs:enumeration value="MEDICAL_EXPENSES"/>
+        <xs:enumeration value="REFILL_PRESCRIPTIONS"/>
+        <xs:enumeration value="APPOINTMENT_SCHEDULING"/>
+        <xs:enumeration value="BENEFITS_AND_RATES"/>
+        <xs:enumeration value="PAYMENT_HISTORY"/>
+        <xs:enumeration value="DEBT_AMOUNT_OWED"/>
+        <xs:enumeration value="BENEFITS_PAYMENT_LETTER"/>
+        <xs:enumeration value="DIRECT_DEPOSIT"/>
+        <xs:enumeration value="CLAIM_STATUS"/>
+        <xs:enumeration value="SIGN_LEGAL_DOCUMENTS"/>
+        <xs:enumeration value="NON_CLINICAL"/>
+        <xs:enumeration value="CONTACT_INFO"/>
+        <xs:enumeration value="PROFILE_INFO"/>
+      </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

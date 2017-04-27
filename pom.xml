@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>gov.va.ascent</groupId>
+		<artifactId>ascent-sample-parentpom</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>ascent-sample-parentpom</relativePath>
+	</parent>
+	
+	<artifactId>ascent-sample-reactor</artifactId>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>Ascent Sample reactor pom for service poc projects</description>
+
+	<modules>
+		<module>ascent-sample-parentpom</module>
+		<module>ascent-framework</module>
+		<module>ascent-demo-partner</module>
+		<module>ascent-demo-service</module>
+	</modules>
+
+</project>

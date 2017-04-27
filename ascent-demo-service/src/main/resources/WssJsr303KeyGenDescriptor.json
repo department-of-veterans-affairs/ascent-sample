@@ -1,0 +1,22 @@
+{
+  "WssJsr303KeyGenDescriptor" : {
+    "operationDescriptors" : [ 
+	    {
+	      "name" : "/demo/v1/create",
+	      "description" : "v1 of create operation",
+	      "errorKeys" : {
+	        "ascent.demo.UnknownError" : "Represents a general, likely unexpected, error in the service.  If/When reporting this error please note the additional details in the text such as server name and/or unique error id."
+	      },
+	      "genJsr303KeysFromClasses" : [ "gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest" ]
+	    },
+	    {
+	      "name" : "/demo/v1/create",
+	      "description" : "v1 of update operation",
+	      "errorKeys" : {
+	        "ascent.demo.UnknownError" : "Represents a general, likely unexpected, error in the service.  If/When reporting this error please note the additional details in the text such as server name and/or unique error id."
+	      },
+	      "genJsr303KeysFromClasses" : [ "gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest" ]
+	    }
+    ]
+  }
+}

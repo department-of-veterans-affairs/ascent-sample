@@ -1,0 +1,16 @@
+version: '2.1'
+services: 
+   ascent-demo-service:
+    image: ascent-demo-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    external_links: 
+      - ascent-config
+      - ascent-discovery
+      - ascent-amqp
+    networks:
+      - default
+      - ascent_default
+networks:
+  ascent_default: 
+    external: true

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Published by JAX-WS RI at http://jax-ws.dev.java.net. RI's version is Oracle JAX-WS 2.1.3-07/10/2008 08:41 PM(bt). -->
+<xs:schema xmlns:tns="http://person.services.vetsnet.vba.va.gov/" xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0" targetNamespace="http://person.services.vetsnet.vba.va.gov/">
+
+	<xs:element name="MessageException" nillable="true" type="tns:messageFaultInfoBean"/>
+
+	<xs:element name="findPersonByFileNumber" type="tns:findPersonByFileNumber"/>
+
+	<xs:element name="findPersonByFileNumberResponse" type="tns:findPersonByFileNumberResponse"/>
+
+	<xs:element name="findPersonByPtcpntId" type="tns:findPersonByPtcpntId"/>
+
+	<xs:element name="findPersonByPtcpntIdResponse" type="tns:findPersonByPtcpntIdResponse"/>
+
+	<xs:element name="findPersonBySSN" type="tns:findPersonBySSN"/>
+
+	<xs:element name="findPersonBySSNResponse" type="tns:findPersonBySSNResponse"/>
+
+	<xs:element name="findPersonsByFileNumbers" type="tns:findPersonsByFileNumbers"/>
+
+	<xs:element name="findPersonsByFileNumbersResponse" type="tns:findPersonsByFileNumbersResponse"/>
+
+	<xs:element name="findPersonsByPtcpntIds" type="tns:findPersonsByPtcpntIds"/>
+
+	<xs:element name="findPersonsByPtcpntIdsResponse" type="tns:findPersonsByPtcpntIdsResponse"/>
+
+	<xs:element name="findPersonsBySsns" type="tns:findPersonsBySsns"/>
+
+	<xs:element name="findPersonsBySsnsResponse" type="tns:findPersonsBySsnsResponse"/>
+
+	<xs:element name="findPtcpntIdByPtcpntId" type="tns:findPtcpntIdByPtcpntId"/>
+
+	<xs:element name="findPtcpntIdByPtcpntIdResponse" type="tns:findPtcpntIdByPtcpntIdResponse"/>
+
+	<xs:element name="findRelationships" type="tns:findRelationships"/>
+
+	<xs:element name="findRelationshipsByFileNumberRelationshipType" type="tns:findRelationshipsByFileNumberRelationshipType"/>
+
+	<xs:element name="findRelationshipsByFileNumberRelationshipTypeResponse" type="tns:findRelationshipsByFileNumberRelationshipTypeResponse"/>
+
+	<xs:element name="findRelationshipsByPtcpntIdRelationshipType" type="tns:findRelationshipsByPtcpntIdRelationshipType"/>
+
+	<xs:element name="findRelationshipsByPtcpntIdRelationshipTypeResponse" type="tns:findRelationshipsByPtcpntIdRelationshipTypeResponse"/>
+
+	<xs:element name="findRelationshipsResponse" type="tns:findRelationshipsResponse"/>
+
+	<xs:element name="insertPerson" type="tns:insertPerson"/>
+
+	<xs:element name="insertPersonResponse" type="tns:insertPersonResponse"/>
+
+	<xs:element name="updatePerson" type="tns:updatePerson"/>
+
+	<xs:element name="updatePersonResponse" type="tns:updatePersonResponse"/>
+
+	<xs:complexType name="updatePerson">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="personDTO">
+		<xs:sequence>
+			<xs:element name="birthCityNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="birthStateCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="brthdyDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="cmptnyDecnTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="cmptnyDecnTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="deathDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="depNbr" type="xs:long" minOccurs="0"/>
+			<xs:element name="emailAddr" type="xs:string" minOccurs="0"/>
+			<xs:element name="empInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="entlmtTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="ethnicTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="fidDecnCategyTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="fidDecnCategyTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="fiduciaryInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="fileNbr" type="xs:string" minOccurs="0"/>
+			<xs:element name="firstNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="firstNmKey" type="xs:long" minOccurs="0"/>
+			<xs:element name="frgnSvcNbr" type="xs:long" minOccurs="0"/>
+			<xs:element name="genderCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="jrnLctnId" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnObjId" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnUserId" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="lastNmKey" type="xs:long" minOccurs="0"/>
+			<xs:element name="lgyEntlmtTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="middleNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="middleNmKey" type="xs:long" minOccurs="0"/>
+			<xs:element name="mltyPersonInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="monthsPresntEmplyrNbr" type="xs:long" minOccurs="0"/>
+			<xs:element name="netWorthAmt" type="xs:long" minOccurs="0"/>
+			<xs:element name="noSsnReasonTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="ocptnTxt" type="xs:string" minOccurs="0"/>
+			<xs:element name="personDeathCauseTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="personTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="potntlDngrsInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+			<xs:element name="ptcpntPhoneDTO" type="tns:ptcpntPhoneDTO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ptcpntRlnshpTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="raceTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="sbstncAmt" type="xs:double" minOccurs="0"/>
+			<xs:element name="serousEmplmtHndcapInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="slttnTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="sntvtyLevelDTO" type="tns:sntvtyLevelDTO" minOccurs="0"/>
+			<xs:element name="spinaBifidaInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="ssnNbr" type="xs:string" minOccurs="0"/>
+			<xs:element name="ssnVrfctnStatusTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="stationOfJurisdiction" type="xs:string" minOccurs="0"/>
+			<xs:element name="suffixNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="suffixNmKey" type="xs:long" minOccurs="0"/>
+			<xs:element name="taxAbtmntCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="termnlDigitNbr" type="xs:string" minOccurs="0"/>
+			<xs:element name="titleTxt" type="xs:string" minOccurs="0"/>
+			<xs:element name="vetInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="vetTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="yearsPresntEmplyrNbr" type="xs:long" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ptcpntPhoneDTO">
+		<xs:sequence>
+			<xs:element name="areaNbr" type="xs:int" minOccurs="0"/>
+			<xs:element name="cntryNbr" type="xs:int" minOccurs="0"/>
+			<xs:element name="compId" type="tns:ptcpntPhonePK" minOccurs="0"/>
+			<xs:element name="extnsnNbr" type="xs:int" minOccurs="0"/>
+			<xs:element name="frgnPhoneRfrncTxt" type="xs:string" minOccurs="0"/>
+			<xs:element name="phoneNbr" type="xs:long"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ptcpntPhonePK">
+		<xs:sequence>
+			<xs:element name="efctvDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="phoneTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="sntvtyLevelDTO">
+		<xs:sequence>
+			<xs:element name="bdnStnNbr" type="xs:string" minOccurs="0"/>
+			<xs:element name="birlsFolderLctnTxt" type="xs:string" minOccurs="0"/>
+			<xs:element name="cd" type="xs:string" minOccurs="0"/>
+			<xs:element name="dgnstcSuprsnInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="fcltyTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="jrnLctnId" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnObjId" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnUserId" type="xs:string" minOccurs="0"/>
+			<xs:element name="mtgeLoanId" type="xs:long" minOccurs="0"/>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+			<xs:element name="reviewDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="rmksTxt" type="xs:string" minOccurs="0"/>
+			<xs:element name="scrtyLevelTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="sntvtyLevelId" type="xs:long" minOccurs="0"/>
+			<xs:element name="sntvtyReasonTypeNm" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="updatePersonResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="messageFaultInfoBean">
+		<xs:sequence>
+			<xs:element name="message" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonsByPtcpntIds">
+		<xs:sequence>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonsByPtcpntIdsResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonsByFileNumbers">
+		<xs:sequence>
+			<xs:element name="fileNumber" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonsByFileNumbersResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPtcpntIdByPtcpntId">
+		<xs:sequence>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPtcpntIdByPtcpntIdResponse">
+		<xs:sequence>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonsBySsns">
+		<xs:sequence>
+			<xs:element name="ssn" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonsBySsnsResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="insertPerson">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="insertPersonResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonBySSN">
+		<xs:sequence>
+			<xs:element name="ssn" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonBySSNResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findRelationships">
+		<xs:sequence>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findRelationshipsResponse">
+		<xs:sequence>
+			<xs:element name="PtcpntRlnshpDTO" type="tns:ptcpntRlnshpDTO" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ptcpntRlnshpDTO">
+		<xs:sequence>
+			<xs:element name="beginDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="compId" type="tns:ptcpntRlnshpPK" minOccurs="0"/>
+			<xs:element name="endDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="eventDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="fidAttntnTxt" type="xs:string" minOccurs="0"/>
+			<xs:element name="hlthcrPrvdrRlseInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="jrnLctnId" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnObjId" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnStatusTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="jrnUserId" type="xs:string" minOccurs="0"/>
+			<xs:element name="proofDepncyInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="prptnlPhraseTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="rateTypeNm" type="xs:string" minOccurs="0"/>
+			<xs:element name="reviewDt" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="statusTypeCd" type="xs:string" minOccurs="0"/>
+			<xs:element name="tempCustdnInd" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ptcpntRlnshpPK">
+		<xs:sequence>
+			<xs:element name="fiduciaryInd" type="xs:string" minOccurs="0"/>
+			<xs:element name="ptcpntIdA" type="xs:long" minOccurs="0"/>
+			<xs:element name="ptcpntIdB" type="xs:long" minOccurs="0"/>
+			<xs:element name="ptcpntRlnshpTypeNm" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonByPtcpntId">
+		<xs:sequence>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonByPtcpntIdResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonByFileNumber">
+		<xs:sequence>
+			<xs:element name="fileNumber" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findPersonByFileNumberResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findRelationshipsByPtcpntIdRelationshipType">
+		<xs:sequence>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
+			<xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findRelationshipsByPtcpntIdRelationshipTypeResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findRelationshipsByFileNumberRelationshipType">
+		<xs:sequence>
+			<xs:element name="fileNumber" type="xs:string" minOccurs="0"/>
+			<xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="findRelationshipsByFileNumberRelationshipTypeResponse">
+		<xs:sequence>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+	xmlns="http://www.va.gov/wss-framework/schema/1.2" targetNamespace="http://www.va.gov/wss-framework/schema/1.2"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	
+	<xs:complexType name="serviceRequest">
+		<xs:sequence />
+	</xs:complexType>
+
+	
+	<xs:complexType name="serviceResponse">
+		<xs:sequence>
+			<!-- Fortify demands that we set max occurs. -->
+			<xs:element name="messages" type="message" nillable="true" minOccurs="0" maxOccurs="250" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="message">
+		<xs:sequence>
+			<xs:element name="key" type="xs:string" />
+			<xs:element name="severity" type="messageSeverity"  />
+			<xs:element name="text" type="xs:string" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:simpleType name="messageSeverity">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FATAL" />
+			<xs:enumeration value="ERROR" />
+			<xs:enumeration value="WARN" />
+			<xs:enumeration value="INFO" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>
+

@@ -1,0 +1,58 @@
+spring: 
+  application: 
+    name: "@project.name@"
+  config: 
+    name: "@project.name@"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: ascent-config
+      failFast: true
+      label: development
+eureka:
+  client:
+    #false by default in local dev mode
+    enabled: false
+  instance: 
+    metadata-map: 
+      version:  "@project.version@"
+      artifact: "@project.artifactId@"
+      name: "@project.name@"
+      description: "@project.description@"
+      appType: REST-API
+---
+
+spring:
+  profiles: default
+  cloud:
+    config:
+      discovery:
+        enabled: false
+      failFast: false
+
+---
+spring:
+  profiles: local-int
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
+
+---
+
+spring:
+  profiles: docker-demo
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://ascent-discovery:8761/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 20
+  

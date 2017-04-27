@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>ascent-sample-parentpom</artifactId>
+        <groupId>gov.va.ascent</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../ascent-sample-parentpom</relativePath>
+    </parent>
+
+
+    <artifactId>ascent-demo-partner</artifactId>
+    <packaging>jar</packaging>
+
+    <name>ascent-demo-partner</name>
+    <description>Ascent Demo Partner Service</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>gov.va.ascent</groupId>
+            <artifactId>ascent-framework</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    
+    	<!-- spring framework project dependencies -->
+    	<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.ws</groupId>
+		    <artifactId>spring-ws-core</artifactId>
+        </dependency>
+
+		<!-- JSR 303 validation dependencies -->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        		
+		<!-- AspectJ weaver project dependencies -->
+        <dependency>
+		    <groupId>org.aspectj</groupId>
+		    <artifactId>aspectjtools</artifactId>
+		</dependency>
+		
+        <!-- Hibernate Validator project dependencies -->
+        <dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		</dependency>
+		
+		<!-- Expression Language Implementation dependencies -->
+		<dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>el-impl</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+		<!-- Apache Commons project dependencies -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.5</version>
+        </dependency>
+        
+       	<!-- Logging library dependencies -->
+         <dependency>
+             <groupId>org.slf4j</groupId>
+             <artifactId>slf4j-api</artifactId>
+         </dependency>
+        
+        <!-- Test Dependencies -->
+		<dependency>
+		    <groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		</dependency>
+
+    </dependencies>
+<build>
+    <plugins>
+        <!-- repackages jar and war plugins so they can be executed with command line -->
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <configuration>
+                <skip>true</skip>
+            </configuration>
+        </plugin>
+        <!-- commented for now, need to figure out error and then enable it later -->
+        <plugin>
+			<groupId>eviware</groupId>
+			<artifactId>maven-soapui-plugin</artifactId>
+			<version>4.5.1</version>
+			<executions>
+				<execution>
+					<id>soapUIMockStartup</id>
+					<phase>process-test-classes</phase>
+					<goals>
+						<goal>mock</goal>
+					</goals>
+					<configuration>
+						<projectFile>${basedir}/src/test/resources/ascent-demo-partner-soapui-project.xml</projectFile>
+						<noBlock>true</noBlock>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<groupId>org.codehaus.mojo</groupId>
+			<artifactId>jaxb2-maven-plugin</artifactId>
+			<version>1.5</version>
+			<configuration>
+				<bindingDirectory>${project.basedir}/src/main/resources/xsd</bindingDirectory>
+				<extension>true</extension>
+				<schemaIncludes>
+					<schemaInclude>**/*.xsd</schemaInclude>
+				</schemaIncludes>
+				<quiet>true</quiet>
+				<verbose>false</verbose>
+				<clearOutputDir>false</clearOutputDir>
+				<arguments>-mark-generated</arguments>
+			</configuration>
+			<executions>
+				<execution>
+					<id>xjc-PersonService</id>
+					<goals>
+						<goal>xjc</goal>
+					</goals>
+					<configuration>
+						<schemaDirectory>${project.basedir}/src/main/resources/xsd/PersonService</schemaDirectory>
+						<packageName>gov.va.ascent.demo.partner.person.ws.transfer</packageName>
+						<staleFile>${project.build.directory}/generated-sources/.jaxb-staleFlag-PersonService</staleFile>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+    </plugins>
+    <pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>eviware</groupId>
+										<artifactId>
+											maven-soapui-plugin
+										</artifactId>
+										<versionRange>
+											[4.5.1,)
+										</versionRange>
+										<goals>
+											<goal>mock</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore />
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+</build>
+</project>

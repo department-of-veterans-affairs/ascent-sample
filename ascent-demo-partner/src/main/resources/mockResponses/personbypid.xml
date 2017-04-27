@@ -1,0 +1,27 @@
+<ns2:findPersonByPtcpntIdResponse
+	xmlns:ns2="http://person.services.vetsnet.vba.va.gov/">
+	<PersonDTO>
+		<brthdyDt>1961-09-02T00:00:00-05:00</brthdyDt>
+		<emailAddr>russell@gmail.com</emailAddr>
+		<fileNbr>796079018</fileNbr>
+		<firstNm>RUSSELL</firstNm>
+		<firstNmKey>-2</firstNmKey>
+		<genderCd>M</genderCd>
+		<jrnDt>2014-03-19T11:14:13-05:00</jrnDt>
+		<jrnLctnId>281</jrnLctnId>
+		<jrnObjId>VBMS - CEST</jrnObjId>
+		<jrnStatusTypeCd>U</jrnStatusTypeCd>
+		<jrnUserId>VBMSSYSACCT</jrnUserId>
+		<lastNm>WATSON</lastNm>
+		<lastNmKey>0</lastNmKey>
+		<middleNm>BILL</middleNm>
+		<middleNmKey>-1</middleNmKey>
+		<mltyPersonInd>Y</mltyPersonInd>
+		<ptcpntId>13364995</ptcpntId>
+		<ssnNbr>796079018</ssnNbr>
+		<ssnVrfctnStatusTypeCd>0</ssnVrfctnStatusTypeCd>
+		<stationOfJurisdiction>317</stationOfJurisdiction>
+		<termnlDigitNbr>18</termnlDigitNbr>
+		<vetInd>Y</vetInd>
+	</PersonDTO>
+</ns2:findPersonByPtcpntIdResponse>

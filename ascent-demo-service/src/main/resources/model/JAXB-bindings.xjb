@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jaxb:bindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+	jaxb:extensionBindingPrefixes="xjc" jaxb:version="2.0"
+	xs:schemaLocation="http://java.sun.com/xml/ns/jaxb http://java.sun.com/xml/ns/jaxb/bindingschema_2_0.xsd">
+
+	<jaxb:globalBindings fixedAttributeAsConstantProperty="true" >
+		<xjc:superClass	name="gov.va.ascent.framework.transfer.AbstractTransferObject" />
+		<jaxb:javaType name="java.util.Date" xmlType="xs:dateTime"
+		      parseMethod="gov.va.ascent.framework.transfer.jaxb.adapters.DateAdapter.parseDateTime"
+		      printMethod="gov.va.ascent.framework.transfer.jaxb.adapters.DateAdapter.printDateTime"
+		    />
+	</jaxb:globalBindings>
+	
+	<jaxb:bindings schemaLocation="./wss-framework-types.xsd" >
+		<jaxb:bindings node="//xs:complexType[@name='serviceRequest']">
+			<jaxb:class ref="gov.va.ascent.framework.service.ServiceRequest"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='serviceResponse']">
+			<jaxb:class ref="gov.va.ascent.framework.service.ServiceResponse"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:complexType[@name='message']">
+			<jaxb:class ref="gov.va.ascent.framework.messages.Message"/>
+		</jaxb:bindings>
+		<jaxb:bindings node="//xs:simpleType[@name='messageSeverity']">
+			<jaxb:typesafeEnumClass ref="gov.va.ascent.framework.messages.MessageSeverity"/>
+		</jaxb:bindings>
+    </jaxb:bindings>
+	
+</jaxb:bindings>

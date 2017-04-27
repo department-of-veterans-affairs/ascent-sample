@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:wss="http://www.va.gov/wss-framework/schema/1.2"
+           xmlns="http://gov.va.wss/form526/model/v1"
+           targetNamespace="http://gov.va.wss/form526/model/v1">
+
+    <!--************************************************************************************************************************************
+        REQUEST+RESPONSE OBJECTS
+    *************************************************************************************************************************************-->
+    <xs:import schemaLocation="../wss-framework-types.xsd" namespace="http://www.va.gov/wss-framework/schema/1.2"/>
+    
+    <xs:element name="demoServiceResponse" type="DemoServiceResponse"/>
+    <xs:complexType name="DemoServiceResponse">
+        <xs:complexContent>
+            <xs:extension base="wss:serviceResponse">
+                <xs:sequence>
+                    <xs:element name="demo" type="demo" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:element name="demoServiceRequest" type="DemoServiceRequest"/>
+    <xs:complexType name="DemoServiceRequest">
+        <xs:complexContent>
+            <xs:extension base="wss:serviceRequest">
+                <xs:sequence>
+                    <xs:element name="demo" type="demo" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:element name="echoHostServiceResponse" type="EchoHostServiceResponse"/>
+    <xs:complexType name="EchoHostServiceResponse">
+        <xs:complexContent>
+            <xs:extension base="wss:serviceResponse">
+                <xs:sequence>
+                    <xs:element name="host" type="host" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    
+    <xs:element name="serviceInstancesServiceResponse" type="ServiceInstancesServiceResponse"/>
+    <xs:complexType name="ServiceInstancesServiceResponse">
+        <xs:complexContent>
+            <xs:extension base="wss:serviceResponse">
+                <xs:sequence>
+                    <xs:element name="serviceInstanceDetail" type="serviceInstanceDetail" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <!--************************************************************************************************************************************
+        MODEL OBJECTS
+    *************************************************************************************************************************************-->
+    <xs:complexType name="demo">
+        <xs:sequence>
+            <xs:element name="name" minOccurs="1">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                    	<xs:minLength value="5"/>
+                    	<xs:maxLength value="255"/>
+                        <xs:pattern value="^[a-zA-Z]+$"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+            <xs:element name="description" minOccurs="0">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                    	<xs:maxLength value="255"/>
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    
+    <xs:complexType name="host">
+        <xs:sequence>
+            <xs:element name="localAddress" minOccurs="1" />
+            <xs:element name="localPort" minOccurs="1" />
+            <xs:element name="hostName" minOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="serviceInstanceDetail">
+        <xs:sequence>
+            <xs:element name="host" type="xs:string" minOccurs="1" />
+            <xs:element name="port" type="xs:string" minOccurs="1" />
+            <xs:element name="uri" type="xs:string" minOccurs="1" />
+            <xs:element name="serviceId" type="xs:string" minOccurs="1" />
+            <xs:element name="metaData" type="xs:string" minOccurs="1" />
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>
+
