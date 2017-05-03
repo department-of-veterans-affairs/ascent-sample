@@ -29,6 +29,7 @@ import gov.va.ascent.demo.partner.person.ws.transfer.PersonDTO;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 import gov.va.ascent.demo.service.utils.StringUtil;
+import gov.va.ascent.framework.exception.WssRuntimeException;
 import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.util.Defense;
 
@@ -138,8 +139,8 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	    	LOGGER.info("getPersonInfoFallBack returning cached data for {}", personInfoRequest);
 	        return cacheManager.getCache("getPersonInfo").get(personInfoRequest, PersonInfoResponse.class);
 	    } else {
-	    	LOGGER.info("getPersonInfoFallBack returning empty response for {}", personInfoRequest);
-	        return new PersonInfoResponse();
+	    	LOGGER.info("getPersonInfoFallBack no cached data found raising exception for {}", personInfoRequest);
+	    	throw new WssRuntimeException("No cached data found in fallback method. Raising an exception");
 	    }
 	}
 
