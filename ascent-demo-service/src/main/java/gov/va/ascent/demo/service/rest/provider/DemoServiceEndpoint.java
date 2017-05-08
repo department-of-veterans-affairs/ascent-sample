@@ -152,7 +152,11 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
 			@ApiResponse(code = 403, message = MESSAGE_403) })
 	public ResponseEntity<PersonInfoResponse> personBySSN(@RequestBody PersonInfoRequest personInfoRequest) {
-		return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
+		try {
+			return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(new PersonInfoResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
 	}
 	
 	@RequestMapping(value = URL_PREFIX + "/person/pid", 

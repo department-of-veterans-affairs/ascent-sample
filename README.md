@@ -6,6 +6,14 @@ This page documents all the steps that are necessary to get this demo applicatio
 
 This is a suite of small projects to demo/learn capabilities of the potential next generation architecture.  
 
+## Core Services Overview ##
+
+Platform team provides the core system components to support services in the distributed platform.
+
+[GitHub Repository](https://github.com/department-of-veterans-affairs/ascent.git)
+
+[Wiki Documentation](https://github.com/department-of-veterans-affairs/ascent/wiki)
+
 ## Support Services Overview ##
 
 **ascent-demo-service: Demo Service**
