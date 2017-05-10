@@ -8,9 +8,9 @@ services:
       - ascent-config
       - ascent-discovery
       - ascent-amqp
+      - ascent-zipkin
     networks:
-      - default
-      - ascent_default
-networks:
-  ascent_default: 
+      - ascent_ascentnet
+networks: 
+  ascent_ascentnet: 
     external: true
