@@ -2,6 +2,7 @@ package gov.va.ascent.demo.service.rest.provider;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import javax.servlet.http.HttpServletRequest;
@@ -30,6 +31,8 @@ import gov.va.ascent.demo.service.api.v1.transfer.Host;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.framework.exception.WssRuntimeException;
+import gov.va.ascent.framework.messages.Message;
+import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.service.ServiceResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import io.swagger.annotations.ApiOperation;
@@ -155,7 +158,10 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 		try {
 			return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(new PersonInfoResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
+			PersonInfoResponse personInfoResponse = new PersonInfoResponse();
+			personInfoResponse.addMessage(MessageSeverity.ERROR, HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
+			LOGGER.error("Exception raised {}", e);
+			return new ResponseEntity<>(personInfoResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

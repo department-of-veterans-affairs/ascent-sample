@@ -70,18 +70,21 @@ logging:
   level:
     gov:
       va:
-        ascent.framework: debug
-        ascent.demo: debug
-    org:
+        ascent.framework: INFO
+        ascent.demo: INFO
+    org: 
       springframework: 
-        ws: info
-        cache: info
+        cloud.sleuth.log: INFO
+        cloud.sleuth: INFO
+        cloud.sleuth.instrument.web: INFO
+        ws: INFO
+        cache: INFO
       apache:
         http: 
-          impl.client: info
+          impl.client: INFO
     net:
       sf:
-        ehcache: info
+        ehcache: INFO
 management:
   security:
     enabled: false
@@ -129,3 +132,8 @@ hystrix:
             # logic. Note that there is configuration for turning off timeouts per-command, if that is desired (see command.timeout.enabled).
             # Default Value: 1000
             timeoutInMilliseconds: 5000
+
+# Sleuth configuration     
+# To skip specific patterns being exported, added few more customs on top of default skip pattern
+# see org.springframework.cloud.sleuth.instrument.web.TraceFilter.DEFAULT_SKIP_PATTERN
+spring.sleuth.web.skipPattern: (/api/.*/webjars.*|/api/.*/v2/api-docs.*|/api/.*/swagger-resources.*|/api/.*/swagger-ui.*|/api-docs.*|/autoconfig|/configprops|/dump|/health|/info|/metrics.*|/mappings|/trace|/swagger.*|.*\\.png|.*\\.css|.*\\.js|.*\\.html|/favicon.ico|/hystrix.stream)

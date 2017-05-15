@@ -16,6 +16,12 @@
     <name>ascent-demo-service</name>
     <description>Demo project for Spring Boot Service Provider</description>
     
+    <!-- Docker properties to add min and max memory for spring boot jar start up -->
+    <properties>
+		<docker.java.opts.ms>-Xms128m</docker.java.opts.ms>
+		<docker.java.opts.mx>-Xmx512m</docker.java.opts.mx>
+	</properties>
+    
     <dependencies>
         <dependency>
             <groupId>gov.va.ascent</groupId>
@@ -79,6 +85,14 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+         </dependency>
+         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+         </dependency>
         
         <!-- additional jackson dependencies not brought in via spring-boot starters -->
         <dependency>
