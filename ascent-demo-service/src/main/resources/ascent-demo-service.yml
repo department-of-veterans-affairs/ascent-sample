@@ -70,13 +70,13 @@ logging:
   level:
     gov:
       va:
-        ascent.framework: INFO
-        ascent.demo: INFO
+        ascent: DEBUG
     org: 
       springframework: 
         cloud.sleuth.log: INFO
         cloud.sleuth: INFO
         cloud.sleuth.instrument.web: INFO
+        security: DEBUG
         ws: INFO
         cache: INFO
       apache:
