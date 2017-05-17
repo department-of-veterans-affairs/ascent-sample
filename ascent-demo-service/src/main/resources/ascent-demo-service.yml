@@ -88,6 +88,9 @@ logging:
 management:
   security:
     enabled: false
+security:
+  basic:
+    enabled: false
 #sanitize properties for keys when using /configprops.
 #default "password", "secret", "key", "token", ".*credentials.*", "vcap_services"
 endpoints:
@@ -140,4 +143,5 @@ spring.sleuth.web.skipPattern: (/api/.*/webjars.*|/api/.*/v2/api-docs.*|/api/.*/
 ascent:
   security:
     jwt:
+      enabled: false
       filter-process-url: /demo/v1/**
