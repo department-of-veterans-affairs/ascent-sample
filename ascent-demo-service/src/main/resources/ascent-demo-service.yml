@@ -16,6 +16,9 @@ spring:
     serialization-inclusion: NON_EMPTY
     serialization:
       INDENT_OUTPUT: true
+  cloud:
+    bus:
+      enabled: false
   cache:
     ehcache:
       config: classpath:ehcache.xml        
