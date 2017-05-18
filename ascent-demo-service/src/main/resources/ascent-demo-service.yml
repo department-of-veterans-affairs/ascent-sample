@@ -88,9 +88,6 @@ logging:
 management:
   security:
     enabled: false
-security:
-  basic:
-    enabled: false
 #sanitize properties for keys when using /configprops.
 #default "password", "secret", "key", "token", ".*credentials.*", "vcap_services"
 endpoints:
