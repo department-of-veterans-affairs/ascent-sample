@@ -70,13 +70,13 @@ logging:
   level:
     gov:
       va:
-        ascent.framework: INFO
-        ascent.demo: INFO
+        ascent: DEBUG
     org: 
       springframework: 
         cloud.sleuth.log: INFO
         cloud.sleuth: INFO
         cloud.sleuth.instrument.web: INFO
+        security: DEBUG
         ws: INFO
         cache: INFO
       apache:
@@ -137,3 +137,8 @@ hystrix:
 # To skip specific patterns being exported, added few more customs on top of default skip pattern
 # see org.springframework.cloud.sleuth.instrument.web.TraceFilter.DEFAULT_SKIP_PATTERN
 spring.sleuth.web.skipPattern: (/api/.*/webjars.*|/api/.*/v2/api-docs.*|/api/.*/swagger-resources.*|/api/.*/swagger-ui.*|/api-docs.*|/autoconfig|/configprops|/dump|/health|/info|/metrics.*|/mappings|/trace|/swagger.*|.*\\.png|.*\\.css|.*\\.js|.*\\.html|/favicon.ico|/hystrix.stream)
+ascent:
+  security:
+    jwt:
+      enabled: false
+      filter-process-url: /demo/v1/**
