@@ -1,6 +1,6 @@
 server:
   # context-path: /@project.name@
-  port: 8080
+  port: ${demo-service.server.port:8080}
 info:  
   build:
     version:  "@project.version@"
