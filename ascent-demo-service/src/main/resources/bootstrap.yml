@@ -9,7 +9,7 @@ spring:
         enabled: true
         serviceId: ascent-config
       failFast: true
-      label: logAndAudit, development
+      label: development
 eureka:
   client:
     #false by default in local dev mode
