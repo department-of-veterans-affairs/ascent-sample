@@ -144,4 +144,4 @@ ascent:
   security:
     jwt:
       enabled: false
-      filter-process-url: /demo/v1/**
+      filter-process-url: /demo/v?/**
