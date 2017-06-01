@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+  
+<suite name="Default suite" verbose="1" parallel="classes" thread-count="1">
+  <test name="AscentRunnerTest">
+    <classes>
+    
+      	<class name="gov.va.ascent.runner.IpValidateRunner"/>
+      	<class name="gov.va.ascent.runner.EchoJsonRunner"/>
+      	<class name="gov.va.ascent.runner.SsnFallBackCachedRunner"/>
+       <class name="gov.va.ascent.runner.MdRunner"/>
+      	
+  </classes>
+  </test>
+</suite>
