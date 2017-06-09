@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+<!-- include resource="org/springframework/boot/logging/logback/console-appender.xml"/-->
+
+<springProperty scope="context" name="LOG_FILE_DIR" source="application.log.path"/>
+<springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+<springProperty scope="context" name="LOGSTASH_HOST" source="logstash.host"/>
+<springProperty scope="context" name="SPLUNK_HOST" source="splunk.host"/>
+<springProperty scope="context" name="SPLUNK_PORT" source="splunk.port"/>
+
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+	</appender>
+
+
+	<appender name="FILE-ERROR"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE_DIR}/${APP_NAME}-err.log}</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<fileNamePattern>${LOG_FILE_DIR}/archived/${APP_NAME}-err.%d{yyyy-MM-dd}.%i.log
+                        </fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+	
+	<appender name="ROLLIN"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE_DIR}/${APP_NAME}.log}</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{yyyy-MM-dd HH:mm:ss} - %msg%n
+			</Pattern>
+		</encoder>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+			<fileNamePattern>${APP_NAME}.%d{yyyy-MM-dd}.%i.log
+                        </fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+
+	</appender>
+
+	<logger name="gov.va.ascent" level="debug"
+		additivity="false">
+		<appender-ref ref="ROLLIN" />
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<root level="error">
+		<appender-ref ref="FILE-ERROR" />
+	</root>
+
+	<appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+	    <destination>${LOGSTASH_HOST}</destination>
+        <keepAliveDuration>5 minutes</keepAliveDuration>
+        <reconnectionDelay>10 second</reconnectionDelay>
+        <waitStrategyType>sleeping</waitStrategyType>
+        <ringBufferSize>16384</ringBufferSize>	 
+	    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+	        <providers>
+	            <mdc />
+	            <context />
+	            <logLevel>debug</logLevel>
+	            <loggerName />
+	 
+	            <pattern>
+	                <pattern>
+	                    {
+	                    "serviceName": "${APP_NAME}"
+	                    }
+	                </pattern>
+	            </pattern>
+	 
+	            <threadName />
+	            <message />
+	            <logstashMarkers />
+	            <stackTrace />
+	        </providers>
+	    </encoder>
+	</appender>
+	
+	<!--  appender name="socket" class="com.splunk.logging.TcpAppender">
+		<RemoteHost>${SPLUNK_HOST}</RemoteHost>
+		<Port>${SPLUNK_PORT}</Port>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+		<pattern>%date{ISO8601} [%thread] %level: %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<logger name="splunk.logger" additivity="false" level="INFO">
+		<appender-ref ref="socket"/>
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="socket"/>
+	</root-->	
+
+</configuration>
