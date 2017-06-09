@@ -64,7 +64,7 @@ eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@{discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@{discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
     preferSameZoneEureka: true
 
 ---
@@ -78,7 +78,7 @@ eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@{discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@{discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
     preferSameZoneEureka: true
 
 ---
@@ -92,6 +92,6 @@ eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@{discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@{discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
     preferSameZoneEureka: true
   
