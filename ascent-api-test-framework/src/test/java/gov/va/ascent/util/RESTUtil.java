@@ -10,7 +10,6 @@ import java.io.StringWriter;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.dom4j.Document;
@@ -18,8 +17,6 @@ import org.dom4j.DocumentHelper;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.junit.Assert;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.path.xml.XmlPath;
@@ -55,7 +52,12 @@ public class RESTUtil  {
 	PrintStream requestStream = null;
 	Response response = null; // stores response from rest
 		String strEnv = "baseURL";
-		
+	/**
+	 * Reads file content for a given file resource using URL object. 
+	 * @param strRequestFile
+	 * @param mapHeader
+	 * @throws Exception
+	 */
 	public void setUpRequest(String strRequestFile,
 			HashMap<String, String> mapHeader) throws Exception {
 		try {
@@ -74,7 +76,11 @@ public class RESTUtil  {
 			ex.printStackTrace();
 		}
 	}
-
+	/**
+	 * Assigns given header object into local header map.
+	 * @param mapHeader
+	 * @throws Exception
+	 */
 	public void setUpRequest(HashMap<String, String> mapHeader)
 			throws Exception {
 		try {
@@ -85,6 +91,11 @@ public class RESTUtil  {
 		}
 	}
 	
+	/**
+	 * Invokes REST end point for a GET method using REST assured API and return response json object.
+	 * @param serviceURL
+	 * @return
+	 */
 	public String GETResponse(String serviceURL) {
 			response =
 		
@@ -95,18 +106,6 @@ public class RESTUtil  {
 				return json;	
 		}
 
-	public String GETResponse(String serviceURL, String env) {
-
-			response =
-	
-			given().log().all().headers(mapReqHeader).urlEncodingEnabled(false)
-					.when().get(serviceURL);
-			String json = response.asString();
-			
-			return json;	
-	
-
-	}
 
 	public String DELETEResponse(String serviceURL) {
 		response =
@@ -127,19 +126,6 @@ public class RESTUtil  {
 		return json;
 	}
 	
-	public String POSTResponse(String serviceURL, String env) {
-
-		
-			response = given().urlEncodingEnabled(false).log().all()
-					.headers(mapReqHeader).body(jsonText).when()
-					.post( serviceURL);
-
-			// System.out.println(response.asString());
-			String json = response.asString();
-			return json;	
-		
-
-		}
 
 
 	public String PUTResponse(String serviceURL) {
@@ -153,6 +139,14 @@ public class RESTUtil  {
 		return json;
 	}
 
+	/**
+	 * Parses json object for a given key and match with given expected value.
+	 * @param json
+	 * @param strRoot
+	 * @param strField
+	 * @param strExpectedValue
+	 * @return
+	 */
 	public String parseJSON(String json, String strRoot, String strField,
 			String strExpectedValue) {
 		String strResult = null;
@@ -387,14 +381,6 @@ public class RESTUtil  {
 
 	}
 
-	public String GETResponse(String strKey, String strAccept,
-			String strContent, String strUserId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	//public String GetBodyText() {
-		//return jsonText;
-	//}
-
+	
 }

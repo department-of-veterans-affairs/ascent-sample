@@ -19,13 +19,14 @@ import gov.va.ascent.util.RESTUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SsnFallBackCachedSteps {
+public class SsnFallBackNotCachedSteps {
 	protected RESTUtil resUtil = null;
 	protected HashMap<String, String> headerMap = null;
 	String strResponse = null;
 	String strRequest =null;
 
-	@Before({ "@ssnfallbackcached" })
+	
+	@Before({ "@ssnfallbacknotcached" })
 	public void setUpREST() {
 		try {
 			resUtil = new RESTUtil();
@@ -36,32 +37,39 @@ public class SsnFallBackCachedSteps {
 		}
 	}
 	
-	@Given("^I pass the header information for ssn$")
-	public void i_pass_header_information_for_ssn(
+
+	
+	
+	@Given("^I pass the header information for ssn not cached$")
+	public void i_pass_header_information_for_ssn_not_cached(
 			Map<String, String> tblHeader) throws Throwable {
 
 		headerMap = new HashMap<String, String>(tblHeader);
 		System.out.println(headerMap);
 	}
-
 	
-	@When("^client request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
-	public void client_request_POST_with_json_data(
+	
+	
+	
+	@When("^client request POST url \"([^\"]*)\" with data \"([^\"]*)\"$")
+	public void client_request_POST_url_with_data(
 			String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
 		strResponse = resUtil.POSTResponse(strURL);
 		log.info("Actual Response=" + strResponse);
 	}
-		 
-		@Then("^the response code should be (\\d+)$")
-		public void the_response_code_should_be(int intStatusCode)
+		
+
+		@Then("^the response code be (\\d+)$")
+		public void the_response_code_be(int intStatusCode)
 				throws Throwable {
 		resUtil.ValidateStatusCode(intStatusCode);
 		}
-		
 
-		@And("^the SSNcached result should be same as valid transaction response \"(.*?)\"$")
-		public void SSNcached_result_should_be_same_as_valid_Transactions_response
+		
+		
+		@And("^the SSNnotcached result should be same as valid transaction response \"(.*?)\"$")
+		public void SSNnotcached_result_should_be_same_as_valid_Transactions_response
 		 (String strResFile) throws Throwable {
 
 			String strExpectedResponse = resUtil.readExpectedResponse(strResFile);
@@ -69,7 +77,8 @@ public class SsnFallBackCachedSteps {
 			log.info("Actual Response matched the expected response");
 
 		}
-		@After({ "@ssnfallbackcached" })
+	
+		@After({ "@ssnfallbacknotcached" })
 		public void cleanUp(Scenario scenario) {
 			String strResponseFile = null;
 			try {
@@ -81,5 +90,6 @@ public class SsnFallBackCachedSteps {
 				ex.printStackTrace();
 			}
 			scenario.write(scenario.getStatus());
+			
 	}
 }
