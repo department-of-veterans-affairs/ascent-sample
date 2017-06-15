@@ -8,8 +8,6 @@
 <springProperty scope="context" name="LOG_FILE_DIR" source="application.log.path"/>
 <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
 <springProperty scope="context" name="LOGSTASH_HOST" source="logstash.host"/>
-<springProperty scope="context" name="SPLUNK_HOST" source="splunk.host"/>
-<springProperty scope="context" name="SPLUNK_PORT" source="splunk.port"/>
 
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -54,7 +52,7 @@
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 
-			<fileNamePattern>${APP_NAME}.%d{yyyy-MM-dd}.%i.log
+			<fileNamePattern>${LOG_FILE_DIR}/archived/${APP_NAME}.%d{yyyy-MM-dd}.%i.log
                         </fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy
 				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -64,15 +62,7 @@
 
 	</appender>
 
-	<logger name="gov.va.ascent" level="debug"
-		additivity="false">
-		<appender-ref ref="ROLLIN" />
-		<appender-ref ref="CONSOLE" />
-	</logger>
 
-	<root level="error">
-		<appender-ref ref="FILE-ERROR" />
-	</root>
 
 	<appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
 	    <destination>${LOGSTASH_HOST}</destination>
@@ -80,7 +70,7 @@
         <reconnectionDelay>10 second</reconnectionDelay>
         <waitStrategyType>sleeping</waitStrategyType>
         <ringBufferSize>16384</ringBufferSize>	 
-	    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+	    <!--  encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
 	        <providers>
 	            <mdc />
 	            <context />
@@ -100,9 +90,20 @@
 	            <logstashMarkers />
 	            <stackTrace />
 	        </providers>
-	    </encoder>
+	    </encoder-->
+	    <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
 	</appender>
 	
+	<logger name="gov.va.ascent" level="debug"
+		additivity="false">
+		<appender-ref ref="ROLLIN" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="STASH" />
+	</logger>
+
+	<root level="error">
+		<appender-ref ref="FILE-ERROR" />
+	</root>
 	<!--  appender name="socket" class="com.splunk.logging.TcpAppender">
 		<RemoteHost>${SPLUNK_HOST}</RemoteHost>
 		<Port>${SPLUNK_PORT}</Port>
