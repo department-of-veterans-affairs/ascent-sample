@@ -6,12 +6,40 @@
     <springProperty scope="context" name="LOGSTASH" source="logstash.server"/>
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
-    <property name="LOG_FILE" value="${springAppName}/${springAppName}.log"/>​
+    <property name="LOG_FILE" value="${springAppName}/${springAppName}"/>​
 
-    <appender name="FILE"
+    <appender name="FILE-ERROR"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--<encoder>-->
-            <!--<pattern>${FILE_LOG_PATTERN}</pattern>-->
+        <file>${LOG_FILE}-err.log</file>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
+            </Pattern>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_FILE}/archived/-err.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+
+    </appender>
+
+
+    <appender name="ROLLIN"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}.log</file>
+        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
+        <!--<Pattern>-->
+        <!--%d{yyyy-MM-dd HH:mm:ss} - %msg%n-->
+        <!--</Pattern>-->
         <!--</encoder>-->
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
@@ -32,27 +60,31 @@
                         "pid": "${PID:-}",
                         "thread": "%thread",
                         "class": "%logger{40}",
-                        "rest": "%message"
+                        "message": "%message"
                         }
                     </pattern>
                 </pattern>
             </providers>
         </encoder>
-        <file>${LOG_FILE}</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>${LOG_FILE}.%i</fileNamePattern>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <fileNamePattern>${LOG_FILE}/archived/.%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <triggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>1MB</MaxFileSize>
-        </triggeringPolicy>
+
     </appender>
 
-
-    <appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <destination>${LOGSTASH}</destination>
-
-        <!-- encoder is required -->
+        <keepAliveDuration>5 minutes</keepAliveDuration>
+        <reconnectionDelay>10 second</reconnectionDelay>
+        <waitStrategyType>sleeping</waitStrategyType>
+        <ringBufferSize>16384</ringBufferSize>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -72,7 +104,7 @@
                         "pid": "${PID:-}",
                         "thread": "%thread",
                         "class": "%logger{40}",
-                        "rest": "%message"
+                        "message": "%message"
                         }
                     </pattern>
                 </pattern>
@@ -80,11 +112,17 @@
         </encoder>
     </appender>
 
-
+    <logger name="gov.va.ascent" level="debug" additivity="false">
+        <appender-ref ref="ROLLIN" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="STASH" />
+    </logger>
 
     <root level="INFO">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-        <appender-ref ref="stash" />
+        <appender-ref ref="ROLLIN" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="STASH" />
+        <appender-ref ref="FILE-ERROR" />
     </root>
+
 </configuration>
