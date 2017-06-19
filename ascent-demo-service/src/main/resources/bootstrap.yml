@@ -21,11 +21,7 @@ eureka:
       name: "@project.name@"
       description: "@project.description@"
       appType: REST-API
-
-application.log.path: /applogs
-logstash.host: 127.0.0.1:5000
-splunk.host: 127.0.0.1
-splunk.port: 8000        
+logstash.server: localhost:9600
 ---
 
 spring:
