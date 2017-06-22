@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration scan="true" scanPeriod="30 seconds" debug="true">
+	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
     <springProperty scope="context" name="LOGSTASH" source="logstash.server"/>
+    <springProperty scope="context" name="RINGBUFFERSIZE" source="logstash.ringbuffersize"/>
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
 
     <property name="LOG_FILE" value="${springAppName}/${springAppName}"/>​
@@ -84,7 +86,7 @@
         <keepAliveDuration>5 minutes</keepAliveDuration>
         <reconnectionDelay>10 second</reconnectionDelay>
         <waitStrategyType>sleeping</waitStrategyType>
-        <ringBufferSize>16384</ringBufferSize>
+        <ringBufferSize>${RINGBUFFERSIZE}</ringBufferSize>
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
@@ -112,17 +114,33 @@
         </encoder>
     </appender>
 
-    <logger name="gov.va.ascent" level="debug" additivity="false">
-        <appender-ref ref="ROLLIN" />
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="STASH" />
-    </logger>
+	<springProfile name="local-int,docker-demo">
+	    <logger name="gov.va.ascent" level="debug" additivity="false">
+	        <appender-ref ref="ROLLIN" />
+	        <appender-ref ref="CONSOLE" />
+	        <appender-ref ref="STASH" />	        
+	    </logger>
+	</springProfile>
+	
+	<springProfile name="aws-dev,aws-stage,aws-prod">
+	    <logger name="gov.va.ascent" level="WARN" additivity="false">
+	        <appender-ref ref="STASH" />
+	        <appender-ref ref="ROLLIN" />
+	    </logger>
+	</springProfile>	
 
-    <root level="INFO">
-        <appender-ref ref="ROLLIN" />
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="STASH" />
-        <appender-ref ref="FILE-ERROR" />
+	<root level="INFO">
+		<springProfile name="local-int,docker-demo">
+	        <appender-ref ref="ROLLIN" />
+	        <appender-ref ref="CONSOLE" />
+	        <appender-ref ref="STASH" />
+	    </springProfile>
+	    
+		<springProfile name="aws-dev,aws-stage,aws-prod">
+	        <appender-ref ref="STASH" />
+	        <appender-ref ref="ROLLIN" />	        	        
+	        <appender-ref ref="FILE-ERROR" />
+	    </springProfile>	        
     </root>
 
 </configuration>
