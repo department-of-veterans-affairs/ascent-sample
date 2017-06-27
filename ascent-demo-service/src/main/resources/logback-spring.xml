@@ -4,15 +4,16 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <springProperty scope="context" name="LOGSTASH" source="logstash.server"/>
-    <springProperty scope="context" name="RINGBUFFERSIZE" source="logstash.ringbuffersize"/>
-    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="LOG_STASH" source="logstash.server"/>
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+    <springProperty scope="context" name="LOG_DIR" source="log.dir"/>
+    <springProperty scope="context" name="RING_BUFFER_SIZE" source="logstash.ringbuffersize"/>
 
-    <property name="LOG_FILE" value="${springAppName}/${springAppName}"/>​
+    <property name="LOG_PATH" value="${LOG_DIR}/${APP_NAME}"/>​
 
     <appender name="FILE-ERROR"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE}-err.log</file>
+        <file>${LOG_PATH}/${APP_NAME}-err.log</file>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>ERROR</level>
         </filter>
@@ -24,7 +25,7 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>${LOG_FILE}/archived/-err.%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${LOG_PATH}/archived/${APP_NAME}-err.%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -37,7 +38,7 @@
 
     <appender name="ROLLIN"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE}.log</file>
+        <file>${LOG_PATH}/${APP_NAME}.log</file>
         <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
         <!--<Pattern>-->
         <!--%d{yyyy-MM-dd HH:mm:ss} - %msg%n-->
@@ -52,7 +53,7 @@
                     <pattern>
                         {
                         "severity": "%level",
-                        "service": "${springAppName:-}",
+                        "service": "${APP_NAME:-}",
                         "user": "%X{user:-}",
                         "trace": "%X{X-B3-TraceId:-}",
                         "span": "%X{X-B3-SpanId:-}",
@@ -71,7 +72,7 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 
-            <fileNamePattern>${LOG_FILE}/archived/.%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>${LOG_PATH}/archived/${APP_NAME}.%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy
                     class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
@@ -80,66 +81,47 @@
         </rollingPolicy>
 
     </appender>
-
-    <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>${LOGSTASH}</destination>
-        <keepAliveDuration>5 minutes</keepAliveDuration>
-        <reconnectionDelay>10 second</reconnectionDelay>
-        <waitStrategyType>sleeping</waitStrategyType>
-        <ringBufferSize>${RINGBUFFERSIZE}</ringBufferSize>
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp>
-                    <timeZone>UTC</timeZone>
-                </timestamp>
-                <pattern>
+    <springProfile name="docker-demo,aws-dev,aws-stage,aws-prod">
+        <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+            <destination>${LOG_STASH}</destination>
+            <keepAliveDuration>5 minutes</keepAliveDuration>
+            <reconnectionDelay>10 second</reconnectionDelay>
+            <waitStrategyType>sleeping</waitStrategyType>
+            <ringBufferSize>${RING_BUFFER_SIZE}</ringBufferSize>
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
                     <pattern>
-                        {
-                        "severity": "%level",
-                        "service": "${springAppName:-}",
-                        "user": "%X{user:-}",
-                        "trace": "%X{X-B3-TraceId:-}",
-                        "span": "%X{X-B3-SpanId:-}",
-                        "parent": "%X{X-B3-ParentSpanId:-}",
-                        "exportable": "%X{X-Span-Export:-}",
-                        "http.request": "%X{http.request}",
-                        "pid": "${PID:-}",
-                        "thread": "%thread",
-                        "class": "%logger{40}",
-                        "message": "%message"
-                        }
+                        <pattern>
+                            {
+                            "severity": "%level",
+                            "service": "${APP_NAME:-}",
+                            "user": "%X{user:-}",
+                            "trace": "%X{X-B3-TraceId:-}",
+                            "span": "%X{X-B3-SpanId:-}",
+                            "parent": "%X{X-B3-ParentSpanId:-}",
+                            "exportable": "%X{X-Span-Export:-}",
+                            "http.request": "%X{http.request}",
+                            "pid": "${PID:-}",
+                            "thread": "%thread",
+                            "class": "%logger{40}",
+                            "message": "%message"
+                            }
+                        </pattern>
                     </pattern>
-                </pattern>
-            </providers>
-        </encoder>
-    </appender>
-
-	<springProfile name="local-int,docker-demo">
-	    <logger name="gov.va.ascent" level="debug" additivity="false">
-	        <appender-ref ref="ROLLIN" />
-	        <appender-ref ref="CONSOLE" />
-	        <appender-ref ref="STASH" />	        
-	    </logger>
-	</springProfile>
-	
-	<springProfile name="aws-dev,aws-stage,aws-prod">
-	    <logger name="gov.va.ascent" level="WARN" additivity="false">
-	        <appender-ref ref="STASH" />
-	        <appender-ref ref="ROLLIN" />
-	    </logger>
-	</springProfile>	
+                </providers>
+            </encoder>
+        </appender>
+    </springProfile>
 
 	<root level="INFO">
-		<springProfile name="local-int,docker-demo">
-	        <appender-ref ref="ROLLIN" />
-	        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ROLLIN" />
+        <appender-ref ref="FILE-ERROR" />
+		<springProfile name="docker-demo,aws-dev,aws-stage,aws-prod">
 	        <appender-ref ref="STASH" />
-	    </springProfile>
-	    
-		<springProfile name="aws-dev,aws-stage,aws-prod">
-	        <appender-ref ref="STASH" />
-	        <appender-ref ref="ROLLIN" />	        	        
-	        <appender-ref ref="FILE-ERROR" />
 	    </springProfile>	        
     </root>
 

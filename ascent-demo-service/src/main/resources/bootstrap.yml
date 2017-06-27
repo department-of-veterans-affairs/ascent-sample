@@ -22,11 +22,10 @@ eureka:
       description: "@project.description@"
       appType: REST-API
 
-application.log.path: /applogs
-
 logstash:
   server: localhost:9600
   ringbuffersize: 8192
+log.dir: .
 ---
 
 spring:
@@ -61,7 +60,7 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
     leaseExpirationDurationInSeconds: 20
-    
+log.dir: /logs
 ---
 
 spring:
