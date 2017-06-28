@@ -9,6 +9,8 @@ services:
       - ascent-discovery
       - ascent-amqp
       - ascent-zipkin
+    volumes:
+      - ~/logs:/logs
     networks:
       - ascent_ascentnet
 networks: 
