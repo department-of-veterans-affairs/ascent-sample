@@ -79,7 +79,7 @@ logging:
         cloud.sleuth.log: INFO
         cloud.sleuth: INFO
         cloud.sleuth.instrument.web: INFO
-        security: DEBUG
+        security: INFO
         ws: INFO
         cache: INFO
       apache:
