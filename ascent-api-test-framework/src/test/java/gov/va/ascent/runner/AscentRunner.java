@@ -19,8 +19,6 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 				
 				"src/test/resources/gov/va/ascent/feature/claimstatuspendwithphasestatus.feature",
 				"src/test/resources/gov/va/ascent/feature/opencompletedandcancelledclaim.feature",
-				"src/test/resources/gov/va/ascent/feature/ssnfallbackcached.feature",
-			    "src/test/resources/gov/va/ascent/feature/searchssn.feature",
 			    "src/test/resources/gov/va/ascent/feature/nonexistinganddifferentclaimid.feature"
 			  
 		}, 
