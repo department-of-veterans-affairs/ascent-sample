@@ -1,4 +1,4 @@
-Feature: Demo Person Service SSN Hystrix Fallback cached and not cached
+Feature: Demo person service SSN hystrix fallback cached and not cached
 
   @ssnfallbackcached
   Scenario Outline: Search based on SSN with Hystrix Fallback Cached
@@ -10,9 +10,8 @@ Feature: Demo Person Service SSN Hystrix Fallback cached and not cached
 
     Examples: 
       | ServiceURL                               | RequestFile                  | ResponseFile                  |
-      | http://localhost:8080/demo/v1/person/ssn | ssnfallbackcachedone.Request | ssnfallbackcachedone.Response |
-      | http://localhost:8080/demo/v1/person/ssn | ssnfallbackcachedtwo.Request | ssnfallbackcachedtwo.Response |
-
+      | /demo/v1/person/ssn | ssnfallbackcachedone.Request | ssnfallbackcachedone.Response |
+      | /demo/v1/person/ssn | ssnfallbackcachedtwo.Request | ssnfallbackcachedtwo.Response |
   @ssnfallbacknotcached
   Scenario Outline: Search based on SSN with Hystrix Fallback not Cached
     Given I pass the header information for ssn not cached
@@ -23,4 +22,4 @@ Feature: Demo Person Service SSN Hystrix Fallback cached and not cached
 
     Examples: 
       | ServiceURL                               | RequestFile                  | ResponseFile                  |
-      | http://localhost:8080/demo/v1/person/ssn | ssnfallbacknotcached.Request | ssnfallbacknotcached.Response |
+      | /demo/v1/person/ssn | ssnfallbacknotcached.Request | ssnfallbacknotcached.Response |

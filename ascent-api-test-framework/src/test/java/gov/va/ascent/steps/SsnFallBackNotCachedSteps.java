@@ -15,81 +15,54 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import gov.va.ascent.util.BaseStepDef;
 import gov.va.ascent.util.RESTUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SsnFallBackNotCachedSteps {
-	protected RESTUtil resUtil = null;
-	protected HashMap<String, String> headerMap = null;
-	String strResponse = null;
-	String strRequest =null;
+public class SsnFallBackNotCachedSteps  extends BaseStepDef {
 
-	
 	@Before({ "@ssnfallbacknotcached" })
 	public void setUpREST() {
-		try {
-			resUtil = new RESTUtil();
-			headerMap = new HashMap();
-		} catch (Exception ex) {
-			log.info("Failed:Setup of REST util failed");
-			ex.printStackTrace();
-		}
+		initREST();
 	}
 	
-
-	
-	
-	@Given("^I pass the header information for ssn not cached$")
-	public void i_pass_header_information_for_ssn_not_cached(
+  @Given("^I pass the header information for ssn not cached$")
+  public void passHeaderInformationForEchoAPI(
 			Map<String, String> tblHeader) throws Throwable {
-
-		headerMap = new HashMap<String, String>(tblHeader);
-		System.out.println(headerMap);
+		passHeaderInformation(tblHeader);
 	}
 	
 	
 	
 	
 	@When("^client request POST url \"([^\"]*)\" with data \"([^\"]*)\"$")
-	public void client_request_POST_url_with_data(
+	public void client_request_POST_with_json_data(
 			String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
 		strResponse = resUtil.POSTResponse(strURL);
 		log.info("Actual Response=" + strResponse);
 	}
-		
+
+	
 
 		@Then("^the response code be (\\d+)$")
-		public void the_response_code_be(int intStatusCode)
+		public void serviceresposestatuscodemustbe(int intStatusCode)
 				throws Throwable {
-		resUtil.ValidateStatusCode(intStatusCode);
+			ValidateStatusCode(intStatusCode);
 		}
+
 
 		
 		
 		@And("^the SSNnotcached result should be same as valid transaction response \"(.*?)\"$")
-		public void SSNnotcached_result_should_be_same_as_valid_Transactions_response
-		 (String strResFile) throws Throwable {
-
-			String strExpectedResponse = resUtil.readExpectedResponse(strResFile);
-			assertThat(strResponse).contains(strExpectedResponse);
-			log.info("Actual Response matched the expected response");
-
+		public void resultshouldbesameasvalidTransactionsresponse(
+				String strResFile) throws Throwable {
+			checkResponseContainsValue(strResFile);
 		}
 	
 		@After({ "@ssnfallbacknotcached" })
 		public void cleanUp(Scenario scenario) {
-			String strResponseFile = null;
-			try {
-				strResponseFile = "target/TestResults/Response/"
-						+ scenario.getName() + ".Response";
-				FileUtils.writeStringToFile(new File(strResponseFile), strResponse);
-			} catch (Exception ex) {
-			log.info("Failed:Unable to write response to a file");
-				ex.printStackTrace();
-			}
-			scenario.write(scenario.getStatus());
-			
-	}
+			postProcess(scenario);
+		}
 }

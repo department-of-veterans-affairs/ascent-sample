@@ -16,9 +16,13 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 		"json:target/cucumber.json"
 		}, 
 		features = { 
-				"src/test/resources/gov/va/ascent/feature/echojson.feature",
-				"src/test/resources/gov/va/ascent/feature/md.feature",
 				
+				"src/test/resources/gov/va/ascent/feature/claimstatuspendwithphasestatus.feature",
+				"src/test/resources/gov/va/ascent/feature/opencompletedandcancelledclaim.feature",
+				"src/test/resources/gov/va/ascent/feature/ssnfallbackcached.feature",
+			    "src/test/resources/gov/va/ascent/feature/searchssn.feature",
+			    "src/test/resources/gov/va/ascent/feature/nonexistinganddifferentclaimid.feature"
+			  
 		}, 
 		
 		 glue = { "gov.va.ascent.steps" })

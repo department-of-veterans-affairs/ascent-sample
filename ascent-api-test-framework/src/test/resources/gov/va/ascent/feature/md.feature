@@ -9,5 +9,5 @@ Feature: Returns the MD5 hash code of a given string.
     And result should be same as valid Transactions response for MD "<ResponseFile>"
 
     Examples: 
-      | ServiceURL                          | ResponseFile |
-      | http://md5.jsontest.com/?text=[text | md.Response  |
+      | ServiceURL   | ResponseFile |
+      | /?text=[text | md.Response  |

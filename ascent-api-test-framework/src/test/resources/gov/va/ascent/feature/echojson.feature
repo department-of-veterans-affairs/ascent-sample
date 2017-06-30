@@ -11,4 +11,4 @@ Feature: Validate json response
 
     Examples: 
       | ServiceURL                                 | ResponseFile      |
-      | http://echo.jsontest.com/key/value/one/two | echojson.Response |
+      | /key/value/one/two | echojson.Response |

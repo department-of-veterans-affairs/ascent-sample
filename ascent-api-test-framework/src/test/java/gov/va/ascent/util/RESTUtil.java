@@ -18,6 +18,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
 import org.junit.Assert;
 
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.path.json.JsonPath;
 import com.jayway.restassured.path.xml.XmlPath;
 import com.jayway.restassured.response.Response;
@@ -97,8 +98,8 @@ public class RESTUtil  {
 	 * @return
 	 */
 	public String GETResponse(String serviceURL) {
-			response =
-		
+		RestAssured.useRelaxedHTTPSValidation();	
+		response =
 				given().log().all().headers(mapReqHeader).urlEncodingEnabled(false)
 						.when().get(serviceURL);
 				String json = response.asString();

@@ -1,12 +1,6 @@
 package gov.va.ascent.steps;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.io.File;
-import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.io.FileUtils;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -15,70 +9,44 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gov.va.ascent.util.RESTUtil;
+import gov.va.ascent.util.BaseStepDef;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
-public class MdSteps {
-	protected RESTUtil resUtil = null;
-	protected HashMap<String, String> headerMap = null;
-	String strResponse = null;
-
+public class MdSteps extends BaseStepDef {
 	@Before({ "@md" })
 	public void setUpREST() {
-		try {
-			resUtil = new RESTUtil();
-		} catch (Exception ex) {
-		   log.info("Failed:Setup of REST util failed");
-			ex.printStackTrace();
-		}
+		initREST();
 	}
+
 
 
 	@Given("^I pass the header information for MD5 API$")
-	public void i_pass_header_information_for_MD5_API(
+	public void passHeaderInformationForMd(
 			Map<String, String> tblHeader) throws Throwable {
-
-		headerMap = new HashMap<String, String>(tblHeader);
-		System.out.println(headerMap);
+		passHeaderInformation(tblHeader);
 	}
 	
 	@When("^I invoke an API \"([^\"]*)\" using MD$")
-	public void i_invoke_an_API_using_MD(
+	public void makearestcalltoMDAPIserviceusingGET(
 			String strURL) throws Throwable {
-		resUtil.setUpRequest(headerMap);
-		strResponse = resUtil.GETResponse(strURL);
-		log.info("Actual Response=" + strResponse);
+		invokeAPIUsingGet(strURL, "md5.baseURL");
 	}
-	
 
 	@Then("^the service respose for MD API status code should be (\\d+)$")
-	public void the_service_respose_status_code_must_be(int intStatusCode)
+	public void serviceresposestatuscodemustbe(int intStatusCode)
 			throws Throwable {
-		resUtil.ValidateStatusCode(intStatusCode);
+		ValidateStatusCode(intStatusCode);
 	}
 
 	
 	@And("^result should be same as valid Transactions response for MD \"(.*?)\"$")
-	public void result_should_be_same_as_valid_Transactions_response_for_MD(
+	public void resultshouldbesameasvalidTransactionsresponse(
 			String strResFile) throws Throwable {
-
-		String strExpectedResponse = resUtil.readExpectedResponse(strResFile);
-		assertThat(strResponse).contains(strExpectedResponse);
-		log.info("Actual Response matched the expected response");
-
+		checkResponseContainsValue(strResFile);
 	}
 
 	@After({ "@md" })
 	public void cleanUp(Scenario scenario) {
-		String strResponseFile = null;
-		try {
-			strResponseFile = "target/TestResults/Response/"
-					+ scenario.getName() + ".Response";
-			FileUtils.writeStringToFile(new File(strResponseFile), strResponse);
-		} catch (Exception ex) {
-			log.info("Failed:Unable to write response to a file");
-			ex.printStackTrace();
-		}
-		scenario.write(scenario.getStatus());
+		postProcess(scenario);
 	}
 }
