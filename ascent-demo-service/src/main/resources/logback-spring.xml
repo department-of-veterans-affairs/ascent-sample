@@ -82,7 +82,7 @@
         </rollingPolicy>
 
     </appender>
-    <springProfile name="docker-demo,aws-dev,aws-stage,aws-prod">
+    <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
         <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
             <destination>${LOG_STASH}</destination>
             <keepAliveDuration>5 minutes</keepAliveDuration>
@@ -122,7 +122,7 @@
         <appender-ref ref="CONSOLE" />
         <appender-ref ref="ROLLIN" />
         <appender-ref ref="FILE-ERROR" />
-		<springProfile name="docker-demo,aws-dev,aws-stage,aws-prod">
+		<springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
 	        <appender-ref ref="STASH" />
 	    </springProfile>	        
     </root>
