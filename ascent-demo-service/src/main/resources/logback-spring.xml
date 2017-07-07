@@ -4,10 +4,10 @@
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <springProperty scope="context" name="LOG_STASH" source="logstash.server"/>
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
-    <springProperty scope="context" name="LOG_DIR" source="log.dir"/>
-    <springProperty scope="context" name="RING_BUFFER_SIZE" source="logstash.ringbuffersize"/>
+    <property name="LOG_STASH" value="${logstash.server}"/>
+    <property name="LOG_DIR" value="${log.dir}"/>
+    <property name="RING_BUFFER_SIZE" value="${logstash.ringbuffersize}"/>
 
     <property name="LOG_PATH" value="${LOG_DIR}/${APP_NAME}"/>​
 
