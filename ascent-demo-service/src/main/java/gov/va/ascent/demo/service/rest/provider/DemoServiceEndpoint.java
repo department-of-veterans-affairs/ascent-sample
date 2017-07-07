@@ -157,9 +157,14 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	public ResponseEntity<PersonInfoResponse> personBySSN(@RequestBody PersonInfoRequest personInfoRequest) {
 		try {
 			return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
-		} catch (Exception e) {
+		}catch (IllegalArgumentException e){
 			PersonInfoResponse personInfoResponse = new PersonInfoResponse();
 			personInfoResponse.addMessage(MessageSeverity.ERROR, HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
+			LOGGER.error("Exception raised {}", e);
+			return new ResponseEntity<>(personInfoResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+		} catch (Exception e) {
+			PersonInfoResponse personInfoResponse = new PersonInfoResponse();
+			personInfoResponse.addMessage(MessageSeverity.FATAL, HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 			LOGGER.error("Exception raised {}", e);
 			return new ResponseEntity<>(personInfoResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		}

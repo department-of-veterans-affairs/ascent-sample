@@ -40,6 +40,7 @@ public class ServiceExceptionHandlerAspect extends BaseServiceAspect {
     	//this to prevent double wrapping of WssRuntimeException
     	final Set<Class<? extends Throwable>> exclusionSet = new HashSet<Class<? extends Throwable>>();
     	exclusionSet.add(WssRuntimeException.class);
+    	exclusionSet.add(IllegalArgumentException.class);
     	this.exceptionToExceptionTranslator = new ExceptionToExceptionTranslationHandler(
     			null, exclusionSet, ServiceException.class);
     	

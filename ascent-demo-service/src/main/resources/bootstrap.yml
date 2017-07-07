@@ -21,6 +21,11 @@ eureka:
       name: "@project.name@"
       description: "@project.description@"
       appType: REST-API
+
+logstash:
+  server: localhost:9600
+  ringbuffersize: 8192
+log.dir: .
 ---
 
 spring:
@@ -55,7 +60,18 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
     leaseExpirationDurationInSeconds: 20
-    
+log.dir: /logs
+---
+
+spring:
+    profiles: aws-ci
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+    preferSameZoneEureka: true
+
 ---
 
 spring:
