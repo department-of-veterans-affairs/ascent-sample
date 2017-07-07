@@ -1,13 +1,13 @@
 package gov.va.ascent.framework.config;
 
-import gov.va.ascent.framework.properties.AscentPropertySourcesPlaceholderConfigurer;
-
 import javax.annotation.PostConstruct;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+
+import gov.va.ascent.framework.properties.AscentPropertySourcesPlaceholderConfigurer;
 
 /**
  * Abstract baseclass for Spring configuration of the properties files

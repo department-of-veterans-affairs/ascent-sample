@@ -1,16 +1,18 @@
 package gov.va.ascent.framework.security;
 
-import gov.va.ascent.framework.security.iam.Gender;
-import gov.va.ascent.framework.security.iam.IdType;
-import gov.va.ascent.framework.security.iam.PersonDetail;
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import gov.va.ascent.framework.security.iam.Gender;
+import gov.va.ascent.framework.security.iam.IdType;
+import gov.va.ascent.framework.security.iam.PersonDetail;
 
 /**
  * This class contains the VAAFI traits that will be populated in the request headers when a user is authenticating

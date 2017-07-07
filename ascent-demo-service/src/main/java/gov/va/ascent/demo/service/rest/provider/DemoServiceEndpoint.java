@@ -2,9 +2,9 @@ package gov.va.ascent.demo.service.rest.provider;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -26,12 +26,11 @@ import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoRequest;
 import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoResponse;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.api.DemoService;
-import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
-import gov.va.ascent.demo.service.api.v1.transfer.Host;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
+import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
+import gov.va.ascent.demo.service.api.v1.transfer.Host;
 import gov.va.ascent.framework.exception.WssRuntimeException;
-import gov.va.ascent.framework.messages.Message;
 import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.service.ServiceResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;

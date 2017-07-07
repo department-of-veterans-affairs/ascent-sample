@@ -1,8 +1,5 @@
 package gov.va.ascent.demo.partner.mock.framework;
 
-import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
-import gov.va.ascent.framework.persist.Db4oDatabase;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
+import gov.va.ascent.framework.persist.Db4oDatabase;
 
 /**
  * Spring configuration for the project.

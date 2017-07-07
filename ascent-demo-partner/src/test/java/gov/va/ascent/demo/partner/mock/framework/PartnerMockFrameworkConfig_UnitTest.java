@@ -2,11 +2,12 @@ package gov.va.ascent.demo.partner.mock.framework;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import gov.va.ascent.framework.persist.Db4oDatabase;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
+
+import gov.va.ascent.framework.persist.Db4oDatabase;
 
 /**
  * The primary purpose of this test is to load the spring context files for the project
