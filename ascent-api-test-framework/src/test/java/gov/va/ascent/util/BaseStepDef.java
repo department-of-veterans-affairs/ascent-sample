@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
@@ -29,8 +30,15 @@ public class BaseStepDef {
 		try {
 			resUtil = new RESTUtil();
 			restConfig = new RESTConfig();
+			String environment = System.getProperty("ascent-env");
+			String url = "";
+			if (StringUtils.isNotBlank(environment)) {
+				url = "config/restconfig-"+environment+".properties";
+			} else {
+				url = "config/restconfig.properties";
+			}
 			URL urlConfigFile = RESTUtil.class.getClassLoader().getResource(
-					"restconfig.properties");
+					url);
 
 			File strFile = new File(urlConfigFile.toURI());
 			restConfig.openPropertyFile(strFile);

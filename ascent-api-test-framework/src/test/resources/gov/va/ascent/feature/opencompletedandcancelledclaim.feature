@@ -1,6 +1,6 @@
-
 Feature: Feature file to test open, completed and cancelled claim
-@openclaim
+
+  @openclaim
   Scenario Outline: open claim
     Given the veteran has a open claim
       | va_eauth_issueinstant         | 2015-04-17T14:52:48Z                                                                                                                  |
@@ -20,7 +20,8 @@ Feature: Feature file to test open, completed and cancelled claim
     Examples: 
       | ServiceURL                              |
       | /wss-claims-services-web/rest/claims/v2 |
-@completedclaim
+
+  @completedclaim
   Scenario Outline: Closed claim
     Given the veteran has a closed claim
       | va_eauth_issueinstant         | 2015-04-17T14:52:48Z                                                                                                                  |
@@ -40,7 +41,8 @@ Feature: Feature file to test open, completed and cancelled claim
     Examples: 
       | ServiceURL                              |
       | /wss-claims-services-web/rest/claims/v2 |
-@cancelledclaim
+
+  @cancelledclaim
   Scenario Outline: Cancelled claim
     Given the veteran has a cancelled claim
       | va_eauth_issueinstant         | 2015-04-17T14:52:48Z                                                                                                                  |
@@ -56,6 +58,7 @@ Feature: Feature file to test open, completed and cancelled claim
       | va_eauth_pnidtype             | SSN                                                                                                                                   |
     When the cancelled claim service is called "<ServiceURL>"
     Then the claim status is CAN and claims has a recived date and claims has a closed update and completed date and the claim phase status is complete and true
-Examples: 
+
+    Examples: 
       | ServiceURL                              |
       | /wss-claims-services-web/rest/claims/v2 |

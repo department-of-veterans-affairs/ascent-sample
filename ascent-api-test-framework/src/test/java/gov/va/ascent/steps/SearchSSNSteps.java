@@ -25,7 +25,7 @@ public class SearchSSNSteps  extends BaseStepDef {
 	}
 
 	@When("^request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
-	public void client_request_POST_with_json_data(
+	public void clientrequestPOSTwithjsondata(
 			String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
 		strResponse = resUtil.POSTResponse(strURL);
