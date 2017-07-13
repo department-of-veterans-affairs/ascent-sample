@@ -1,4 +1,4 @@
-package gov.va.ascent.demo.service;
+package gov.va.ascent.demo.service.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 import gov.va.ascent.demo.partner.person.ws.client.PersonWsClientConfig;
-import gov.va.ascent.demo.service.rest.client.DemoServiceRestClientTestsConfig;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -34,7 +33,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @ComponentScan(basePackages = { "gov.va.ascent.framework.service, gov.va.ascent.framework.rest.provider" }, excludeFilters = @Filter(Configuration.class))
-@Import({BeanValidatorPluginsConfiguration.class, DemoServiceRestClientTestsConfig.class, PersonWsClientConfig.class}) 
+@Import({BeanValidatorPluginsConfiguration.class, DemoServiceRestClientTestsConfig.class, DemoServiceRestClientUtilConfig.class, PersonWsClientConfig.class}) 
 public class AscentDemoServiceConfig {
 	
 	
@@ -91,17 +90,4 @@ public class AscentDemoServiceConfig {
         list.add(new SecurityReference("Authorization", authorizationScopes));
         return list;
     }
-//
-//    @Bean
-//    SecurityConfiguration security() {
-//        return new SecurityConfiguration(
-//                null,
-//                null,
-//                null,
-//                null,
-//                "BEARER jwt_token",
-//                ApiKeyVehicle.HEADER,
-//                "Authorization",
-//                null);
-//    }
 }

@@ -1,4 +1,4 @@
-package gov.va.ascent.demo.service.rest.client;
+package gov.va.ascent.demo.service.config;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;

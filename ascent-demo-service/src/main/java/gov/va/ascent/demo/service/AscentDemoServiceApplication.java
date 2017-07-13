@@ -14,6 +14,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import gov.va.ascent.demo.service.config.AscentDemoServiceConfig;
 import gov.va.ascent.security.config.EnableAscentSecurity;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 

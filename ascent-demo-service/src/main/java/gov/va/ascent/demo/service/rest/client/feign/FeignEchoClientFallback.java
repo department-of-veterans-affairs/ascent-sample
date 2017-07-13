@@ -1,4 +1,4 @@
-package gov.va.ascent.demo.service.rest.client;
+package gov.va.ascent.demo.service.rest.client.feign;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

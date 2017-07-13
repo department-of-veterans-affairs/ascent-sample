@@ -40,11 +40,6 @@
     <appender name="ROLLIN"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/${APP_NAME}.log</file>
-        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
-        <!--<Pattern>-->
-        <!--%d{yyyy-MM-dd HH:mm:ss} - %msg%n-->
-        <!--</Pattern>-->
-        <!--</encoder>-->
         <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
                 <timestamp>
