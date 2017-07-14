@@ -47,3 +47,8 @@ Feature: Claim the status pend with phase status
     Examples: 
       | ServiceURL                              |
       | /wss-claims-services-web/rest/claims/v2 |
+      
+      
+      
+      
+ 
