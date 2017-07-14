@@ -10,6 +10,8 @@ spring:
         serviceId: ascent-config
       failFast: true
       label: development
+      username: ${config.username:config}
+      password: ${config.password:default}
 eureka:
   client:
     #false by default in local dev mode
