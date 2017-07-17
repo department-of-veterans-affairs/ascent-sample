@@ -28,3 +28,9 @@ nbdist/
 
 ### Eclipse ###
 .metadata
+
+### DB4O ###
+**/*.db4o
+
+### SoupUI ###
+**/soupui*.log
