@@ -10,6 +10,8 @@ spring:
         serviceId: ascent-config
       failFast: true
       label: development
+      username: ${config.username:config}
+      password: ${config.password:default}
 eureka:
   client:
     #false by default in local dev mode
@@ -21,6 +23,7 @@ eureka:
       name: "@project.name@"
       description: "@project.description@"
       appType: REST-API
+
 ---
 
 spring:
@@ -55,7 +58,17 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
     leaseExpirationDurationInSeconds: 20
-    
+---
+
+spring:
+    profiles: aws-ci
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+    preferSameZoneEureka: true
+
 ---
 
 spring:

@@ -1,13 +1,5 @@
 package gov.va.ascent.demo.partner.person.ws.client;
 
-import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
-import gov.va.ascent.framework.util.Defense;
-import gov.va.ascent.framework.ws.client.BaseWsClientSimulator;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntId;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntIdResponse;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSN;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
-
 import java.io.IOException;
 import java.io.StringReader;
 
@@ -22,6 +14,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.stereotype.Component;
+
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntId;
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntIdResponse;
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSN;
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
+import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
+import gov.va.ascent.framework.util.Defense;
+import gov.va.ascent.framework.ws.client.BaseWsClientSimulator;
 
 /**
  * This class implements a Simulator for the Person WS Client.

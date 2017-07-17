@@ -19,15 +19,17 @@ import cucumber.api.java.en.When;
 import gov.va.ascent.util.BaseStepDef;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
-public class NonExistingSteps extends BaseStepDef {
+public class NonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
 
 	private Pattern pattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T.*"); 
 
-	@Before({"@nonexistingcalimid"})
+	@Before({"@nonexistingcalimid, @differentclaimid"})
 	public void setUpREST() {
 		initREST();
 	}
 
+	//NonExisting Claim Id Steps//
+	
 	@Given("^Veteran has a claim Id that doesn't exist$")
 	public void passHeaderInformationForVeteran(
 			Map<String, String> tblHeader) throws Throwable {
@@ -62,7 +64,44 @@ public class NonExistingSteps extends BaseStepDef {
 		Map<String, Object> claims = JsonPath.with(strResponse).get("messages[0]");
 		Assert.assertTrue(claims.get("text").equals("Error retrieving claim with given claimId"));	
 	}
-	@After({"@nonexistingcalimid"})
+	 //Different Claim Id Steps//
+	
+	@Given("^Veteran has a claim Id that belongs to a different veteran$")
+	public void passHeaderInformationForVeteranDiff(
+			Map<String, String> tblHeader) throws Throwable {
+		passHeaderInformation(tblHeader);
+	}
+
+	@When("the claim service is called with different claimid \"([^\"]*)\" with \"([^\"]*)\"$")
+	public void makerestcalltoDiffClaimserviceusingGET(
+			String strURL,String claimId ) throws Throwable {
+		String newUrl = strURL.replace("{claimId}", claimId);
+		invokeAPIUsingPost(newUrl, "claims.baseURL");
+	}
+
+	@Then("^the claim service returns different claimid message.severity of error")
+	public void returnsmessageseverityoferror()
+			throws Throwable {
+	
+		Map<String, Object> claims = JsonPath.with(strResponse).get("messages[0]");
+		Assert.assertTrue(claims.get("severity").equals("ERROR"));			
+	}
+	
+	@And ("^the claim service returns different claimid message.key of claims.claimsnotfound")
+	public void returnsmessagekeyofclaimsnotfound()
+			throws Throwable {
+		Map<String, Object> claims = JsonPath.with(strResponse).get("messages[0]");
+		Assert.assertTrue(claims.get("key").equals("claims.claimNotFound"));
+	}
+		
+	@And ("^claims service returns different claimid message.text of error reteriving with given claimid")
+	public void returnsmessagetextoferror()
+			throws Throwable {
+		Map<String, Object> claims = JsonPath.with(strResponse).get("messages[0]");
+		Assert.assertTrue(claims.get("text").equals("Error retrieving claim with given claimId"));	
+	}
+	
+	@After({"@nonexistingcalimid, @differentclaimid"})
 	public void cleanUp(Scenario scenario) {
 		postProcess(scenario);
 	}

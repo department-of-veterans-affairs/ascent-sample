@@ -16,12 +16,10 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 		"json:target/cucumber.json"
 		}, 
 		features = { 
-				
+				"src/test/resources/gov/va/ascent/feature/nonexistinganddifferentclaimid.feature",
 				"src/test/resources/gov/va/ascent/feature/claimstatuspendwithphasestatus.feature",
-				"src/test/resources/gov/va/ascent/feature/opencompletedandcancelledclaim.feature",
-			    "src/test/resources/gov/va/ascent/feature/nonexistinganddifferentclaimid.feature"
-			  
-		}, 
+				"src/test/resources/gov/va/ascent/feature/opencompletedandcancelledclaim.feature"    
+				}, 
 		
 		 glue = { "gov.va.ascent.steps" })
 public class AscentRunner extends AbstractTestNGCucumberTests {

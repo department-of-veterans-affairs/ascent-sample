@@ -1,11 +1,11 @@
 package gov.va.ascent.demo.partner.person.ws.client;
 
+import javax.xml.bind.JAXBElement;
+
 import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntId;
 import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntIdResponse;
 import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSN;
 import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
-
-import javax.xml.bind.JAXBElement;
 
 /**
  * The interface for the PersonWsClient Web Service Client.

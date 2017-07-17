@@ -16,6 +16,7 @@ public class RESTConfig  {
 
 	public void openPropertyFile(File path) throws IOException {
 		prop = new Properties();
+		System.out.println("property file name =========="+path);
 		input = new FileInputStream(path);
 		// load a properties file
 		prop.load(input);

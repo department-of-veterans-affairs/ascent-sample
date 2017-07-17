@@ -1,10 +1,9 @@
 package gov.va.ascent.demo.partner.mock.framework;
 
-import gov.va.ascent.framework.config.BasePropertiesConfig;
-
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+
+import gov.va.ascent.framework.config.BasePropertiesConfig;
 
 /**
  * Fake Spring configuration of the properties files (in real apps this project won't ship property files, apps provide those)

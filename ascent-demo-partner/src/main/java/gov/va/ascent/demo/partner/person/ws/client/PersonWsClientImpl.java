@@ -1,13 +1,5 @@
 package gov.va.ascent.demo.partner.person.ws.client;
 
-import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
-import gov.va.ascent.framework.util.Defense;
-import gov.va.ascent.framework.ws.client.BaseWsClientImpl;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntId;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntIdResponse;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSN;
-import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
-
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBElement;
 
@@ -16,6 +8,14 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.ws.client.core.WebServiceTemplate;
+
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntId;
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonByPtcpntIdResponse;
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSN;
+import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
+import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
+import gov.va.ascent.framework.util.Defense;
+import gov.va.ascent.framework.ws.client.BaseWsClientImpl;
 
 /**
  * This class implements the Person WS Client interface. It encapsulates the details of interacting with the Person Web Service.

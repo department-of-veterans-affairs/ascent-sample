@@ -1,5 +1,4 @@
 server:
-  # context-path: /@project.name@
   port: ${demo-service.server.port:8080}
 info:  
   build:
@@ -7,10 +6,8 @@ info:
     artifact: "@project.artifactId@"
     name: "@project.name@"
     description: "@project.description@"
-#eureka:
-#  client:
-#    #false by default in local dev mode
-#    enabled: false
+
+#Properties to customize Jackson ObjectMapper 
 spring:
   jackson:
     serialization-inclusion: NON_EMPTY
@@ -19,6 +16,8 @@ spring:
   cloud:
     bus:
       enabled: false
+  #Properties to load the spring ehcache configuration to cache specific data
+  #These cached data are used for fallback calls 
   cache:
     ehcache:
       config: classpath:ehcache.xml        
@@ -33,11 +32,11 @@ ascent-demo-service:
 # BGS-Specific SERVICE CLIENT PROPERTIES
 #*********************************************************************
 ---
-spring.profiles: default, aws-dev
+spring.profiles: default, local-int, docker-demo, aws-ci, aws-dev
 spring.profiles.include: remote_client_sims
 
 ---
-spring.profiles: local-int, docker-demo, aws-stage, aws-prod
+spring.profiles: aws-stage, aws-prod
 spring.profiles.include: remote_client_impls
 ---
 #----------------------------------------
@@ -73,13 +72,13 @@ logging:
   level:
     gov:
       va:
-        ascent: DEBUG
+        ascent: INFO
     org: 
       springframework: 
         cloud.sleuth.log: INFO
         cloud.sleuth: INFO
         cloud.sleuth.instrument.web: INFO
-        security: DEBUG
+        security: INFO
         ws: INFO
         cache: INFO
       apache:
@@ -92,12 +91,12 @@ management:
   security:
     enabled: false
 #sanitize properties for keys when using /configprops.
-#default "password", "secret", "key", "token", ".*credentials.*", "vcap_services"
 endpoints:
   configprops:
     keys-to-sanitize: 'enabled, password'
 hystrix:
   command:
+    #Property configuration for hystrix command key to monitor async service method
     DemoServiceAsyncReadCommand: 
       execution:
         isolation:
@@ -140,6 +139,7 @@ hystrix:
 # To skip specific patterns being exported, added few more customs on top of default skip pattern
 # see org.springframework.cloud.sleuth.instrument.web.TraceFilter.DEFAULT_SKIP_PATTERN
 spring.sleuth.web.skipPattern: (/api/.*/webjars.*|/api/.*/v2/api-docs.*|/api/.*/swagger-resources.*|/api/.*/swagger-ui.*|/api-docs.*|/autoconfig|/configprops|/dump|/health|/info|/metrics.*|/mappings|/trace|/swagger.*|.*\\.png|.*\\.css|.*\\.js|.*\\.html|/favicon.ico|/hystrix.stream)
+#Property configuration to enable or disable JWT security for service calls 
 ascent:
   security:
     jwt:

@@ -1,6 +1,8 @@
-package gov.va.ascent.demo.service;
+package gov.va.ascent.demo.service.config;
 
-import static springfox.documentation.builders.PathSelectors.regex;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -11,11 +13,11 @@ import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 import gov.va.ascent.demo.partner.person.ws.client.PersonWsClientConfig;
-import gov.va.ascent.demo.service.rest.client.DemoServiceRestClientTestsConfig;
-import org.springframework.web.bind.annotation.RestController;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -28,12 +30,6 @@ import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.ApiKeyVehicle;
-import springfox.documentation.swagger.web.SecurityConfiguration;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 @ComponentScan(basePackages = { "gov.va.ascent.framework.service, gov.va.ascent.framework.rest.provider" }, excludeFilters = @Filter(Configuration.class))
@@ -94,17 +90,4 @@ public class AscentDemoServiceConfig {
         list.add(new SecurityReference("Authorization", authorizationScopes));
         return list;
     }
-//
-//    @Bean
-//    SecurityConfiguration security() {
-//        return new SecurityConfiguration(
-//                null,
-//                null,
-//                null,
-//                null,
-//                "BEARER jwt_token",
-//                ApiKeyVehicle.HEADER,
-//                "Authorization",
-//                null);
-//    }
 }

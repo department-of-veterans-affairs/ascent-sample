@@ -1,6 +1,5 @@
 package gov.va.ascent.demo.service;
 
-import gov.va.ascent.security.config.EnableAscentSecurity;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -15,6 +14,8 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import gov.va.ascent.demo.service.config.AscentDemoServiceConfig;
+import gov.va.ascent.security.config.EnableAscentSecurity;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
