@@ -9,6 +9,7 @@ import org.springframework.web.client.RestTemplate;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 
 public class DemoUsageRestTemplate {
+  
 	@Autowired
     private RestTemplate restTemplate;	
 	
