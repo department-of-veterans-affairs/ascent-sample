@@ -33,4 +33,4 @@ nbdist/
 **/*.db4o
 
 ### SoupUI ###
-**/soupui*.log
+**/soapui*.log
