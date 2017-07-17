@@ -1,4 +1,4 @@
-package gov.va.ascent.demo.service.feign.config;
+package gov.va.ascent.demo.service.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

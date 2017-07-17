@@ -1,9 +1,5 @@
 package gov.va.ascent.framework.ws.security;
 
-import gov.va.ascent.framework.security.SecurityUtils;
-import gov.va.ascent.framework.util.Defense;
-import gov.va.ascent.framework.util.HashGenerator;
-
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
@@ -11,6 +7,10 @@ import java.security.NoSuchAlgorithmException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+
+import gov.va.ascent.framework.security.SecurityUtils;
+import gov.va.ascent.framework.util.Defense;
+import gov.va.ascent.framework.util.HashGenerator;
 
 /**
  * The Class BEPWebServiceUtil provides a common method of handling elements 

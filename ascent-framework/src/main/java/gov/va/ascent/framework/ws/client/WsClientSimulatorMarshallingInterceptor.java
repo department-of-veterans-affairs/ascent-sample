@@ -1,7 +1,5 @@
 package gov.va.ascent.framework.ws.client;
 
-import gov.va.ascent.framework.util.Defense;
-
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,6 +16,8 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+
+import gov.va.ascent.framework.util.Defense;
 
 /**
  * This interceptor is intended to wrap all of the web service simulators. Apply

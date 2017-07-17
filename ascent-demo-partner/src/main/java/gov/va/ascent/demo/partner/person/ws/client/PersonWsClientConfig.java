@@ -1,9 +1,16 @@
 package gov.va.ascent.demo.partner.person.ws.client;
 
-import gov.va.ascent.framework.exception.InterceptingExceptionTranslator;
-import gov.va.ascent.framework.log.PerformanceLogMethodInterceptor;
-import gov.va.ascent.framework.ws.client.BaseWsClientConfig;
-import gov.va.ascent.framework.ws.client.WsClientSimulatorMarshallingInterceptor;
+import java.io.IOException;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,16 +26,10 @@ import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
 import org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor;
 
-import java.io.IOException;
-import java.security.KeyManagementException;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.security.cert.CertificateException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import gov.va.ascent.framework.exception.InterceptingExceptionTranslator;
+import gov.va.ascent.framework.log.PerformanceLogMethodInterceptor;
+import gov.va.ascent.framework.ws.client.BaseWsClientConfig;
+import gov.va.ascent.framework.ws.client.WsClientSimulatorMarshallingInterceptor;
 
 /**
  * This class represents the Spring configuration for the Person Web Service Client.

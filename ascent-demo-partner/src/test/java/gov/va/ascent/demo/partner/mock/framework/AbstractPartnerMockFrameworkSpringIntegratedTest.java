@@ -1,11 +1,11 @@
 package gov.va.ascent.demo.partner.mock.framework;
 
-import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
-
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import gov.va.ascent.framework.config.AscentCommonSpringProfiles;
 
 /**
  * Base tests for all spring integrated unit tests in this project
