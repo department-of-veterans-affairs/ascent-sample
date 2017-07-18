@@ -4,9 +4,6 @@ services:
     image: ascent-demo-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-      - log.dir=${APP_LOG_DIR}
-      - logstash.server=${LOGSTASH_SERVER}
-      - logstash.ringbuffersize=${LOGSTASH_RINGBUFFERSIZE}
     external_links: 
       - ascent-config
       - ascent-discovery
