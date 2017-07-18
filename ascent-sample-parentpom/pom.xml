@@ -17,6 +17,21 @@
 
 	<name>${artifactId}</name>
 	<description>Ascent Sample project for Spring Boot Parent Pom</description>
+	
+	<repositories>
+		<repository>
+			<id>evss</id>
+			<name>EVSS Nexus Repository</name>
+			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>evss</id>
+			<name>EVSS Nexus Repository</name>
+			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
