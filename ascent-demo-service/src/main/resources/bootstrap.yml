@@ -12,6 +12,11 @@ spring:
       label: development
       username: ${config.username:config}
       password: ${config.password:default}
+      retry:
+        initialInterval: 10000
+        maxInterval: 300000
+        multiplier: 1.2
+        maxAttempts: 10
 eureka:
   client:
     #false by default in local dev mode
