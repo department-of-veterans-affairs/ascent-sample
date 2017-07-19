@@ -8,15 +8,15 @@ This is a suite of small projects to demo/learn capabilities of the potential ne
 
 ## Core Services Overview ##
 
-Platform team provides the core system components to support services in the distributed platform.
+Platform team will provide all the core services to support application services in the distributed platform.
 
-[GitHub Repository](https://github.com/department-of-veterans-affairs/ascent.git)
+Ascent Platform [GitHub Repository](https://github.com/department-of-veterans-affairs/ascent.git)
 
-[Wiki Documentation](https://github.com/department-of-veterans-affairs/ascent/wiki)
+Ascent Platform [Wiki Documentation](https://github.com/department-of-veterans-affairs/ascent/wiki)
 
 ## Support Services Overview ##
 
-**ascent-demo-service: Demo Service**
+**ascent-demo-service: Ascent Demo Service**
 
 This is a demo for the core service.  It has REST endpoints and demo's various patterns for producing REST endpoints, swagger for the application, registering the application with Eureka, calling REST endpoints through Zuul, Hystrix Circuit Breaker etc.  This service has the most custom code obviously as it demo's a service tier.
 
@@ -25,9 +25,11 @@ This is a demo for the core service.  It has REST endpoints and demo's various p
 
 ## How do I get set up? ##
 
-* Ensure you have Maven, JDK8, GIT and optionally Docker installed.  
-* Clone the GIT repo.  
-* From the project root, you can run "mvn clean install" to ensure it's all working.  The build should succeed with no test failures.
+* Ensure you have Maven, JDK8, GIT and Optionally Docker (To run ascent sample demo service in the container) installed.  
+* Clone the GIT repo.  (Due to 2FA enabled for repo, you will have to set up SSH Key Passphrase)
+* From the project root, If Docker is RUNNING, run 'mvn clean install' from the reactor pom to build the project which will create the 
+  docker images. If Docker is OFFLINE, run 'mvn clean install -DskipDockerBuild' from the reactor pom to build the project with no docker 
+  images. The build should succeed with no test failures.
 * The recommended IDE is Spring Tool Suite as it plays most nicely with Spring Boot (obviously).  However you are free to choose.
 * Deployment instructions...
 
@@ -75,27 +77,31 @@ This is a demo for the core service.  It has REST endpoints and demo's various p
 ### (3) Local Docker Deployment ###
 * Run 'mvn clean install' from the reactor pom to build the project which will create the docker images.
 
-* Start the containers by running the cmd "*docker-compose up*"
+* Start the containers by running the script "**./start-all.sh**"
 
 * URLs for testing/using this deployment approach
    
   [Demo Service Swagger (thru Zuul)](http://localhost:8762/api/ascent-demo-service/swagger-ui.html)
    
   *Note there are other URLs, such as all the actuator URLs.  Listed here are the basic minimum URLs.*
-  
+    
   **Testing Scaling**
+  
   Docker makes it easier to test scaling of services.  That is, run multiple instances of the services and ensure that each registers itself with Discovery: Eureka, finds it's way into Gateway: Zuul and all of the load balancing, etc.  To do this...
-    * follow the steps above to set the env variables, then start as such...
+    
     * "*docker-compose scale ascent-demo-service=2*"
+    
     * "*docker-compose up --force-recreate*"
   
-  *Note go into Discovery:Eureka and see the multiple services registered.  Go into swagger and call the echo operation multiple times and observe multiple responses.*
+  * Note go into Discovery:Eureka and see the multiple services registered.  Go into swagger and call the echo operation multiple times and observe multiple responses.*
    
-  *When done, recommend running "docker-compose kill then docker-compose rm" to kill the running servers and remove the containers so you don't always run at scale.*
+  * When done, recommend running "**./stop-all.sh**" to stop and remove the containers, networks, images and volumes so you don't always run at scale.*
   
 ## Service Patterns ##
 
-* [Ascent Hystrix Pattern: Circuit Breaker and Monitoring Dashboard](https://github.com/department-of-veterans-affairs/ascent/wiki/Ascent-Hystrix-Pattern)
+* [Ascent Hystrix Pattern: Circuit Breaker](https://github.com/department-of-veterans-affairs/ascent/wiki/Ascent-Hystrix-Pattern)
 
 ## Contribution guidelines ## 
-Coming Soon. 
+* If you or your team wants to contribute to this repository, then fork the repository and follow the steps to create a PR for our upstream repo to review and commit the changes
+* [Creating a pull request from a fork](https://help.github.com/articles/creating-a-pull-request-from-a-fork/)
+	
