@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3'
 services: 
    ascent-demo-service:
     image: ascent-demo-service
@@ -9,8 +9,6 @@ services:
       - ascent-discovery
       - ascent-amqp
       - ascent-zipkin
-    volumes:
-      - ~/logs:/logs
     networks:
       - ascent_ascentnet
 networks: 
