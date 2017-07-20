@@ -1,19 +1,14 @@
-version: '2.1'
+version: '3'
 services: 
    ascent-demo-service:
     image: ascent-demo-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-      - log.dir=${APP_LOG_DIR}
-      - logstash.server=${LOGSTASH_SERVER}
-      - logstash.ringbuffersize=${LOGSTASH_RINGBUFFERSIZE}
     external_links: 
       - ascent-config
       - ascent-discovery
       - ascent-amqp
       - ascent-zipkin
-    volumes:
-      - ~/logs:/logs
     networks:
       - ascent_ascentnet
 networks: 

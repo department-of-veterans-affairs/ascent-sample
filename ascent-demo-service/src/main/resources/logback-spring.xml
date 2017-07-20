@@ -1,90 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="30 seconds" debug="true">
-	<shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+<configuration scan="true" scanPeriod="30 seconds" debug="false">
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
 
-    <property resource="bootstrap.yml" />
+	<property resource="bootstrap.yml" />
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
-    <property name="LOG_STASH" value="${logstash.server:-localhost:9600}"/>
-	<property name="LOG_DIR" value="${log.dir:-.}"/>
-	<property name="RING_BUFFER_SIZE" value="${logstash.ringbuffersize:-8192}"/>
 
-    <property name="LOG_PATH" value="${LOG_DIR}/${APP_NAME}"/>​
-
-    <appender name="FILE-ERROR"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/${APP_NAME}-err.log</file>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>
-                %d{yyyy-MM-dd HH:mm:ss} - %msg%n
-            </Pattern>
-        </encoder>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- rollover daily -->
-            <fileNamePattern>${LOG_PATH}/archived/${APP_NAME}-err.%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-
-    </appender>
-
-
-    <appender name="ROLLIN"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_PATH}/${APP_NAME}.log</file>
-        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-            <providers>
-                <timestamp>
-                    <timeZone>UTC</timeZone>
-                </timestamp>
-                <pattern>
-                    <pattern>
-                        {
-                        "severity": "%level",
-                        "service": "${APP_NAME:-}",
-                        "user": "%X{user:-}",
-                        "trace": "%X{X-B3-TraceId:-}",
-                        "span": "%X{X-B3-SpanId:-}",
-                        "parent": "%X{X-B3-ParentSpanId:-}",
-                        "exportable": "%X{X-Span-Export:-}",
-                        "http.request": "%X{http.request:-}",
-                        "http.response": "%X{http.response:-}",
-                        "pid": "${PID:-}",
-                        "thread": "%thread",
-                        "class": "%logger{40}",
-                        "message": "%message"
-                        }
-                    </pattern>
-                </pattern>
-            </providers>
-        </encoder>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-
-            <fileNamePattern>${LOG_PATH}/archived/${APP_NAME}.%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <timeBasedFileNamingAndTriggeringPolicy
-                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
-        </rollingPolicy>
-
-    </appender>
     <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
-        <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-            <destination>${LOG_STASH}</destination>
-            <keepAliveDuration>5 minutes</keepAliveDuration>
-            <reconnectionDelay>10 second</reconnectionDelay>
-            <waitStrategyType>sleeping</waitStrategyType>
-            <ringBufferSize>${RING_BUFFER_SIZE}</ringBufferSize>
+        <appender name="JSON_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
                     <timestamp>
@@ -101,7 +25,7 @@
                             "parent": "%X{X-B3-ParentSpanId:-}",
                             "exportable": "%X{X-Span-Export:-}",
                             "http.request": "%X{http.request}",
-							"http.response": "%X{http.response:-}",                            
+                            "http.response": "%X{http.response:-}",
                             "pid": "${PID:-}",
                             "thread": "%thread",
                             "class": "%logger{40}",
@@ -114,13 +38,13 @@
         </appender>
     </springProfile>
 
-	<root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <appender-ref ref="ROLLIN" />
-        <appender-ref ref="FILE-ERROR" />
-		<springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
-	        <appender-ref ref="STASH" />
-	    </springProfile>	        
+    <root level="INFO">
+    	<springProfile name="default,local-int">
+	        <appender-ref ref="CONSOLE" />
+	    </springProfile>
+        <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
+            <appender-ref ref="JSON_STDOUT" />
+        </springProfile>
     </root>
 
 </configuration>
