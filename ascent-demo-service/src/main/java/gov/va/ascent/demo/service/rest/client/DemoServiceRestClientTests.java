@@ -46,6 +46,11 @@ public class DemoServiceRestClientTests implements SwaggerResponseMessages {
 	
 	public static final String URL_PREFIX = DemoServiceEndpoint.URL_PREFIX + "/clientTests";
 	
+	/**
+	 * This method demonstrates the use of DiscoveryClient to iterate through each of service instance endpoint to make REST calls  
+	 * @param request
+	 * @return
+	 */
 	@ApiOperation(value = "An endpoint demo's using the DiscoveryClient to interrogate services.")
 	@RequestMapping(value = URL_PREFIX + "/demoDiscoveryClientUsage", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = {
@@ -56,6 +61,12 @@ public class DemoServiceRestClientTests implements SwaggerResponseMessages {
 		ServiceInstancesServiceResponse response = demoUsageDiscoveryClient.invokeServiceUsingDiscoveryClient();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+	
+	/**
+	 * This method demonstrates the use of RestTemplate to make REST calls on the service endpoints
+	 * @param request
+	 * @return
+	 */
 	
 	@ApiOperation(value = "An endpoint which uses a REST client using RestTemplate to call the remote echo operation.")
 	@RequestMapping(value = URL_PREFIX + "/demoCallEchoUsingRestTemplate", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -70,6 +81,11 @@ public class DemoServiceRestClientTests implements SwaggerResponseMessages {
         return new ResponseEntity<EchoHostServiceResponse>(exchange.getBody(), exchange.getStatusCode());
     }
 	
+	/**
+	 * This method demonstrates the use of Feign Client to make REST calls
+	 * @param request
+	 * @return
+	 */
 	@ApiOperation(value = "An endpoint which uses a REST client using Feign to call the remote echo operation.")
 	@RequestMapping(value = URL_PREFIX + "/demoCallEchoUsingFeignClient", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiResponses(value = {

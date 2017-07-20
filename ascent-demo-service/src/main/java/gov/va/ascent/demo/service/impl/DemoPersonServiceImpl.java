@@ -38,6 +38,15 @@ import gov.va.ascent.framework.util.Defense;
 @Qualifier("IMPL")
 @RefreshScope
 @DefaultProperties(groupKey = HystrixCommandConstants.ASCENT_PERSON_DEMO_SERVICE_GROUP_KEY)
+
+/**
+ * Implementation class for the Demo Person Service. 
+ * The class demonstrates the implementation of hystrix circuit breaker 
+ * pattern with a Fallback method when there is a failure, returning the response 
+ * from the cache for read operations
+ * @author 
+ *
+ */
 public class DemoPersonServiceImpl implements DemoPersonService {
 	final static Logger LOGGER = LoggerFactory.getLogger(DemoPersonServiceImpl.class);
 	

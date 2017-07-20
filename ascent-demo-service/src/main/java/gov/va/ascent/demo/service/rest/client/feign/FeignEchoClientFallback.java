@@ -8,6 +8,11 @@ import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 import gov.va.ascent.framework.messages.MessageSeverity;
 
 @Component
+/**
+ * This class provides the Hystrix fallback implementation for Feign Client calls to the service
+ * @author 
+ *
+ */
 public class FeignEchoClientFallback implements FeignEchoClient {
 
 	@Override

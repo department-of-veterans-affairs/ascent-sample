@@ -39,6 +39,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
+
+/**
+ * REST Demo Service endpoint 
+ * @author
+ *
+ */
 public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMessages {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(DemoServiceEndpoint.class);
