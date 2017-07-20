@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="30 seconds" debug="false">
+<configuration scan="false" debug="false">
     <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
@@ -8,7 +8,7 @@
     <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
 
     <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
-        <appender name="JSON_STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <appender name="CONSOLE_JSON_ENCODER" class="ch.qos.logback.core.ConsoleAppender">
             <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
                 <providers>
                     <timestamp>
@@ -37,14 +37,15 @@
             </encoder>
         </appender>
     </springProfile>
-
+    
     <root level="INFO">
     	<springProfile name="default,local-int">
 	        <appender-ref ref="CONSOLE" />
 	    </springProfile>
         <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
-            <appender-ref ref="JSON_STDOUT" />
+            <appender-ref ref="CONSOLE_JSON_ENCODER" />
         </springProfile>
     </root>
+        
 
 </configuration>
