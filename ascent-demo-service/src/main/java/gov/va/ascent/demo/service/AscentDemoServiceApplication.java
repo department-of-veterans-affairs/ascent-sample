@@ -1,7 +1,11 @@
 package gov.va.ascent.demo.service;
 
+import gov.va.ascent.demo.service.config.AscentDemoServiceConfig;
+import gov.va.ascent.security.config.EnableAscentSecurity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.WebMvcProperties;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.cache.annotation.EnableCaching;
@@ -13,9 +17,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
-
-import gov.va.ascent.demo.service.config.AscentDemoServiceConfig;
-import gov.va.ascent.security.config.EnableAscentSecurity;
+import org.springframework.web.servlet.DispatcherServlet;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
@@ -36,6 +38,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Import(AscentDemoServiceConfig.class)
 public class AscentDemoServiceApplication extends SpringBootServletInitializer {
 
+    @Autowired
+    private WebMvcProperties webMvcProperties;
+
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(AscentDemoServiceApplication.class);
@@ -49,5 +54,19 @@ public class AscentDemoServiceApplication extends SpringBootServletInitializer {
     AlwaysSampler alwaysSampler() {
         return new AlwaysSampler();
     }
+
+    @Bean
+    public DispatcherServlet dispatcherServlet() {
+        DispatcherServlet dispatcherServlet = new DispatcherServlet();
+        dispatcherServlet.setDispatchOptionsRequest(
+                this.webMvcProperties.isDispatchOptionsRequest());
+        dispatcherServlet.setDispatchTraceRequest(
+                this.webMvcProperties.isDispatchTraceRequest());
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(
+                this.webMvcProperties.isThrowExceptionIfNoHandlerFound());
+        dispatcherServlet.setThreadContextInheritable(true);
+        return dispatcherServlet;
+    }
+
 
 }
