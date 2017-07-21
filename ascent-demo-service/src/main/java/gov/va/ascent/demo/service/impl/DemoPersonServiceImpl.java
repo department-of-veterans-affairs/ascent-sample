@@ -42,8 +42,8 @@ import gov.va.ascent.framework.util.Defense;
 /**
  * Implementation class for the Demo Person Service. 
  * The class demonstrates the implementation of hystrix circuit breaker 
- * pattern with a Fallback method when there is a failure, returning the response 
- * from the cache for read operations
+ * pattern for read operations. When there is a failure the fallback method is invoked and the response is
+ * returned from the cache 
  * @author 
  *
  */
