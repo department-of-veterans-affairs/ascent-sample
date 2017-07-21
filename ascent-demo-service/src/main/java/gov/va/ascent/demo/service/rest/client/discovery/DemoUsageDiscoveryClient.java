@@ -9,6 +9,13 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import gov.va.ascent.demo.service.api.v1.transfer.ServiceInstanceDetail;
 import gov.va.ascent.demo.service.api.v1.transfer.ServiceInstancesServiceResponse;
 
+/**
+ * REST Client class that uses DiscoveryClient api to invoke the service by iterating through
+ * the service instances  
+ * @author
+ *
+ */
+
 public class DemoUsageDiscoveryClient {
 	@Autowired
     private DiscoveryClient discoveryClient;
