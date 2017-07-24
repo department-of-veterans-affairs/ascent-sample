@@ -9,6 +9,9 @@ import org.springframework.web.client.RestTemplate;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 
 public class DemoUsageRestTemplate {
+	/**
+	 * REST client class that uses Spring RestTemplate to make service call
+	 */
   
 	@Autowired
     private RestTemplate restTemplate;	
