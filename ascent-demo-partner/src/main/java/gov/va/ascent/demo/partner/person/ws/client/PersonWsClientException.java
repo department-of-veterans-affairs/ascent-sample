@@ -1,13 +1,13 @@
 package gov.va.ascent.demo.partner.person.ws.client;
 
-import gov.va.ascent.framework.exception.WssRuntimeException;
+import gov.va.ascent.framework.exception.AscentRuntimeException;
 
 /**
  * This class represents the unique exception that can be thrown
  * by the PersonWsClient.
  *
  */
-public class PersonWsClientException extends WssRuntimeException {
+public class PersonWsClientException extends AscentRuntimeException {
 
 	/**
 	 * the serialVersionUID

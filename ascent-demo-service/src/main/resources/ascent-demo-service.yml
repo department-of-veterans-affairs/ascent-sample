@@ -6,21 +6,25 @@ info:
     artifact: "@project.artifactId@"
     name: "@project.name@"
     description: "@project.description@"
-
-#Properties to customize Jackson ObjectMapper 
-spring:
-  jackson:
-    serialization-inclusion: NON_EMPTY
-    serialization:
-      INDENT_OUTPUT: true
+    
+# REDIS (RedisProperties)
+redis:
+  enabled: false
+spring: 
+  redis: 
+    host: redis
+    #timeout: 0
+    port: 6379
+    #password: 1qazse4
+    #pool:
+     # max-idle: 8  
+      #min-idle: 0    
+      #max-active: 8
+      #max-wait: -1
   cloud:
     bus:
       enabled: false
-  #Properties to load the spring ehcache configuration to cache specific data
-  #These cached data are used for fallback calls 
-  cache:
-    ehcache:
-      config: classpath:ehcache.xml        
+#Application Custom Properties          
 ascent-demo-service:
   env: default
   propSource: internal
@@ -139,7 +143,12 @@ hystrix:
 # To skip specific patterns being exported, added few more customs on top of default skip pattern
 # see org.springframework.cloud.sleuth.instrument.web.TraceFilter.DEFAULT_SKIP_PATTERN
 spring.sleuth.web.skipPattern: (/api/.*/webjars.*|/api/.*/v2/api-docs.*|/api/.*/swagger-resources.*|/api/.*/swagger-ui.*|/api-docs.*|/autoconfig|/configprops|/dump|/health|/info|/metrics.*|/mappings|/trace|/swagger.*|.*\\.png|.*\\.css|.*\\.js|.*\\.html|/favicon.ico|/hystrix.stream)
+# comma separated list of matchers
+spring.sleuth.rxjava.schedulers.ignoredthreads: HystixMetricPoller,^MyCustomThread.*$,^RxComputation.*$
+
 #Property configuration to enable or disable JWT security for service calls 
+#JWT security is enabled by default in exteral repo. So to disable it you have to
+#set the environment system property ascent.security.jwt.enabled=false
 ascent:
   security:
     jwt:
