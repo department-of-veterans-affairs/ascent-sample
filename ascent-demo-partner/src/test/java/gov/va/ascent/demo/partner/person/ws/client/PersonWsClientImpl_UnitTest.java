@@ -31,7 +31,7 @@ import gov.va.ascent.framework.messages.MessageSeverity;
 // ignored for now as its integration test and requires SOAP UI to be running
 @Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({ AscentCommonSpringProfiles.PROFILE_ENV_LOCAL_DEV, AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_IMPLS })
+@ActiveProfiles({ AscentCommonSpringProfiles.PROFILE_ENV_LOCAL_INT, AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_IMPLS })
 @ContextConfiguration(inheritLocations = false, classes = { PersonWsClientConfig.class, PartnerMockFrameworkTestConfig.class })
 public class PersonWsClientImpl_UnitTest{
 	

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ import gov.va.ascent.demo.partner.person.ws.transfer.PersonDTO;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 import gov.va.ascent.demo.service.utils.StringUtil;
-import gov.va.ascent.framework.exception.WssRuntimeException;
+import gov.va.ascent.framework.exception.AscentRuntimeException;
 import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.util.Defense;
 
@@ -79,7 +79,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	protected static final ObjectFactory PERSON_OBJECT_FACTORY = new ObjectFactory();
 
 	@Override
-	@CachePut(value="getPersonInfo", key="#personInfoRequest")
+	@Cacheable(value="getPersonInfo", key="#personInfoRequest", unless="#result == null")
 	@HystrixCommand(
 			fallbackMethod = "getPersonInfoFallBack", 
 			commandKey = "GetPersonInfoBySSNCommand", 
@@ -112,7 +112,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	}
 	
 	@Override
-	@CachePut(value="getPersonInfo", key="#personInfoRequest")
+	@Cacheable(value="getPersonInfo", key="#personInfoRequest", unless="#result == null")
 	@HystrixCommand(
 				fallbackMethod = "getPersonInfoFallBack", 
 				commandKey = "GetPersonInfoByPIDCommand",
@@ -149,7 +149,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	        return cacheManager.getCache("getPersonInfo").get(personInfoRequest, PersonInfoResponse.class);
 	    } else {
 	    	LOGGER.info("getPersonInfoFallBack no cached data found raising exception for {}", personInfoRequest);
-	    	throw new WssRuntimeException("No cached data found in fallback method. Raising an exception");
+	    	throw new AscentRuntimeException("No cached data found in fallback method. Raising an exception");
 	    }
 	}
 

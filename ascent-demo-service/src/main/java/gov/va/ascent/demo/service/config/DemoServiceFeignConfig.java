@@ -24,9 +24,9 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 @Configuration
-public class AscentDemoServiceFeignConfig {
+public class DemoServiceFeignConfig {
 	
-	private final static Logger LOGGER = LoggerFactory.getLogger(AscentDemoServiceFeignConfig.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(DemoServiceFeignConfig.class);
 
 	@Autowired
 	@Qualifier("tokenFeignRequestInterceptor")
@@ -47,8 +47,6 @@ public class AscentDemoServiceFeignConfig {
 	  };
 	  return HystrixFeign.builder().setterFactory(commandKeyIsRequestLine).requestInterceptor(feignRequestInterceptor);
 	}
-
-
 
 }
 

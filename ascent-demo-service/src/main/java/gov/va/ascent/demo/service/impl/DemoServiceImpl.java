@@ -20,7 +20,7 @@ import gov.va.ascent.demo.service.api.v1.transfer.Demo;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
-import gov.va.ascent.framework.exception.WssRuntimeException;
+import gov.va.ascent.framework.exception.AscentRuntimeException;
 import gov.va.ascent.framework.service.ServiceResponse;
 
 @Component
@@ -41,7 +41,7 @@ public class DemoServiceImpl implements DemoService {
 		if("error".equals(request.getDemo().getName())){
 			throw new RuntimeException("thrown on purpose!");
 		} else if("wsserror".equals(request.getDemo().getName())){
-			throw new WssRuntimeException("thrown on purpose!");
+			throw new AscentRuntimeException("thrown on purpose!");
 		}
 		return new ServiceResponse();
 	}

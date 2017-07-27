@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  * The Class PersonWsClientSimulator_UnitTest.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ActiveProfiles({ AscentCommonSpringProfiles.PROFILE_ENV_LOCAL_DEV, AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS })
+@ActiveProfiles({ AscentCommonSpringProfiles.PROFILE_ENV_LOCAL_INT, AscentCommonSpringProfiles.PROFILE_REMOTE_CLIENT_SIMULATORS })
 @ContextConfiguration(inheritLocations = false, classes = { PersonWsClientConfig.class, PartnerMockFrameworkTestConfig.class })
 public class PersonWsClientSimulator_UnitTest extends TestCase {
 

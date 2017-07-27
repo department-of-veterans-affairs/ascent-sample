@@ -30,7 +30,7 @@ import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.Host;
-import gov.va.ascent.framework.exception.WssRuntimeException;
+import gov.va.ascent.framework.exception.AscentRuntimeException;
 import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.service.ServiceResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
@@ -76,7 +76,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
         try {
             addr = InetAddress.getLocalHost();
         } catch (UnknownHostException e) {
-            throw new WssRuntimeException(e);
+            throw new AscentRuntimeException(e);
         }
         EchoHostServiceResponse response = new EchoHostServiceResponse();
         Host host = new Host();

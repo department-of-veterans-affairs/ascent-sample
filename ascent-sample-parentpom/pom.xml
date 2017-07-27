@@ -2,36 +2,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
 	
-	<groupId>gov.va.ascent</groupId>
+	<parent>
+		<groupId>gov.va.ascent</groupId>
+		<artifactId>ascent-parentpom</artifactId>
+		<!-- this should match wss.version property below. can't use property project.parent.version 
+			because that property won't resolve properly in the child poms that are 2 
+			levels down. -->
+		<version>0.0.1-SNAPSHOT</version>
+		<!-- Force artifact resolution from repository -->
+		<relativePath />
+	</parent>
+
+	<groupId>gov.va.ascent.sample</groupId>
 	<artifactId>ascent-sample-parentpom</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>${artifactId}</name>
-	<description>Ascent Sample project for Spring Boot Parent Pom</description>
+	<description>Parent POM for Ascent Sample project</description>
 	
-	<repositories>
-		<repository>
-			<id>evss</id>
-			<name>EVSS Nexus Repository</name>
-			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/groups/public</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>evss</id>
-			<name>EVSS Nexus Repository</name>
-			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/groups/public</url>
-		</pluginRepository>
-	</pluginRepositories>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,94 +31,5 @@
 		<docker.java.opts.ms>-Xms64m</docker.java.opts.ms>
 		<docker.java.opts.mx>-Xmx256m</docker.java.opts.mx>
 	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>Camden.SR7</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-	            <groupId>org.springframework.retry</groupId>
-	            <artifactId>spring-retry</artifactId>
-	            <version>1.2.1.RELEASE</version>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.springframework.boot</groupId>
-	            <artifactId>spring-boot-starter-aop</artifactId>
-	            <version>1.5.2.RELEASE</version>
-	        </dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<build>
-		<resources>
-    		<resource>
-		        <directory>src/main/resources</directory>
-		        <filtering>true</filtering>
-		        <includes>
-                    <include>**/*</include>
-                </includes>
-				<excludes>
-					<exclude>**/cert/*</exclude>
-				</excludes>
-		    </resource>
-			<resource>
-				<directory>src/main/resources/cert</directory>
-			</resource>
-    	</resources>
-		<plugins>
-			<!-- repackages jar and war plugins so they can be executed with command line -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-	
-	<profiles>
-		<profile>
-			<id>docker-jar-project</id>
-			<activation>
-		     	<file><!-- add a file named .docker-jar-project-marker to war projects to activate this profile -->
-		       	<exists>${basedir}/.docker-jar-project-marker</exists>
-		     	</file>
-		    </activation>
-			<build>
-				<plugins>
-					<plugin>
-		                <groupId>com.spotify</groupId>
-		                <artifactId>docker-maven-plugin</artifactId>
-		                <version>0.4.13</version>
-		                <configuration>
-		                    <imageName>${project.artifactId}</imageName>
-		                    <baseImage>java:8</baseImage>
-		                    <entryPoint>["java", "${docker.java.opts.ms}", "${docker.java.opts.mx}", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
-		                    <!-- copy the service's jar file from target into the root directory of the image -->
-		                    <resources>
-		                        <resource>
-		                            <targetPath>/</targetPath>
-		                            <directory>${project.build.directory}</directory>
-		                            <include>${project.build.finalName}.jar</include>
-		                        </resource>
-		                    </resources>
-		                </configuration>
-		                <executions>
-		                    <execution>
-		                        <id>build-image</id>
-		                        <phase>package</phase>
-		                        <goals>
-		                            <goal>build</goal>
-		                        </goals>
-		                    </execution>
-		                </executions>
-		            </plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 
 </project>

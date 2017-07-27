@@ -9,6 +9,7 @@ services:
       - ascent-discovery
       - ascent-amqp
       - ascent-zipkin
+      - redis
     networks:
       - ascent_ascentnet
 networks: 

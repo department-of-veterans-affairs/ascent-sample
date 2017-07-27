@@ -33,7 +33,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @ComponentScan(basePackages = { "gov.va.ascent.framework.service, gov.va.ascent.framework.rest.provider" }, excludeFilters = @Filter(Configuration.class))
-@Import({BeanValidatorPluginsConfiguration.class, DemoServiceRestClientTestsConfig.class, PersonWsClientConfig.class}) 
+@Import({BeanValidatorPluginsConfiguration.class, DemoServiceRestClientTestsConfig.class, DemoRedisConfig.class, PersonWsClientConfig.class}) 
 public class AscentDemoServiceConfig {
 	
 	

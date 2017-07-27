@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-		<groupId>gov.va.ascent</groupId>
+		<groupId>gov.va.ascent.sample</groupId>
 		<artifactId>ascent-sample-parentpom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../ascent-sample-parentpom</relativePath>
+		<version>0.0.2-SNAPSHOT</version>
+		<relativePath>ascent-sample-parentpom</relativePath>
 	</parent>
-
+	
     <artifactId>ascent-demo-service</artifactId>
     <packaging>jar</packaging>
     
@@ -114,7 +114,6 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>4.7</version>
         </dependency>
         
         <!-- additional jackson dependencies not brought in via spring-boot starters -->
@@ -154,7 +153,15 @@
 		    <artifactId>jolokia-core</artifactId>
 		</dependency>
 		
-		<!-- ehcache for hystrix fallbacks -->
+		<!-- Cache Manager Dependencies -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-redis</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		</dependency>
 		<dependency>
 		    <groupId>net.sf.ehcache</groupId>
 		    <artifactId>ehcache-core</artifactId>
@@ -165,7 +172,6 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.5</version>
         </dependency>
         
         <!-- test dependencies -->
