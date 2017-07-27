@@ -7,7 +7,7 @@
 		<groupId>gov.va.ascent.sample</groupId>
 		<artifactId>ascent-sample-parentpom</artifactId>
 		<version>0.0.2-SNAPSHOT</version>
-		<relativePath>ascent-sample-parentpom</relativePath>
+		<relativePath>../ascent-sample-parentpom</relativePath>
 	</parent>
 	
     <artifactId>ascent-demo-service</artifactId>
@@ -77,10 +77,6 @@
 		<dependency>
             <groupId>org.springframework.retry</groupId>
             <artifactId>spring-retry</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

@@ -9,23 +9,18 @@ info:
     
 # REDIS (RedisProperties)
 redis:
-  enabled: true
+  enabled: false
 spring: 
   redis: 
     host: redis
-    timeout: 0
-    port: 6379  
+    #timeout: 0
+    port: 6379
     #password: 1qazse4
-    pool:
-      max-idle: 8  
-      min-idle: 0    
-      max-active: 8
-      max-wait: -1
-#Properties to customize Jackson ObjectMapper 
-  jackson:
-    serialization-inclusion: NON_EMPTY
-    serialization:
-      INDENT_OUTPUT: true
+    #pool:
+     # max-idle: 8  
+      #min-idle: 0    
+      #max-active: 8
+      #max-wait: -1
   cloud:
     bus:
       enabled: false

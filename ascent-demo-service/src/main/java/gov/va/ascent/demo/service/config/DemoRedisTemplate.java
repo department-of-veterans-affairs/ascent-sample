@@ -2,6 +2,7 @@ package gov.va.ascent.demo.service.config;
 
 import java.util.List;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisCallback;
@@ -26,8 +27,8 @@ public class DemoRedisTemplate<K, V> extends RedisTemplate<K, V> {
             return super.execute(action, exposeConnection, pipeline);
         }
         catch(final Throwable t) {
-          LOGGER.warn("Error executing cache operation: {}", t.getMessage());
-            return null;
+          LOGGER.warn("Error executing cache operation: {}", ExceptionUtils.getStackTrace(t));
+          return null;
         }
     }
 
@@ -38,7 +39,7 @@ public class DemoRedisTemplate<K, V> extends RedisTemplate<K, V> {
             return super.execute(script, keys, args);
         }
         catch(final Throwable t) {
-            LOGGER.warn("Error executing cache operation: {}", t.getMessage());
+            LOGGER.warn("Error executing cache operation: {}", ExceptionUtils.getStackTrace(t));
             return null;
         }
     }
@@ -50,7 +51,7 @@ public class DemoRedisTemplate<K, V> extends RedisTemplate<K, V> {
             return super.execute(script, argsSerializer, resultSerializer, keys, args);
         }
         catch(final Throwable t) {
-            LOGGER.warn("Error executing cache operation: {}", t.getMessage());
+            LOGGER.warn("Error executing cache operation: {}", ExceptionUtils.getStackTrace(t));
             return null;
         }
     }
@@ -62,7 +63,7 @@ public class DemoRedisTemplate<K, V> extends RedisTemplate<K, V> {
             return super.execute(session);
         }
         catch(final Throwable t) {
-            LOGGER.warn("Error executing cache operation: {}", t.getMessage());
+            LOGGER.warn("Error executing cache operation: {}", ExceptionUtils.getStackTrace(t));
             return null;
         }
     }

@@ -32,16 +32,7 @@ public class DemoRedisConfig extends CachingConfigurerSupport {
   final static Logger LOGGER = LoggerFactory.getLogger(DemoRedisConfig.class);
 
   @Bean
-  public RedisConnectionFactory jedisConnectionFactory(){
-      //JedisPoolConfig poolConfig=new JedisPoolConfig();
-      //poolConfig.setMaxIdle(5);
-      //poolConfig.setMinIdle(1);
-      //poolConfig.setTestOnBorrow(true);
-      //poolConfig.setTestOnReturn(true);
-      //poolConfig.setTestWhileIdle(true);
-      //poolConfig.setNumTestsPerEvictionRun(10);
-      //poolConfig.setTimeBetweenEvictionRunsMillis(60000);
-
+  public RedisConnectionFactory jedisConnectionFactory() {
       JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
       return jedisConnectionFactory;
   }

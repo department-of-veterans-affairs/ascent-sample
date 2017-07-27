@@ -19,9 +19,33 @@
 	<version>0.0.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>${artifactId}</name>
+	<name>${project.artifactId}</name>
 	<description>Parent POM for Ascent Sample project</description>
-	
+
+	<repositories>
+		<repository>
+			<id>vets</id>
+			<name>Vets.gov Nexus Repository</name>
+			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/groups/public</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>vets</id>
+			<name>Vets.gov Nexus Repository</name>
+			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/groups/public</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<distributionManagement>
+		<repository>
+			<id>vets.release</id>
+			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>vets.snapshot</id>
+			<url>http://csraciapp1.evss.srarad.com:8081/nexus/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

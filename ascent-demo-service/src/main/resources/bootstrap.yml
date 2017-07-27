@@ -9,7 +9,7 @@ spring:
         enabled: true
         serviceId: ascent-config
       failFast: true
-      label: master
+      label: development
       username: ${config.username:config}
       password: ${config.password:default}
       retry:
