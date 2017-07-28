@@ -1,0 +1,72 @@
+package gov.va.ascent.document.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import gov.va.ascent.document.service.api.transfer.DocumentType;
+
+public enum DocumentTypeEnum {
+	DOCUMENT_TYPE_150("150","VA 21-8056 Request for Retirement Information from the Railroad Retirement Board and Certification of Information From Department of Veterans Affairs","L141","VeteransClaim","VeteransClaim"),
+	DOCUMENT_TYPE_152("152","VA 21-8358 Notice to Department of Veterans Affairs of Admission to Uniformed Services Hospital","L143","VeteransClaim","VeteransClaim"),
+	DOCUMENT_TYPE_153("153","VA 21-8359 Information Re Veteran in Uniformed Services Hospital or Dispensary","L144","VeteransClaim","VeteransClaim");
+	
+	private String docTypeId;
+	private String docTypeDesc;
+	private String docTypeLabel;
+	private String categoryId;
+	private String categoryDesc;
+	DocumentTypeEnum(String docTypeId, String docTypeDesc, String docTypeLabel, String categoryId, String categoryDesc) {
+		this.docTypeId = docTypeId;
+		this.docTypeDesc = docTypeDesc;
+		this.docTypeLabel = docTypeLabel;
+		this.categoryId = categoryId;
+		this.categoryDesc = categoryDesc;
+	}
+	public String getDocTypeId() {
+		return docTypeId;
+	}
+	public void setDocTypeId(String docTypeId) {
+		this.docTypeId = docTypeId;
+	}
+	public String getDocTypeDesc() {
+		return docTypeDesc;
+	}
+	public void setDocTypeDesc(String docTypeDesc) {
+		this.docTypeDesc = docTypeDesc;
+	}
+	public String getDocTypeLabel() {
+		return docTypeLabel;
+	}
+	public void setDocTypeLabel(String docTypeLabel) {
+		this.docTypeLabel = docTypeLabel;
+	}
+	public String getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
+	public String getCategoryDesc() {
+		return categoryDesc;
+	}
+	public void setCategoryDesc(String categoryDesc) {
+		this.categoryDesc = categoryDesc;
+	}
+	
+	public static List<DocumentType> getEnumAsDocumentTypeList() {
+		List<DocumentType> docTypes = new ArrayList<DocumentType>();
+		DocumentTypeEnum[] docTypeEnums = DocumentTypeEnum.values();
+		for(int i=0; i < docTypeEnums.length;i++) {
+			DocumentType docType = new DocumentType();
+			docType.setTypeId(docTypeEnums[i].getDocTypeId());
+			docType.setTypeDescription(docTypeEnums[i].getDocTypeDesc());
+			docType.setTypeLabel(docTypeEnums[i].getDocTypeLabel());
+			docType.setCategoryId(docTypeEnums[i].getCategoryId());
+			docType.setCategoryDescription(docTypeEnums[i].getCategoryDesc());
+			docTypes.add(docType);
+		}
+		
+		return docTypes;
+	}
+	
+}
