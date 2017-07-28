@@ -26,12 +26,12 @@ import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 import gov.va.ascent.security.jwt.JwtTokenService;
 
 @Configuration
-public class AscentDemoServiceFeignConfig {
+public class AscentDocumentServiceFeignConfig {
 	
-	private final static Logger LOGGER = LoggerFactory.getLogger(AscentDemoServiceFeignConfig.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(AscentDocumentServiceFeignConfig.class);
 
 	@Autowired
-	@Qualifier("tokenFeignRequestInterceptor")
+	@Qualifier("tokenDocumentFeignRequestInterceptor")
 	private RequestInterceptor feignRequestInterceptor;
 	
 	@Bean
@@ -39,7 +39,7 @@ public class AscentDemoServiceFeignConfig {
 	@ConditionalOnProperty(name = "feign.hystrix.enabled", matchIfMissing = true)
 	public Feign.Builder feignBuilder() {
 	  SetterFactory commandKeyIsRequestLine = (target, method) -> {
-	    String groupKey = HystrixCommandConstants.ASCENT_DEMO_SERVICE_GROUP_KEY;
+	    String groupKey = HystrixCommandConstants.ASCENT_DOCUMENT_SERVICE_GROUP_KEY;
 		String commandKey =  Feign.configKey(target.type(), method);
 	    LOGGER.debug("Feign Hystrix Group Key: {}", groupKey);
 	    LOGGER.debug("Feign Hystrix Command Key: {}", commandKey);
@@ -49,15 +49,12 @@ public class AscentDemoServiceFeignConfig {
 	  };
 	  return HystrixFeign.builder().setterFactory(commandKeyIsRequestLine).requestInterceptor(feignRequestInterceptor);
 	}
-
-
-
 }
 
 @Component
-class TokenFeignRequestInterceptor implements RequestInterceptor {
+class TokenDocumentFeignRequestInterceptor implements RequestInterceptor {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(TokenFeignRequestInterceptor.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(TokenDocumentFeignRequestInterceptor.class);
 
 	@Autowired
 	private JwtTokenService tokenService;
@@ -70,3 +67,4 @@ class TokenFeignRequestInterceptor implements RequestInterceptor {
 		}
 	}
 }
+

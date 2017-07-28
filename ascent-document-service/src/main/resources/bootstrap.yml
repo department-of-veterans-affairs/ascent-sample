@@ -1,0 +1,115 @@
+spring: 
+  application: 
+    name: "@project.name@"
+  config: 
+    name: "@project.name@"
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        serviceId: ascent-config
+      failFast: true
+      label: development
+      username: ${config.username:config}
+      password: ${config.password:default}
+      retry:
+        initialInterval: 10000
+        maxInterval: 300000
+        multiplier: 1.2
+        maxAttempts: 10
+eureka:
+  client:
+    #false by default in local dev mode
+    enabled: false
+  instance: 
+    metadata-map: 
+      version:  "@project.version@"
+      artifact: "@project.artifactId@"
+      name: "@project.name@"
+      description: "@project.description@"
+      appType: REST-API
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    config:
+      discovery:
+        enabled: false
+      failFast: false
+
+---
+spring:
+  profiles: local-int
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@localhost:${discovery.server.port:8761}/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 10
+
+---
+
+spring:
+  profiles: docker-demo
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@ascent-discovery:${discovery.server.port:8761}/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 20
+---
+
+spring:
+    profiles: aws-ci
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+    preferSameZoneEureka: true
+
+---
+
+spring:
+    profiles: aws-dev
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+    preferSameZoneEureka: true
+
+---
+
+spring:
+    profiles: aws-stage
+    cloud:
+      config:
+        label: master
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+    preferSameZoneEureka: true
+
+---
+
+spring:
+    profiles: aws-prod
+    cloud:
+      config:
+        label: master
+eureka:
+  client:
+    enabled: true
+    serviceUrl:
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+    preferSameZoneEureka: true
+  

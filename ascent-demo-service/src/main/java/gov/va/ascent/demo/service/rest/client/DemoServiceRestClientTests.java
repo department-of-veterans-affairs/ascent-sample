@@ -16,9 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.ServiceInstancesServiceResponse;
 import gov.va.ascent.demo.service.rest.client.discovery.DemoUsageDiscoveryClient;
+import gov.va.ascent.demo.service.rest.client.feign.FeignDocumentClient;
 import gov.va.ascent.demo.service.rest.client.feign.FeignEchoClient;
 import gov.va.ascent.demo.service.rest.client.restTemplate.DemoUsageRestTemplate;
 import gov.va.ascent.demo.service.rest.provider.DemoServiceEndpoint;
+import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -43,6 +45,9 @@ public class DemoServiceRestClientTests implements SwaggerResponseMessages {
 	
 	@Autowired
     private FeignEchoClient feignEchoClient;
+	
+	@Autowired
+	private FeignDocumentClient feignDocumentClient;
 	
 	public static final String URL_PREFIX = DemoServiceEndpoint.URL_PREFIX + "/clientTests";
 	
@@ -88,5 +93,24 @@ public class DemoServiceRestClientTests implements SwaggerResponseMessages {
 		
 		return echoResponse;
     }
+	
+	@ApiOperation(value = "An endpoint which uses a REST client using Feign to call the remote document service operation.")
+	@RequestMapping(value = URL_PREFIX + "/demoCallDocumentServiceFeignClient", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, response = Health.class, message = MESSAGE_200),
+			@ApiResponse(code = 500, response = Health.class, message = MESSAGE_500),
+			@ApiResponse(code = 403, message = MESSAGE_403) })
+    public ResponseEntity<GetDocumentTypesResponse> demoCallDocumentServiceUsingFeignClient(HttpServletRequest request) {
+		
+		// use this in case of feign hystrix to test fallback handler invocation
+	    //ConfigurationManager.getConfigInstance().setProperty("hystrix.command.default.circuitBreaker.forceOpen", "true");
+	    
+		ResponseEntity<GetDocumentTypesResponse> docResponse= feignDocumentClient.getDocumentTypes();
+		
+		// use this in case of feign hystrix
+	    //ConfigurationManager.getConfigInstance().setProperty("hystrix.command.default.circuitBreaker.forceOpen", "false");
+		
+		return docResponse;
+    }	
 	
 }
