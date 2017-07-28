@@ -12,6 +12,17 @@ services:
       - redis
     networks:
       - ascent_ascentnet
+   ascent-document-service:
+    image: ascent-document-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+    external_links:
+      - ascent-config
+      - ascent-discovery
+      - ascent-amqp
+      - ascent-zipkin
+    networks:
+      - ascent_ascentnet
 networks: 
   ascent_ascentnet: 
     external: true
