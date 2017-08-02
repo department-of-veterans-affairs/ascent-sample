@@ -1,7 +1,6 @@
 package gov.va.ascent.demo.service;
 
 import gov.va.ascent.demo.service.config.AscentDemoServiceConfig;
-import gov.va.ascent.security.config.EnableAscentSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -34,7 +33,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableHystrix
 @EnableCaching
 @EnableAsync
-@EnableAscentSecurity
 @Import(AscentDemoServiceConfig.class)
 public class AscentDemoServiceApplication extends SpringBootServletInitializer {
 

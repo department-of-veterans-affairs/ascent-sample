@@ -35,7 +35,7 @@
         </dependency>
         <dependency>
             <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-security</artifactId>
+            <artifactId>ascent-starter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     	<!-- spring-boot dependencies -->
