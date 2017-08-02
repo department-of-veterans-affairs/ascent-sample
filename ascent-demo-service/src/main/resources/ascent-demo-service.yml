@@ -10,17 +10,13 @@ info:
 # REDIS (RedisProperties)
 redis:
   enabled: false
+  cache: 
+    defaultExpires: 86400 # (Seconds)
+    expires: 
+      #Cache Name: TTL (In Seconds)
+      demoPersonService: 1800
+      demoService: 600
 spring: 
-  redis: 
-    host: redis
-    #timeout: 0
-    port: 6379
-    #password: 1qazse4
-    #pool:
-     # max-idle: 8  
-      #min-idle: 0    
-      #max-active: 8
-      #max-wait: -1
   cloud:
     bus:
       enabled: false
