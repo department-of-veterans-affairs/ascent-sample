@@ -17,7 +17,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.DispatcherServlet;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * An <tt>Ascent Demo Service Application</tt> enabled for Spring Boot Application, 
@@ -26,7 +25,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  *
  */
 @SpringBootApplication
-@EnableSwagger2 //only needed due to swagger
 @EnableDiscoveryClient //needed to reach out to spring cloud config, eureka
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @EnableFeignClients

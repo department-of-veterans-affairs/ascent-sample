@@ -26,17 +26,14 @@
         <dependency>
             <groupId>gov.va.ascent</groupId>
             <artifactId>ascent-framework</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>gov.va.ascent.sample</groupId>
             <artifactId>ascent-demo-partner</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>gov.va.ascent</groupId>
             <artifactId>ascent-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     	<!-- spring-boot dependencies -->
         <dependency>
@@ -129,23 +126,7 @@
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-annotations</artifactId>
 		</dependency>
-        
-        <!-- springfox swagger-ui dependencies -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.6.1</version>
-        </dependency> 
+
         
         <!-- jolokia for JMX over HTTP via /jolokia -->
         <dependency>
