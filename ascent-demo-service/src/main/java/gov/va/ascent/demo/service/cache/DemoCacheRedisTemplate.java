@@ -1,4 +1,4 @@
-package gov.va.ascent.demo.service.config;
+package gov.va.ascent.demo.service.cache;
 
 import java.util.List;
 

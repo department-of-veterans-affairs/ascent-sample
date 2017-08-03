@@ -4,12 +4,6 @@ services:
     image: ascent-demo-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-    external_links: 
-      - ascent-config
-      - ascent-discovery
-      - ascent-amqp
-      - ascent-zipkin
-      - redis
     networks:
       - ascent_ascentnet
 networks: 
