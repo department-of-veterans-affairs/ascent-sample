@@ -148,7 +148,7 @@ spring.sleuth.rxjava.schedulers.ignoredthreads: HystixMetricPoller,^RxComputatio
 ascent:
   security:
     jwt:
-      enabled: true
+      enabled: false
       filter-process-url: /demo/v?/**
   swagger:
     title: Ascent Demo Service v1 API Documentation
