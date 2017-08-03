@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 import gov.va.ascent.demo.partner.person.ws.client.PersonWsClientConfig;
+import gov.va.ascent.demo.service.cache.DemoCacheConfig;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ApiInfoBuilder;
