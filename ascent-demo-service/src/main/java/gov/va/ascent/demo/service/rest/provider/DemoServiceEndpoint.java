@@ -26,7 +26,6 @@ import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoRequest;
 import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoResponse;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.api.DemoService;
-import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.Host;
@@ -88,17 +87,6 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = URL_PREFIX + "/create", produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
-	@ApiOperation(value = "Creates a DEMO.", notes = "Will create and persist a DEMO entity.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = ServiceResponse.class, message = MESSAGE_200),
-			@ApiResponse(code = 400, response = ServiceResponse.class, message = MESSAGE_400), 
-			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
-	public ResponseEntity<ServiceResponse> create(@RequestBody DemoServiceRequest request) {
-		return new ResponseEntity<>(demoService.create(request), HttpStatus.OK);
-	}
-	
 	@RequestMapping(value = URL_PREFIX + "/read/{name}", produces=MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	@ApiOperation(value = "Reads a DEMO.", notes = "Will retrieve and return a previously created DEMO entity.")
 	@ApiResponses(value = {
@@ -128,29 +116,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 			return new ResponseEntity<>(new DemoServiceResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	@RequestMapping(value = URL_PREFIX + "/update", produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
-	@ApiOperation(value = "Updates a DEMO.", notes = "Will update a preveiously created DEMO entity.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = ServiceResponse.class, message = MESSAGE_200),
-			@ApiResponse(code = 400, response = ServiceResponse.class, message = MESSAGE_400), 
-			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
-	public ResponseEntity<ServiceResponse> update(@RequestBody DemoServiceRequest request) {
-		return new ResponseEntity<>(demoService.update(request), HttpStatus.OK);
-	}
 
-	@RequestMapping(value = URL_PREFIX + "/delete/{name}", produces=MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.DELETE)
-	@ApiOperation(value = "Deletes a DEMO.", notes = "Will delete a previously created DEMO entity.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = ServiceResponse.class, message = MESSAGE_200),
-			@ApiResponse(code = 400, response = ServiceResponse.class, message = MESSAGE_400), 
-			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
-	public ResponseEntity<ServiceResponse> delete(@PathVariable String name) {
-		return new ResponseEntity<>(demoService.delete(name), HttpStatus.OK);
-	}
-	
 	@RequestMapping(value = URL_PREFIX + "/person/ssn", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "SSN based Person Info from DEMO Partner Service.", notes = "Will return a person info based on SSN.")
