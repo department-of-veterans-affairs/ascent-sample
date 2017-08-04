@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" debug="false">
+    <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+	<property resource="bootstrap.yml" />
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+
+    <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
+        <appender name="CONSOLE_JSON_ENCODER" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+                <providers>
+                    <timestamp>
+                        <timeZone>UTC</timeZone>
+                    </timestamp>
+                    <pattern>
+                        <pattern>
+                            {
+                            "severity": "%level",
+                            "service": "${APP_NAME:-}",
+                            "user": "%X{user:-}",
+                            "trace": "%X{X-B3-TraceId:-}",
+                            "span": "%X{X-B3-SpanId:-}",
+                            "parent": "%X{X-B3-ParentSpanId:-}",
+                            "exportable": "%X{X-Span-Export:-}",
+                            "http.request": "%X{http.request}",
+                            "http.response": "%X{http.response:-}",
+                            "pid": "${PID:-}",
+                            "thread": "%thread",
+                            "class": "%logger{40}",
+                            "message": "%message"
+                            }
+                        </pattern>
+                    </pattern>
+                </providers>
+            </encoder>
+        </appender>
+    </springProfile>
+    
+    <root level="INFO">
+    	<springProfile name="default,local-int">
+	        <appender-ref ref="CONSOLE" />
+	    </springProfile>
+        <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
+            <appender-ref ref="CONSOLE_JSON_ENCODER" />
+        </springProfile>
+    </root>
+        
+
+</configuration>
