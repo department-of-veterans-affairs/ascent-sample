@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 
 import gov.va.ascent.demo.partner.person.ws.client.PersonWsClientConfig;
+import gov.va.ascent.demo.service.cache.DemoCacheConfig;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.annotations.ApiIgnore;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -33,7 +34,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @ComponentScan(basePackages = { "gov.va.ascent.framework.service, gov.va.ascent.framework.rest.provider" }, excludeFilters = @Filter(Configuration.class))
-@Import({BeanValidatorPluginsConfiguration.class, DemoServiceRestClientTestsConfig.class, DemoRedisConfig.class, PersonWsClientConfig.class}) 
+@Import({BeanValidatorPluginsConfiguration.class, DemoServiceRestClientTestsConfig.class, DemoCacheConfig.class, PersonWsClientConfig.class}) 
 public class AscentDemoServiceConfig {
 	
 	

@@ -79,7 +79,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	protected static final ObjectFactory PERSON_OBJECT_FACTORY = new ObjectFactory();
 
 	@Override
-	@Cacheable(value="getPersonInfo", key="#personInfoRequest", unless="#result == null")
+	@Cacheable(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
 	@HystrixCommand(
 			fallbackMethod = "getPersonInfoFallBack", 
 			commandKey = "GetPersonInfoBySSNCommand", 
@@ -112,7 +112,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	}
 	
 	@Override
-	@Cacheable(value="getPersonInfo", key="#personInfoRequest", unless="#result == null")
+	@Cacheable(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
 	@HystrixCommand(
 				fallbackMethod = "getPersonInfoFallBack", 
 				commandKey = "GetPersonInfoByPIDCommand",

@@ -29,9 +29,9 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>gov.va.ascent</groupId>
+            <groupId>gov.va.ascent.sample</groupId>
             <artifactId>ascent-demo-partner</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>gov.va.ascent</groupId>
@@ -125,6 +125,10 @@
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-jaxb-annotations</artifactId>
         </dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-annotations</artifactId>
+		</dependency>
         
         <!-- springfox swagger-ui dependencies -->
         <dependency>
