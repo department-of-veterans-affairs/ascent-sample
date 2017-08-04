@@ -17,11 +17,8 @@ import com.netflix.hystrix.contrib.javanica.command.AsyncResult;
 import gov.va.ascent.demo.service.AscentDemoServiceProperties;
 import gov.va.ascent.demo.service.api.DemoService;
 import gov.va.ascent.demo.service.api.v1.transfer.Demo;
-import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
-import gov.va.ascent.framework.exception.AscentRuntimeException;
-import gov.va.ascent.framework.service.ServiceResponse;
 
 @Component
 @Qualifier("IMPL")
@@ -36,15 +33,6 @@ public class DemoServiceImpl implements DemoService {
 	@Value("${ascent-demo-service.sampleProperty}") 
 	private String sampleProperty;
 
-	@Override
-	public ServiceResponse create(DemoServiceRequest request) {
-		if("error".equals(request.getDemo().getName())){
-			throw new RuntimeException("thrown on purpose!");
-		} else if("wsserror".equals(request.getDemo().getName())){
-			throw new AscentRuntimeException("thrown on purpose!");
-		}
-		return new ServiceResponse();
-	}
 
 	@Override
 	@HystrixCommand(fallbackMethod = "getFallbackDemoResponse", commandKey = "DemoServiceReadCommand")
@@ -91,16 +79,6 @@ public class DemoServiceImpl implements DemoService {
             }
         };
     }
-	
-	@Override
-	public ServiceResponse update(DemoServiceRequest request) {
-		return new ServiceResponse();
-	}
-
-	@Override
-	public ServiceResponse delete(String name) {
-		return new ServiceResponse();
-	}
 
 	public DemoServiceResponse getFallbackDemoResponse(String name) {
 		DemoServiceResponse response = new DemoServiceResponse();
@@ -110,6 +88,4 @@ public class DemoServiceImpl implements DemoService {
 		response.setDemo(demo);
 		return response;
     }
-
-
 }

@@ -19,6 +19,8 @@ public final class HystrixCommandConstants {
 	/** Demo Person Service Thread Pool Group. */
 	public static final String ASCENT_PERSON_DEMO_SERVICE_GROUP_KEY = "AscentPersonDemoServiceGroup";
 
+	/** Document Service Thread Pool Group. */
+	public static final String ASCENT_DOCUMENT_SERVICE_GROUP_KEY = "AscentDocumentServiceGroup";	
 
 
 }
