@@ -1,5 +1,0 @@
-version: '3'
-services:
-  ascent-demo-service:
-    external_links:
-      - ascent_logging
