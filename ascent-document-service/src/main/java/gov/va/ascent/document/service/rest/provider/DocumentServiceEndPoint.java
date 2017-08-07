@@ -35,7 +35,7 @@ public class DocumentServiceEndPoint implements HealthIndicator {
 	}
 	
 	@RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ServiceResponse> getDocumentTypes() {
+    public ResponseEntity<GetDocumentTypesResponse> getDocumentTypes() {
         GetDocumentTypesResponse docResponse = new GetDocumentTypesResponse(); 
 		docResponse = documentService.getDocumentTypes();
         LOGGER.info("DOCUMENT SERVICE getDocumentTypes INVOKED");

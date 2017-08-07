@@ -54,6 +54,32 @@
 		<!-- Docker properties to add min and max memory for spring boot jar start up -->
 		<docker.java.opts.ms>-Xms64m</docker.java.opts.ms>
 		<docker.java.opts.mx>-Xmx256m</docker.java.opts.mx>
+		<ascent.version>0.0.1-SNAPSHOT</ascent.version>
 	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>gov.va.ascent</groupId>
+				<artifactId>ascent-starter</artifactId>
+				<version>${ascent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>gov.va.ascent</groupId>
+				<artifactId>ascent-security</artifactId>
+				<version>${ascent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>gov.va.ascent</groupId>
+				<artifactId>ascent-framework</artifactId>
+				<version>${ascent.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>gov.va.ascent.sample</groupId>
+				<artifactId>ascent-demo-partner</artifactId>
+				<version>${version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 </project>
