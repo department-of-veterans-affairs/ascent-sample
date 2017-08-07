@@ -2,6 +2,8 @@ package gov.va.ascent.demo.service.rest.client;
 
 import javax.servlet.http.HttpServletRequest;
 
+import gov.va.ascent.demo.service.rest.client.feign.FeignDocumentClient;
+import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
