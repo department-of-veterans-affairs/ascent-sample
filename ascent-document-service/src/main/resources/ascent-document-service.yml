@@ -104,3 +104,9 @@ ascent:
     jwt:
       enabled: false
       filter-process-url: /document/v?/**
+  swagger:
+    title: Ascent Document Service v1 API Documentation
+    description: API Error Keys <a href="swagger/error-keys.html">error keys</a>
+    groupName: document-v1
+    version: ${info.build.version}
+    securePaths: /document.*

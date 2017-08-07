@@ -23,7 +23,6 @@
         <dependency>
             <groupId>gov.va.ascent</groupId>
             <artifactId>ascent-framework</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     
     	<!-- spring framework project dependencies -->
