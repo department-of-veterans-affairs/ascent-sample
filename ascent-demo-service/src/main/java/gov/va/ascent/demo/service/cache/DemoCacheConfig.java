@@ -1,6 +1,7 @@
-package gov.va.ascent.demo.service.config;
+package gov.va.ascent.demo.service.cache;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +17,17 @@ import org.springframework.cache.interceptor.SimpleCacheErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.RedisServer;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 @Configuration
 @EnableCaching
@@ -38,9 +44,22 @@ public class DemoCacheConfig extends CachingConfigurerSupport {
       final DemoCacheRedisTemplate<String, Object> redisTemplate = new DemoCacheRedisTemplate<String, Object>();
       setSerializer(redisTemplate);
       redisTemplate.setConnectionFactory(connectionFactory);
-      LOGGER.info("Host Name: {}", connectionFactory.getHostName());
-      LOGGER.info("Port: {}", connectionFactory.getPort());
-      LOGGER.info("Timeout: {}", connectionFactory.getTimeout());
+      if (connectionFactory.getSentinelConnection() != null) {
+          if(!connectionFactory.getSentinelConnection().masters().isEmpty()) {
+            final Iterator<?> iSentinel = connectionFactory.getSentinelConnection().masters().iterator();
+            while (iSentinel.hasNext()) {
+              final RedisServer redisServer = (RedisServer)iSentinel.next();
+                LOGGER.info("Redis Master Server Name: {}", redisServer.getName());
+                LOGGER.info("Redis Master Server Port: {}", redisServer.getPort());
+            }
+          } else {
+            LOGGER.warn("No Master Server Found, Check the Configurations for redis");
+          }
+      } else {
+        LOGGER.info("Host Name: {}", connectionFactory.getHostName());
+        LOGGER.info("Port: {}", connectionFactory.getPort());
+        LOGGER.info("Timeout: {}", connectionFactory.getTimeout());
+      }
 
       return redisTemplate;
   }
@@ -63,16 +82,29 @@ public class DemoCacheConfig extends CachingConfigurerSupport {
    */
   private void setSerializer(DemoCacheRedisTemplate<String, Object> redisTemplate){
       
-      redisTemplate.setKeySerializer(new Jackson2JsonRedisSerializer<>(Object.class));
-
-      Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
-      ObjectMapper om = new ObjectMapper();
-      om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-      om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-      jackson2JsonRedisSerializer.setObjectMapper(om);
-      redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
-      redisTemplate.setValueSerializer(jackson2JsonRedisSerializer);
+      GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer = new GenericJackson2JsonRedisSerializer(createRedisObjectmapper());
+    
+      redisTemplate.setKeySerializer(new GenericJackson2JsonRedisSerializer());
+      redisTemplate.setValueSerializer(genericJackson2JsonRedisSerializer);
+      redisTemplate.setHashValueSerializer(genericJackson2JsonRedisSerializer);
   }
+  
+  private static ObjectMapper createRedisObjectmapper() {
+    return new ObjectMapper()
+            .enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL,JsonTypeInfo.As.PROPERTY)//\\
+            .configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true)
+            .configure(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS, true)
+            .configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
+            .configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false)
+            .configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, false)
+            .configure(DeserializationFeature.FAIL_ON_NUMBERS_FOR_ENUMS, false)
+            .configure(DeserializationFeature.FAIL_ON_READING_DUP_TREE_KEY, false)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .configure(DeserializationFeature.FAIL_ON_UNRESOLVED_OBJECT_IDS, false)
+            .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false) //\\
+            .setSerializationInclusion(JsonInclude.Include.NON_NULL)
+            .setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+}
   
   @Bean
   public KeyGenerator customKeyGenerator() {
@@ -102,7 +134,7 @@ public class DemoCacheConfig extends CachingConfigurerSupport {
   private static class RelaxedCacheErrorHandler extends SimpleCacheErrorHandler {
     @Override
     public void handleCacheGetError(RuntimeException exception, Cache cache, Object key) {
-        LOGGER.error("Error getting from cache.", exception);
+        LOGGER.error("Error getting from cache. Cache Name: {} Key: {} Message: {}", cache.getName(), key, exception.getMessage());
     }
   }
   
