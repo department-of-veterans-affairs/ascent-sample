@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     
     <parent>
-		<groupId>gov.va.ascent</groupId>
+		<groupId>gov.va.ascent.sample</groupId>
 		<artifactId>ascent-sample-parentpom</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath>../ascent-sample-parentpom</relativePath>
 	</parent>
 
@@ -26,17 +26,14 @@
         <dependency>
             <groupId>gov.va.ascent</groupId>
             <artifactId>ascent-framework</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>gov.va.ascent.sample</groupId>
             <artifactId>ascent-demo-partner</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
         </dependency>        
         <dependency>
             <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-security</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>ascent-starter</artifactId>
         </dependency>
     	<!-- spring-boot dependencies -->
         <dependency>
