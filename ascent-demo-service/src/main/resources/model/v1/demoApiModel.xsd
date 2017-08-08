@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:wss="http://www.va.gov/wss-framework/schema/1.2"
-           xmlns="http://gov.va.wss/form526/model/v1"
-           targetNamespace="http://gov.va.wss/form526/model/v1">
+           xmlns:wss="http://www.va.gov/schema/1.2"
+           xmlns="http://gov.va/model/v1"
+           targetNamespace="http://gov.va/model/v1">
 
     <!--************************************************************************************************************************************
         REQUEST+RESPONSE OBJECTS
     *************************************************************************************************************************************-->
-    <xs:import schemaLocation="../wss-framework-types.xsd" namespace="http://www.va.gov/wss-framework/schema/1.2"/>
+    <xs:import schemaLocation="../wss-framework-types.xsd" namespace="http://www.va.gov/schema/1.2"/>
     
     <xs:element name="demoServiceResponse" type="DemoServiceResponse"/>
     <xs:complexType name="DemoServiceResponse">
