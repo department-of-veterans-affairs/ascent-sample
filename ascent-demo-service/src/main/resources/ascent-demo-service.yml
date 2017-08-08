@@ -150,3 +150,9 @@ ascent:
     jwt:
       enabled: false
       filter-process-url: /demo/v?/**
+  swagger:
+    title: Ascent Demo Service v1 API Documentation
+    description: API Error Keys <a href="swagger/error-keys.html">error keys</a>
+    groupName: demo-v1
+    version: ${info.build.version}
+    securePaths: /demo.*
