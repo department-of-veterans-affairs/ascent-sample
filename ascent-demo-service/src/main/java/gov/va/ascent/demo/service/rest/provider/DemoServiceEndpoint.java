@@ -26,6 +26,7 @@ import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoRequest;
 import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoResponse;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.api.DemoService;
+import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.Host;
@@ -62,9 +63,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/health", method = RequestMethod.GET)
 	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = Health.class, message = MESSAGE_200),
-			@ApiResponse(code = 500, response = Health.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
+			@ApiResponse(code = 200, message = MESSAGE_200)})
 	public Health health() {
         return Health.up().withDetail("Demo Service REST Endpoint", "Demo Service REST Provider Up and Running!").build();
     } 
@@ -89,22 +88,12 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	
 	@RequestMapping(value = URL_PREFIX + "/read/{name}", produces=MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	@ApiOperation(value = "Reads a DEMO.", notes = "Will retrieve and return a previously created DEMO entity.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = DemoServiceResponse.class, message = MESSAGE_200),
-			@ApiResponse(code = 400, response = ServiceResponse.class, message = MESSAGE_400), 
-			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
 	public ResponseEntity<DemoServiceResponse> read(@PathVariable String name) {
 		return new ResponseEntity<>(demoService.read(name), HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = URL_PREFIX + "/readAsync/{name}", produces=MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	@ApiOperation(value = "Reads a DEMO.", notes = "Will retrieve and return a previously created DEMO entity.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = DemoServiceResponse.class, message = MESSAGE_200),
-			@ApiResponse(code = 400, response = ServiceResponse.class, message = MESSAGE_400), 
-			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
 	public ResponseEntity<DemoServiceResponse> readAsync(@PathVariable String name) {
 		try {
 			Future<DemoServiceResponse> futureDemoResponse = demoService.readAsync(name);
@@ -120,11 +109,6 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/person/ssn", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "SSN based Person Info from DEMO Partner Service.", notes = "Will return a person info based on SSN.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = ServiceResponse.class, message = MESSAGE_200),
-			@ApiResponse(code = 400, response = ServiceResponse.class, message = MESSAGE_400), 
-			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
 	public ResponseEntity<PersonInfoResponse> personBySSN(@RequestBody PersonInfoRequest personInfoRequest) {
 		try {
 			return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
@@ -144,11 +128,6 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/person/pid", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "PID based Person Info from DEMO Partner Service.", notes = "Will return a person info based on PID.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = ServiceResponse.class, message = MESSAGE_200),
-			@ApiResponse(code = 400, response = ServiceResponse.class, message = MESSAGE_400), 
-			@ApiResponse(code = 500, response = ServiceResponse.class, message = MESSAGE_500),
-			@ApiResponse(code = 403, message = MESSAGE_403) })
 	public ResponseEntity<PersonInfoResponse> personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
 		return new ResponseEntity<>(demoPersonService.findPersonByParticipantID(personInfoRequest), HttpStatus.OK);
 	}

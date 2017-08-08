@@ -1,7 +1,6 @@
 package gov.va.ascent.demo.service;
 
 import gov.va.ascent.demo.service.config.AscentDemoServiceConfig;
-import gov.va.ascent.security.config.EnableAscentSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,7 +17,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.servlet.DispatcherServlet;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * An <tt>Ascent Demo Service Application</tt> enabled for Spring Boot Application, 
@@ -27,14 +25,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  *
  */
 @SpringBootApplication
-@EnableSwagger2 //only needed due to swagger
 @EnableDiscoveryClient //needed to reach out to spring cloud config, eureka
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @EnableFeignClients
 @EnableHystrix
 @EnableCaching
 @EnableAsync
-@EnableAscentSecurity
 @Import(AscentDemoServiceConfig.class)
 public class AscentDemoServiceApplication extends SpringBootServletInitializer {
 
