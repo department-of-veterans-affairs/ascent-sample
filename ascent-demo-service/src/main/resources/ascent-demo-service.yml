@@ -17,7 +17,11 @@ redis:
       demoPersonService: 1800
       demoService: 600
 ---
-spring.profiles: default, local-int
+spring.profiles: default
+spring.cache.type: none
+
+---
+spring.profiles: local-int
 cache:
     ehcache:
       config: classpath:ehcache.xml   
