@@ -5,13 +5,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
     networks:
-      - ascent_ascentnet
+      - ascentplatformdockerbuild_ascentnet
    ascent-document-service:
     image: ascent-document-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
     networks:
-      - ascent_ascentnet
+      - ascentplatformdockerbuild_ascentnet
 networks: 
-  ascent_ascentnet: 
+ ascentplatformdockerbuild_ascentnet: 
     external: true
