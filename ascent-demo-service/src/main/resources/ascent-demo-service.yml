@@ -16,6 +16,12 @@ redis:
       #Cache Name: TTL (In Seconds)
       demoPersonService: 1800
       demoService: 600
+---
+spring.profiles: default, local-int
+cache:
+    ehcache:
+      config: classpath:ehcache.xml   
+---
 spring: 
   cloud:
     bus:
