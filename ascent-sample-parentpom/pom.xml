@@ -5,7 +5,7 @@
 	
 	<parent>
 		<groupId>gov.va.ascent</groupId>
-		<artifactId>ascent-parentpom</artifactId>
+		<artifactId>ascent-platform-parent</artifactId>
 		<!-- this should match wss.version property below. can't use property project.parent.version 
 			because that property won't resolve properly in the child poms that are 2 
 			levels down. -->
@@ -59,16 +59,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>gov.va.ascent</groupId>
-				<artifactId>ascent-starter</artifactId>
-				<version>${ascent.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>gov.va.ascent</groupId>
-				<artifactId>ascent-security</artifactId>
-				<version>${ascent.version}</version>
-			</dependency>
 			<dependency>
 				<groupId>gov.va.ascent</groupId>
 				<artifactId>ascent-framework</artifactId>

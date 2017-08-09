@@ -24,16 +24,16 @@
     
     <dependencies>
         <dependency>
-            <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-framework</artifactId>
-        </dependency>
-        <dependency>
             <groupId>gov.va.ascent.sample</groupId>
             <artifactId>ascent-demo-partner</artifactId>
-        </dependency>        
+        </dependency>
         <dependency>
             <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-starter</artifactId>
+            <artifactId>ascent-platform-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>gov.va.ascent</groupId>
+            <artifactId>ascent-platform-starter-swagger</artifactId>
         </dependency>
     	<!-- spring-boot dependencies -->
         <dependency>
@@ -100,24 +100,7 @@
             <artifactId>logstash-logback-encoder</artifactId>
             <version>4.7</version>
         </dependency>
-        
-        <!-- springfox swagger-ui dependencies-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-bean-validators</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.6.1</version>
-        </dependency>
-        
+
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-base</artifactId>

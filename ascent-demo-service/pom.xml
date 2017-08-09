@@ -24,17 +24,17 @@
     
     <dependencies>
         <dependency>
-            <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-framework</artifactId>
-        </dependency>
-        <dependency>
             <groupId>gov.va.ascent.sample</groupId>
             <artifactId>ascent-demo-partner</artifactId>
         </dependency>
         <dependency>
             <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-starter</artifactId>
+            <artifactId>ascent-platform-starter-security</artifactId>
         </dependency>
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-platform-starter-swagger</artifactId>
+		</dependency>
     	<!-- spring-boot dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
