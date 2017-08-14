@@ -8,11 +8,11 @@ info:
     description: "@project.description@"
     
 # REDIS (RedisProperties)
-redis:
-  enabled: false
-  cache: 
+ascent:
+  cache:
+    enabled: false
     defaultExpires: 86400 # (Seconds)
-    expires: 
+    expires:
       #Cache Name: TTL (In Seconds)
       demoPersonService: 1800
       demoService: 600
