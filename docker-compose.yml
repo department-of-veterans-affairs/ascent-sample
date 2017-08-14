@@ -1,13 +1,13 @@
 version: '3'
 services: 
    ascent-demo-service:
-    image: ascent-demo-service
+    image: ascent/ascent-demo-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
     networks:
       - ascentplatformdockerbuild_ascentnet
    ascent-document-service:
-    image: ascent-document-service
+    image: ascent/ascent-document-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
     networks:

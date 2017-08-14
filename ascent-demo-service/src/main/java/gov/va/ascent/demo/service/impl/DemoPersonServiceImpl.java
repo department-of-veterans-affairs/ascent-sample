@@ -29,6 +29,7 @@ import gov.va.ascent.demo.partner.person.ws.transfer.PersonDTO;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 import gov.va.ascent.demo.service.utils.StringUtil;
+import gov.va.ascent.framework.audit.AuditLogger;
 import gov.va.ascent.framework.exception.AscentRuntimeException;
 import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.util.Defense;
@@ -96,6 +97,9 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 		
 		LOGGER.debug("FindPersonBySSN JAXBElement: {}", 
 				(findPersonBySSNRequestElement != null ? ReflectionToStringBuilder.toString(findPersonBySSNRequestElement): null));
+		
+		AuditLogger.info("","PersonInfoRequest", 
+		    personInfoRequest != null ? ReflectionToStringBuilder.toString(personInfoRequest): "");
 
 		// Invoke the Person Web Service via the WS Client
 		final JAXBElement<FindPersonBySSNResponse> findPersonBySSNResponseElement = personWsClient.getPersonInfo(findPersonBySSNRequestElement);
@@ -108,6 +112,8 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 				createPersonInfoResponse(findPersonBySSNResponseElement, personInfoRequest.getSsn());
 		LOGGER.debug("PersonInfoResponse: {}", 
 				(personInfoResponse != null ? ReflectionToStringBuilder.toString(personInfoResponse): null));
+	    AuditLogger.info("","PersonInfoResponse", 
+	        personInfoResponse != null ? ReflectionToStringBuilder.toString(personInfoResponse): "");
 		return personInfoResponse;
 	}
 	
