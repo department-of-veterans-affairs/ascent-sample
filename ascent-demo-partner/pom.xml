@@ -22,7 +22,7 @@
 
         <dependency>
             <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-framework</artifactId>
+            <artifactId>ascent-platform-starter</artifactId>
         </dependency>
     
     	<!-- spring framework project dependencies -->
