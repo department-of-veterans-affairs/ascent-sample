@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 @Configuration
-@ComponentScan(basePackages = { "gov.va.ascent.framework.service, gov.va.ascent.framework.rest.provider" }, excludeFilters = @Filter(Configuration.class))
 @Import({DemoServiceRestClientTestsConfig.class, PersonWsClientConfig.class})
 public class AscentDemoServiceConfig {
 
