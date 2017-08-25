@@ -61,7 +61,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>gov.va.ascent</groupId>
-				<artifactId>ascent-framework</artifactId>
+				<artifactId>ascent-platform-starter</artifactId>
 				<version>${ascent.version}</version>
 			</dependency>
 			<dependency>
