@@ -17,6 +17,7 @@ spring:
         maxInterval: 300000
         multiplier: 1.2
         maxAttempts: 10
+      token: ${VAULT_TOKEN}        
 eureka:
   client:
     #false by default in local dev mode
