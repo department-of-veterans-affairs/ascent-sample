@@ -97,9 +97,6 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 		
 		LOGGER.debug("FindPersonBySSN JAXBElement: {}", 
 				(findPersonBySSNRequestElement != null ? ReflectionToStringBuilder.toString(findPersonBySSNRequestElement): null));
-		
-		AuditLogger.info("","PersonInfoRequest", 
-		    personInfoRequest != null ? ReflectionToStringBuilder.toString(personInfoRequest): "");
 
 		// Invoke the Person Web Service via the WS Client
 		final JAXBElement<FindPersonBySSNResponse> findPersonBySSNResponseElement = personWsClient.getPersonInfo(findPersonBySSNRequestElement);
@@ -112,8 +109,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 				createPersonInfoResponse(findPersonBySSNResponseElement, personInfoRequest.getSsn());
 		LOGGER.debug("PersonInfoResponse: {}", 
 				(personInfoResponse != null ? ReflectionToStringBuilder.toString(personInfoResponse): null));
-	    AuditLogger.info("","PersonInfoResponse", 
-	        personInfoResponse != null ? ReflectionToStringBuilder.toString(personInfoResponse): "");
+
 		return personInfoResponse;
 	}
 	

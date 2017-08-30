@@ -7,6 +7,8 @@ import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 
+import gov.va.ascent.framework.audit.AuditEvents;
+import gov.va.ascent.framework.audit.Auditable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -109,6 +111,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/person/ssn", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "SSN based Person Info from DEMO Partner Service.", notes = "Will return a person info based on SSN.")
+	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "demoServicePersonInfo")
 	public ResponseEntity<PersonInfoResponse> personBySSN(@RequestBody PersonInfoRequest personInfoRequest) {
 		try {
 			return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
@@ -128,6 +131,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/person/pid", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "PID based Person Info from DEMO Partner Service.", notes = "Will return a person info based on PID.")
+	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "demoServicePersonByPid")
 	public ResponseEntity<PersonInfoResponse> personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
 		return new ResponseEntity<>(demoPersonService.findPersonByParticipantID(personInfoRequest), HttpStatus.OK);
 	}
