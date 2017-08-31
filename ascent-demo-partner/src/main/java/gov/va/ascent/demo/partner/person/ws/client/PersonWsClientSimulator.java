@@ -7,6 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBElement;
 import javax.xml.transform.stream.StreamSource;
 
+import gov.va.ascent.framework.audit.AuditEvents;
+import gov.va.ascent.framework.audit.Auditable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,8 @@ public class PersonWsClientSimulator extends BaseWsClientSimulator implements Pe
 	 * @see gov.va.wss.common.services.ws.client.person.PersonWsClient#getPersonInfo(javax.xml.bind.JAXBElement)
 	 */
 	@Override
-	public final JAXBElement<FindPersonBySSNResponse> 
+	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "simPersonInfo")
+	public JAXBElement<FindPersonBySSNResponse>
 			getPersonInfo(final JAXBElement<FindPersonBySSN> findPersonBySSNRequest) {
 
 		Defense.notNull(findPersonBySSNRequest, 
@@ -95,7 +98,8 @@ public class PersonWsClientSimulator extends BaseWsClientSimulator implements Pe
 	}
 
 	@Override
-	public final JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(
+	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "simPersonInfoByPtcpntId")
+	public JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(
 			final JAXBElement<FindPersonByPtcpntId> findPersonByPtcpntIdRequest) {
 		
 		Defense.notNull(findPersonByPtcpntIdRequest, 
