@@ -7,8 +7,6 @@ import java.util.concurrent.Future;
 
 import javax.servlet.http.HttpServletRequest;
 
-import gov.va.ascent.framework.audit.AuditEvents;
-import gov.va.ascent.framework.audit.Auditable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +26,13 @@ import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoRequest;
 import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoResponse;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.api.DemoService;
-import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.Host;
+import gov.va.ascent.framework.audit.AuditEvents;
+import gov.va.ascent.framework.audit.Auditable;
 import gov.va.ascent.framework.exception.AscentRuntimeException;
 import gov.va.ascent.framework.messages.MessageSeverity;
-import gov.va.ascent.framework.service.ServiceResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

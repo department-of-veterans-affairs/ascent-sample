@@ -29,7 +29,6 @@ import gov.va.ascent.demo.partner.person.ws.transfer.PersonDTO;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 import gov.va.ascent.demo.service.utils.StringUtil;
-import gov.va.ascent.framework.audit.AuditLogger;
 import gov.va.ascent.framework.exception.AscentRuntimeException;
 import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.util.Defense;
