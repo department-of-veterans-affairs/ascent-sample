@@ -105,6 +105,7 @@ endpoints:
   configprops:
     keys-to-sanitize: 'enabled, password'
 hystrix:
+  shareSecurityContext: true
   command:
     #Property configuration for hystrix command key to monitor async service method
     DemoServiceAsyncReadCommand: 
