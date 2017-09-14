@@ -26,13 +26,13 @@ import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoRequest;
 import gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoResponse;
 import gov.va.ascent.demo.service.api.DemoPersonService;
 import gov.va.ascent.demo.service.api.DemoService;
-import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceRequest;
 import gov.va.ascent.demo.service.api.v1.transfer.DemoServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.EchoHostServiceResponse;
 import gov.va.ascent.demo.service.api.v1.transfer.Host;
+import gov.va.ascent.framework.audit.AuditEvents;
+import gov.va.ascent.framework.audit.Auditable;
 import gov.va.ascent.framework.exception.AscentRuntimeException;
 import gov.va.ascent.framework.messages.MessageSeverity;
-import gov.va.ascent.framework.service.ServiceResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -109,6 +109,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/person/ssn", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "SSN based Person Info from DEMO Partner Service.", notes = "Will return a person info based on SSN.")
+	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "demoServicePersonInfo")
 	public ResponseEntity<PersonInfoResponse> personBySSN(@RequestBody PersonInfoRequest personInfoRequest) {
 		try {
 			return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
@@ -128,6 +129,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/person/pid", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "PID based Person Info from DEMO Partner Service.", notes = "Will return a person info based on PID.")
+	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "demoServicePersonByPid")
 	public ResponseEntity<PersonInfoResponse> personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
 		return new ResponseEntity<>(demoPersonService.findPersonByParticipantID(personInfoRequest), HttpStatus.OK);
 	}
