@@ -5,7 +5,7 @@ import gov.va.ascent.demo.service.api.v1.transfer.ServiceInstancesServiceRespons
 import gov.va.ascent.demo.service.rest.client.discovery.DemoUsageDiscoveryClient;
 import gov.va.ascent.demo.service.rest.client.feign.FeignDocumentClient;
 import gov.va.ascent.demo.service.rest.client.feign.FeignEchoClient;
-import gov.va.ascent.demo.service.rest.client.restTemplate.DemoUsageRestTemplate;
+import gov.va.ascent.framework.rest.client.resttemplate.RestClientTemplate;
 import gov.va.ascent.demo.service.rest.provider.DemoServiceEndpoint;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +38,7 @@ public class DemoServiceRestClientTests implements SwaggerResponseMessages {
     private DemoUsageDiscoveryClient demoUsageDiscoveryClient;
 	
 	@Autowired
-    private DemoUsageRestTemplate demoUsageRestTemplate;
+    private RestClientTemplate demoUsageRestTemplate;
 	
 	@Autowired
     private FeignEchoClient feignEchoClient;
@@ -69,7 +70,9 @@ public class DemoServiceRestClientTests implements SwaggerResponseMessages {
 	@RequestMapping(value = URL_PREFIX + "/demoCallEchoUsingRestTemplate", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EchoHostServiceResponse> demoCallEchoUsingRestTemplate(HttpServletRequest request) {
 		//invoke the service using classic REST Template from Spring, but load balanced through Eureka/Zuul
-		ResponseEntity<EchoHostServiceResponse> exchange = demoUsageRestTemplate.invokeServiceUsingRestTemplate();
+		ResponseEntity<EchoHostServiceResponse> exchange = 
+				demoUsageRestTemplate.executeURL("http://ascent-demo-service/demo/v1/echo",
+						new ParameterizedTypeReference<EchoHostServiceResponse>(){});
 		LOGGER.info("INVOKED A ASCENT-DEMO-SERVICE USING REST TEMPLATE: " + exchange.getBody());		
         return new ResponseEntity<EchoHostServiceResponse>(exchange.getBody(), exchange.getStatusCode());
     }
