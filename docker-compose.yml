@@ -4,12 +4,14 @@ services:
     image: ascent/ascent-demo-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - VAULT_TOKEN=${VAULT_TOKEN}
     networks:
       - ascentplatformdockerbuild_ascentnet
    ascent-document-service:
     image: ascent/ascent-document-service
     environment:
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - VAULT_TOKEN=${VAULT_TOKEN}
     networks:
       - ascentplatformdockerbuild_ascentnet
 networks: 
