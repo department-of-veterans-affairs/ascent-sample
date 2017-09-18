@@ -49,6 +49,7 @@ public class PersonWsClientImpl extends BaseWsClientImpl implements PersonWsClie
 
 	@SuppressWarnings("unchecked")
 	// for webServiceResponse Object cast
+	// this method cannot be marked final as axiomWebServiceTemplate will be null at runtime.
 	@Override
 	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "partnerPersonInfo")
 	public JAXBElement<FindPersonBySSNResponse> getPersonInfo(final JAXBElement<FindPersonBySSN> findPersonBySSNRequest) {
@@ -60,6 +61,7 @@ public class PersonWsClientImpl extends BaseWsClientImpl implements PersonWsClie
 	}
 
 	@SuppressWarnings("unchecked")
+	// this method cannot be marked final as axiomWebServiceTemplate will be null at runtime.
 	@Override
 	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "partnerPersonInfoByPtcpntId")
 	public JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(
