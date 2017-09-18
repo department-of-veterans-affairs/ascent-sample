@@ -51,7 +51,7 @@ public class PersonWsClientImpl extends BaseWsClientImpl implements PersonWsClie
 	// for webServiceResponse Object cast
 	@Override
 	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "partnerPersonInfo")
-	public final JAXBElement<FindPersonBySSNResponse> getPersonInfo(final JAXBElement<FindPersonBySSN> findPersonBySSNRequest) {
+	public JAXBElement<FindPersonBySSNResponse> getPersonInfo(final JAXBElement<FindPersonBySSN> findPersonBySSNRequest) {
 
 		Defense.notNull(findPersonBySSNRequest, REQUEST_FOR_WEBSERVICE_CALL_NULL);
 		final Object webServiceResponse = axiomWebServiceTemplate.marshalSendAndReceive(findPersonBySSNRequest);
@@ -62,7 +62,7 @@ public class PersonWsClientImpl extends BaseWsClientImpl implements PersonWsClie
 	@SuppressWarnings("unchecked")
 	@Override
 	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "partnerPersonInfoByPtcpntId")
-	public final JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(
+	public JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(
 			final JAXBElement<FindPersonByPtcpntId> findPersonByPtcpntIdRequest) {
 		
 		Defense.notNull(findPersonByPtcpntIdRequest, REQUEST_FOR_WEBSERVICE_CALL_NULL);
