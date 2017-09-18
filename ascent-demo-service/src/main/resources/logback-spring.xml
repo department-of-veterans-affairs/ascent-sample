@@ -9,7 +9,7 @@
 	        <appender-ref ref="CONSOLE" />
 	    </springProfile>
         <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
-            <appender-ref ref="ASCENT_CONSOLE_LOG_ENCODER" />
+            <appender-ref ref="ASCENT_ASYNC_CONSOLE_APPENDER" />
         </springProfile>
     </root>
     
