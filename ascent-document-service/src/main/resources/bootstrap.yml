@@ -39,7 +39,7 @@ spring:
       discovery:
         enabled: false
       failFast: false
-
+      
 ---
 spring:
   profiles: local-int
@@ -67,50 +67,18 @@ eureka:
 ---
 
 spring:
-    profiles: aws-ci
+    profiles: aws-ci, aws-dev, aws-stage, aws-prod
 eureka:
   client:
     enabled: true
     serviceUrl:
       defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
     preferSameZoneEureka: true
-
+    
 ---
 
 spring:
-    profiles: aws-dev
-eureka:
-  client:
-    enabled: true
-    serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
-    preferSameZoneEureka: true
-
----
-
-spring:
-    profiles: aws-stage
-    cloud:
+    profiles: aws-stage, aws-prod
+    cloud: 
       config:
         label: master
-eureka:
-  client:
-    enabled: true
-    serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
-    preferSameZoneEureka: true
-
----
-
-spring:
-    profiles: aws-prod
-    cloud:
-      config:
-        label: master
-eureka:
-  client:
-    enabled: true
-    serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
-    preferSameZoneEureka: true
-  

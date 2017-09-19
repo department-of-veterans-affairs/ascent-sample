@@ -28,17 +28,27 @@
             <artifactId>ascent-demo-partner</artifactId>
         </dependency>
         <dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-platform-starter</artifactId>
+		</dependency>
+		 <!-- ascent jwt authentication configurations -->
+        <dependency>
             <groupId>gov.va.ascent</groupId>
             <artifactId>ascent-platform-starter-security</artifactId>
         </dependency>
-        <dependency>
-            <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-platform-starter-swagger</artifactId>
-        </dependency>
-          <!-- ascent logging and audit configurations -->
+        <!-- ascent logging and audit configurations -->
 		<dependency>
 			<groupId>gov.va.ascent</groupId>
 			<artifactId>ascent-platform-starter-logger</artifactId>
+		</dependency>
+		<!-- ascent swagger configurations -->
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-platform-starter-swagger</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-platform-starter-cache</artifactId>
 		</dependency>
     	<!-- spring-boot dependencies -->
         <dependency>
@@ -96,6 +106,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
          </dependency>
+         <!-- Spring-cloud zipkin dependency for consuming the instrumentation data -->    
          <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-zipkin</artifactId>
@@ -103,9 +114,9 @@
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
-            <version>4.7</version>
         </dependency>
 
+		<!-- additional jackson dependencies not brought in via spring-boot starters -->
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-base</artifactId>
@@ -119,18 +130,20 @@
             <artifactId>jackson-module-jaxb-annotations</artifactId>
         </dependency>
         
-        <!-- jolokia for JMX over HTTP via /jolokia -->
-        <!--dependency>
-		    <groupId>org.jolokia</groupId>
-		    <artifactId>jolokia-core</artifactId>
-		</dependency-->
-		
-		<!-- ehcache for hystrix fallbacks 
+        <!-- Cache Manager Dependencies -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-redis</artifactId>
+		</dependency>
+		<dependency>
+		    <groupId>redis.clients</groupId>
+		    <artifactId>jedis</artifactId>
+		</dependency>
 		<dependency>
 		    <groupId>net.sf.ehcache</groupId>
 		    <artifactId>ehcache-core</artifactId>
 		    <version>2.6.11</version>
-		</dependency-->
+		</dependency>
         
         <!-- misc dependencies -->
         <dependency>
