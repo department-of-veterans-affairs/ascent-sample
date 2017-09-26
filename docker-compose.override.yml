@@ -1,0 +1,22 @@
+version: '3'
+services: 
+   ascent-demo-service:
+    build:
+      context: ./ascent-demo-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=vaultroot
+
+   ascent-document-service:
+    build:
+      context: ./ascent-document-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=vaultroot
+
+networks: 
+ ascentnet: 
+    external:
+      name: ascentplatformdockerbuild_ascentnet

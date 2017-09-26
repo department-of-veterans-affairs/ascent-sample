@@ -3,17 +3,21 @@ services:
    ascent-demo-service:
     image: ascent/ascent-demo-service
     environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - SPRING_PROFILES_ACTIVE=aws-prod
+      - VAULT_ADDR=${VAULT_ADDR}
       - VAULT_TOKEN=${VAULT_TOKEN}
     networks:
-      - ascentplatformdockerbuild_ascentnet
+      - ascentnet
    ascent-document-service:
     image: ascent/ascent-document-service
     environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - SPRING_PROFILES_ACTIVE=aws-prod
+      - VAULT_ADDR=${VAULT_ADDR}
       - VAULT_TOKEN=${VAULT_TOKEN}
     networks:
-      - ascentplatformdockerbuild_ascentnet
+      - ascentnet
 networks: 
- ascentplatformdockerbuild_ascentnet: 
-    external: true
+ ascentnet: 
+    external:
+      name: ascent_ascentnet
+
