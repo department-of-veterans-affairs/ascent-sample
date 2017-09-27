@@ -67,7 +67,7 @@
 			<dependency>
 				<groupId>gov.va.ascent.sample</groupId>
 				<artifactId>ascent-demo-partner</artifactId>
-				<version>${version}</version>
+				<version>${project.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
