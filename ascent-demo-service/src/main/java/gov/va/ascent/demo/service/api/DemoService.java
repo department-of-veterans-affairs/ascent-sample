@@ -17,7 +17,7 @@ public interface DemoService {
 	/**
 	* Reads the DemoServiceResponse.
 	*
-	* @param name Read Name
+	* @param id Read Name
 	* @return A Future<DemoServiceResponse instance
 	*/
 	Future<DemoServiceResponse> readAsync(String id);

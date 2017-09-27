@@ -12,7 +12,7 @@ import gov.va.ascent.demo.service.api.v1.transfer.ServiceInstancesServiceRespons
 /**
  * REST Client class that uses DiscoveryClient api to invoke the service by iterating through
  * the service instances  
- * @author
+ * @author prashanthmds
  *
  */
 
