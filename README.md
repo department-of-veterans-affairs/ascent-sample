@@ -89,9 +89,7 @@ This is a demo for the core service.  It has REST endpoints and demo's various p
   
   Docker makes it easier to test scaling of services.  That is, run multiple instances of the services and ensure that each registers itself with Discovery: Eureka, finds it's way into Gateway: Zuul and all of the load balancing, etc.  To do this...
     
-    * "*docker-compose scale ascent-demo-service=2*"
-    
-    * "*docker-compose up --force-recreate*"
+    * `docker-compose up -d --scale ascent-demo-service=2`
   
   * Note go into Discovery:Eureka and see the multiple services registered.  Go into swagger and call the echo operation multiple times and observe multiple responses.*
    
