@@ -137,27 +137,11 @@
 		    <groupId>com.fasterxml.jackson.core</groupId>
 		    <artifactId>jackson-annotations</artifactId>
 		</dependency>
-
         
         <!-- jolokia for JMX over HTTP via /jolokia -->
         <dependency>
 		    <groupId>org.jolokia</groupId>
 		    <artifactId>jolokia-core</artifactId>
-		</dependency>
-		
-		<!-- Cache Manager Dependencies -->
-		<dependency>
-		    <groupId>org.springframework.data</groupId>
-		    <artifactId>spring-data-redis</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>redis.clients</groupId>
-		    <artifactId>jedis</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>net.sf.ehcache</groupId>
-		    <artifactId>ehcache-core</artifactId>
-		    <version>2.6.11</version>
 		</dependency>
         
         <!-- misc dependencies -->
