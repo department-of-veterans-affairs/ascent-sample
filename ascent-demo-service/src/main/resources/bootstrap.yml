@@ -64,6 +64,8 @@ eureka:
   instance:
     leaseRenewalIntervalInSeconds: 10
     leaseExpirationDurationInSeconds: 20
+    hostname: "@project.artifactId@"
+    preferIpAddress: false
 ---
 
 spring:
@@ -74,7 +76,9 @@ eureka:
     serviceUrl:
       defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
     preferSameZoneEureka: true
-    
+  instance:
+    hostname: "@project.artifactId@"
+    preferIpAddress: false
 ---
 
 spring:
