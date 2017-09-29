@@ -18,6 +18,7 @@
 		<module>ascent-demo-partner</module>
 		<module>ascent-demo-service</module>
 		<module>ascent-document-service</module>
+		<module>ascent-demo-service-inttest</module>
 	</modules>
 
 </project>
