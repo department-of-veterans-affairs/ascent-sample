@@ -9,9 +9,9 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
     And the SSNcached result should be same as valid transaction response "<ResponseFile>"
 
     Examples: 
-      | ServiceURL          | RequestFile                  | ResponseFile                  |
-      | /demo/v1/person/ssn | ssnfallbackcachedone.Request | ssnfallbackcachedone.Response |
-      | /demo/v1/person/ssn | ssnfallbackcachedtwo.Request | ssnfallbackcachedtwo.Response |
+      | ServiceURL          | RequestFile                      | ResponseFile                      |
+      | /demo/v1/person/ssn | demossnfallbackcachedone.Request | demossnfallbackcachedone.Response |
+      | /demo/v1/person/ssn | demossnfallbackcachedtwo.Request | demossnfallbackcachedtwo.Response |
 
   @ssnfallbacknotcached
   Scenario Outline: Search based on SSN with Hystrix Fallback not Cached
@@ -22,5 +22,5 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
     And the SSNnotcached result should be same as valid transaction response "<ResponseFile>"
 
     Examples: 
-      | ServiceURL          | RequestFile                  | ResponseFile                  |
-      | /demo/v1/person/ssn | ssnfallbacknotcached.Request | ssnfallbacknotcached.Response |
+      | ServiceURL          | RequestFile                      | ResponseFile                      |
+      | /demo/v1/person/ssn | demossnfallbacknotcached.Request | demossnfallbacknotcached.Response |

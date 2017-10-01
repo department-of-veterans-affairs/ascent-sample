@@ -14,7 +14,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.va.ascent.util.BaseStepDef;
 
-public class SsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
+public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 
 	final Logger log = LoggerFactory.getLogger(BaseStepDef.class);
 

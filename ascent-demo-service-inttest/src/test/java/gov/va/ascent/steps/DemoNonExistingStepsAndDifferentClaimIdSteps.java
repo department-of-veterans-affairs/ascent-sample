@@ -16,7 +16,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.va.ascent.util.BaseStepDef;
 
-public class NonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
+public class DemoNonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
 
 	private Pattern pattern = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T.*");
 

@@ -8,5 +8,5 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
     Then view the result for load testing
 
     Examples: 
-      | ServiceURL          | RequestFile                  | ResponseFile                  | loadsize |
-      | /demo/v1/person/ssn | ssnfallbackcachedone.Request | ssnfallbackcachedone.Response |      100 |
+      | ServiceURL          | RequestFile                      | ResponseFile                      | loadsize |
+      | /demo/v1/person/ssn | demossnfallbackcachedone.Request | demossnfallbackcachedone.Response |      100 |

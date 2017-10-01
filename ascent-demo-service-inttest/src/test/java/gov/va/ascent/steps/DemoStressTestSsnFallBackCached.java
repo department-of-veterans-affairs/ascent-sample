@@ -10,7 +10,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.va.ascent.util.BaseStepDef;
 
-public class StressTestSsnFallBackCached extends BaseStepDef {
+public class DemoStressTestSsnFallBackCached extends BaseStepDef {
 
 	@Before({ "@stresstestssnfallbackcached" })
 	public void setUpREST() {

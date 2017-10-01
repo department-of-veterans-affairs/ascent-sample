@@ -10,7 +10,7 @@ Feature: Demo person service API SSN search based on SSN
     And the search SSN result should be same as valid response "<ResponseFile>"
 
     Examples: 
-      | ServiceURL          | RequestFile        | ResponseFile        |
-      | /demo/v1/person/ssn | invalidssn.Request | invalidssn.Response |
-      | /demo/v1/person/ssn | emptyssn.Request   | emptyssn.Response   |
-      | /demo/v1/person/ssn | nossn.Request      | nossn.Response      |
+      | ServiceURL          | RequestFile            | ResponseFile            |
+      | /demo/v1/person/ssn | demoinvalidssn.Request | demoinvalidssn.Response |
+      | /demo/v1/person/ssn | demoemptyssn.Request   | demoemptyssn.Response   |
+      | /demo/v1/person/ssn | demonossn.Request      | demonossn.Response      |
