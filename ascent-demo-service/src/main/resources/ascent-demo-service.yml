@@ -17,14 +17,9 @@ ascent:
       demoPersonService: 1800
       demoService: 600
 ---
-spring.profiles: default
+spring.profiles: default, local-int
 spring.cache.type: none
-
----
-spring.profiles: local-int
-cache:
-    ehcache:
-      config: classpath:ehcache.xml   
+  
 ---
 spring: 
   cloud:
