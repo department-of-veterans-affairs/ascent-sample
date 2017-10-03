@@ -22,9 +22,7 @@ Platform services are built and deployed to support application services in the 
 
 4. ascent-demo-service: Demo for the core service.  It has REST endpoints and demo's various patterns for producing REST endpoints, swagger for the application, registering the application with Eureka, calling REST endpoints through Zuul, Hystrix Circuit Breaker etc.  
 
-5. ascent-developer-environment-vm-setup: Contains the scripts required to set up developers VM for Ascent 
-
-6. ascent-document-service: Second demo service to show FEIGN client service to service call implementation
+5. ascent-document-service: Second demo service to show FEIGN client service to service call implementation
 
 ## How do I get set up? ##
 
