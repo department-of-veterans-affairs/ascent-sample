@@ -97,6 +97,8 @@ endpoints:
   configprops:
     keys-to-sanitize: 'enabled, password'
 hystrix:
+  # set the hystrix.shareSecurityContext property to true. Doing so will auto configure an Hystrix concurrency strategy 
+  # plugin hook who will transfer the SecurityContext from your main thread to the one used by the Hystrix command
   shareSecurityContext: true
   command:
     #Property configuration for hystrix command key to monitor async service method
