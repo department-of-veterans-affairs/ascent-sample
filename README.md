@@ -10,5 +10,5 @@ There are multiple documentation pages created in Wiki section of this repositor
 
 1. README Document: https://github.com/department-of-veterans-affairs/ascent-sample/tree/development
 2. Ascent Sample Quick Start Guide: https://github.com/department-of-veterans-affairs/ascent-sample/wiki/Ascent-Sample-Quick-Start-Guide
-3. Guide to Create Developer Workstation: https://github.com/department-of-veterans-affairs/ascent-sample/wiki/Guide-to-Create-a-Developer-Workstation-Template
+3. Guide to Create Developer Workstation: https://github.com/department-of-veterans-affairs/ascent-developer-vm/blob/master/README.md
 4. Ascent Platform Principles for Services: https://github.com/department-of-veterans-affairs/ascent-sample/wiki/Ascent-Platform-Principles-for-Services
