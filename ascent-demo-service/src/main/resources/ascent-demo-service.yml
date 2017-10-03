@@ -89,9 +89,6 @@ logging:
       apache:
         http: 
           impl.client: INFO
-    net:
-      sf:
-        ehcache: INFO
 management:
   security:
     enabled: false

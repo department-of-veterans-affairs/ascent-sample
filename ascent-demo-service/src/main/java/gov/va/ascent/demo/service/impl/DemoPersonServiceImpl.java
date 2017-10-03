@@ -139,17 +139,17 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	}
 	
 	/**
-	 * THIS IS THE HYSTRIX FALLBACK METHOD WHICH IS TRIGGERED WHEN THERE IS AN UNEXPECTED EXCEPTION
+	 * Hystrix Fallback Method Which is Triggered When there Is An Unexpected Exception
 	 * @param personInfoRequest The request from the Java Service.
 	 * @return A JAXB element for the WS request
 	 */
 	@HystrixCommand(commandKey = "GetPersonInfoFallbackCommand")
 	public PersonInfoResponse getPersonInfoFallBack(PersonInfoRequest personInfoRequest) {
-	    if (cacheManager.getCache("getPersonInfo") != null && cacheManager.getCache("getPersonInfo").get(personInfoRequest) != null) {
+	    if (cacheManager.getCache("demoPersonService") != null && cacheManager.getCache("demoPersonService").get(personInfoRequest) != null) {
 	    	LOGGER.info("getPersonInfoFallBack returning cached data for {}", personInfoRequest);
-	        return cacheManager.getCache("getPersonInfo").get(personInfoRequest, PersonInfoResponse.class);
+	        return cacheManager.getCache("demoPersonService").get(personInfoRequest, PersonInfoResponse.class);
 	    } else {
-	    	LOGGER.info("getPersonInfoFallBack no cached data found raising exception for {}", personInfoRequest);
+	    	LOGGER.error("getPersonInfoFallBack no cached data found raising exception for {}", personInfoRequest);
 	    	throw new AscentRuntimeException("No cached data found in fallback method. Raising an exception");
 	    }
 	}
@@ -268,7 +268,6 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	 * @return A PersonInfo object containing data from the DTO
 	 */
 	private PersonInfo createPersonInfo(final PersonDTO personDto) {
-
 		final PersonInfo personInfo = new PersonInfo();
 		personInfo.setFileNumber(personDto.getFileNbr());
 		personInfo.setFirstName(personDto.getFirstNm());
