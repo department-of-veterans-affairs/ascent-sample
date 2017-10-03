@@ -16,19 +16,6 @@ spring:
   cloud:
     bus:
       enabled: false
-#  #Properties to load the spring ehcache configuration to cache specific data
-#  #These cached data are used for fallback calls 
-#  cache:
-#    ehcache:
-#      config: classpath:ehcache.xml        
-#ascent-demo-service:
-#  env: default
-#  propSource: internal
-#  password: secret
-#  sampleProperty: >
-#                  sampleProperty___env/profile:${ascent-demo-service.env}___propSource:
-#                  ${ascent-demo-service.propSource}__password:${ascent-demo-service.password}
-
 
 #---------------------------------------------------
 #   Logging Level for packages
@@ -49,9 +36,6 @@ logging:
       apache:
         http: 
           impl.client: INFO
-    net:
-      sf:
-        ehcache: INFO
 management:
   security:
     enabled: false

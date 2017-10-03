@@ -6,7 +6,7 @@
 # Hystrix Fallback is enabled on DemoPersonServiceImpl#getPersonInfo() which has a fallback method configured
 # to getPersonInfoFallBack(). A fallback method is defined in the same class. Also a fallback method has the 
 # same signature to a method which was invoked as hystrix command. Also, fallback method won't be triggered 
-# for IllegalArgumentException as seen below. For demo purpose, the fallback method uses EHCache bucket to 
+# for IllegalArgumentException as seen below. For demo purpose, the fallback method uses REDIS bucket to 
 # store and retrieve the cached data. If no cached data is found, 
 #
 # {code} snippet for annotation on DemoPersonServiceImpl#getPersonInfo()
