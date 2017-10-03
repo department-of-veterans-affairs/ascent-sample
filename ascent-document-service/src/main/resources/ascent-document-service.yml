@@ -46,6 +46,9 @@ endpoints:
 
 #  hystrix command overrides
 hystrix:
+  # set the hystrix.shareSecurityContext property to true. Doing so will auto configure an Hystrix concurrency strategy 
+  # plugin hook who will transfer the SecurityContext from your main thread to the one used by the Hystrix command
+  shareSecurityContext: true
   command:
     default:
       metrics:
@@ -76,7 +79,6 @@ hystrix:
             # IMPORTANT NOTE: THIS TIMEOUT VALUE MUST BE GREATER THAN ANY SERVICE TIMEOUT TO AVOID ERRORS
             # Default Value: 1000
             timeoutInMilliseconds: 10000    
-    
 
 # Sleuth configuration     
 # To skip specific patterns being exported, added few more customs on top of default skip pattern
