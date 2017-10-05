@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
@@ -78,8 +79,17 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	/** The Constant PERSON_OBJECT_FACTORY. */
 	protected static final ObjectFactory PERSON_OBJECT_FACTORY = new ObjectFactory();
 
+	/* (non-Javadoc)
+	 * @see gov.va.ascent.demo.service.api.DemoPersonService#getPersonInfo
+	 *         (gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoRequest)
+	 * 
+	 * @CachePut Annotation In contrast to the {@link Cacheable @Cacheable} annotation, this annotation does not 
+	 * cause the advised method to be skipped. Rather, it always causes the method to be invoked and its result to be stored in the 
+	 * associated cache
+	 * 
+	 */
 	@Override
-	@Cacheable(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
+	@CachePut(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
 	@HystrixCommand(
 			fallbackMethod = "getPersonInfoFallBack", 
 			commandKey = "GetPersonInfoBySSNCommand", 
@@ -112,6 +122,11 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 		return personInfoResponse;
 	}
 	
+	/* (non-Javadoc)
+	 * @see gov.va.ascent.demo.service.api.DemoPersonService#findPersonByParticipantID
+	 *                 (gov.va.ascent.demo.partner.person.ws.client.transfer.PersonInfoRequest)
+	 * @Cacheable Annotation indicating that the result of invoking a method (or all methods in a class) can be cached.
+	 */
 	@Override
 	@Cacheable(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
 	@HystrixCommand(
@@ -150,7 +165,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	        return cacheManager.getCache("demoPersonService").get(personInfoRequest, PersonInfoResponse.class);
 	    } else {
 	    	LOGGER.error("getPersonInfoFallBack no cached data found raising exception for {}", personInfoRequest);
-	    	throw new AscentRuntimeException("No cached data found in fallback method. Raising an exception");
+	    	throw new AscentRuntimeException("No cached data found in the GetPersonInfoFallbackCommand. Raising an exception");
 	    }
 	}
 
