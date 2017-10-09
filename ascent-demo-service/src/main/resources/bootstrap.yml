@@ -10,8 +10,8 @@ spring:
         serviceId: ascent-config
       failFast: true
       label: development
-      username: ${config.username:config}
-      password: ${config.password:default}
+      username: ${ascent.security.username:admin}
+      password: ${ascent.security.password:default}
       retry:
         initialInterval: 10000
         maxInterval: 300000
