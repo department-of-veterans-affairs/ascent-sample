@@ -36,9 +36,12 @@ logging:
       apache:
         http: 
           impl.client: INFO
-management:
-  security:
-    enabled: false
+security:
+  user:
+    name: ${ascent.security.username:admin}
+    password: ${ascent.security.password:default}
+management.health.rabbit.enabled: false
+management.health.redis.enabled: false
 #sanitize properties for keys when using /configprops.
 endpoints:
   configprops:
