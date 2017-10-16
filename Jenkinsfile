@@ -1,4 +1,4 @@
-@Library('ascent:development') _
+@Library('ascent@development') _
 
 microservicePipeline {
     imageName = 'ascent/ascent-gateway'
