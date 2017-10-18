@@ -31,7 +31,7 @@
         </appender>
     
     <appender name="dailyRollingFileAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    		<File>/Users/sravi/rest-demo.log</File>
+    		<File>rest-demo.log</File>
     		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
     		    <!-- daily rollover -->
     			<FileNamePattern>rest-demo.%d{yyyy-MM-dd}.log</FileNamePattern>
