@@ -49,35 +49,16 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
+				<artifactId>maven-failsafe-plugin</artifactId>
 				<configuration>
-					<forkCount>3</forkCount>
-					<reuseForks>true</reuseForks>
-					<!-- <argLine>-Xmx512m</argLine> -->
-				</configuration>
-				<executions>
-					<execution>
-						<id>regression-test</id>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<suiteXmlFiles>
-								<suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
-							</suiteXmlFiles>
-							<parallel>classes</parallel>
-							<forkCount>10</forkCount>
-							<reuseForks>false</reuseForks>
-							<threadCount>10</threadCount>
-
-							<includes>
-								<include>**/*Test.class</include>
-							</includes>
-						</configuration>
-					</execution>
-
-				</executions>
+		          <suiteXmlFiles>
+		            <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+		          </suiteXmlFiles>
+	         	  <parallel>classes</parallel>
+			      <forkCount>10</forkCount>
+				  <reuseForks>false</reuseForks>
+				  <threadCount>10</threadCount>
+		        </configuration>
 			</plugin>
 
 			<plugin>
