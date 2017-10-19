@@ -34,3 +34,6 @@ nbdist/
 
 ### SoupUI ###
 **/soapui*.log
+
+### Ignore int test log file ###
+**/rest*.log
