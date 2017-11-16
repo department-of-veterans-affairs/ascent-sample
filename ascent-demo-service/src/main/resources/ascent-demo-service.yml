@@ -37,12 +37,12 @@ ascent-demo-service:
 # BGS-Specific SERVICE CLIENT PROPERTIES
 #*********************************************************************
 ---
-spring.profiles: default, local-int, docker-demo, aws-ci, aws-dev
+spring.profiles: default, local-int, docker-demo, aws-ci, aws-stage, aws-prod
 spring.profiles.include: remote_client_sims
 
 ---
-spring.profiles: aws-stage, aws-prod
-spring.profiles.include: remote_client_impls
+#spring.profiles: aws-stage, aws-prod
+#spring.profiles.include: remote_client_impls
 ---
 #----------------------------------------
 # BGS-Specific default properties

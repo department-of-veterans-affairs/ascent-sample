@@ -8,7 +8,7 @@
     	<springProfile name="default,local-int">
 	        <appender-ref ref="CONSOLE" />
 	    </springProfile>
-        <springProfile name="docker-demo,aws-ci,aws-dev,aws-stage,aws-prod">
+        <springProfile name="docker-demo,aws-ci,aws-stage,aws-prod">
             <appender-ref ref="ASCENT_ASYNC_CONSOLE_APPENDER" />
         </springProfile>
     </root>

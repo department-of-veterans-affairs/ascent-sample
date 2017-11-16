@@ -69,7 +69,7 @@ eureka:
 ---
 
 spring:
-    profiles: aws-ci, aws-dev, aws-stage, aws-prod
+    profiles: aws-ci, aws-stage, aws-prod
 eureka:
   client:
     enabled: true
