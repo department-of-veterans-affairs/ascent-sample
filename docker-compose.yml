@@ -3,17 +3,27 @@ services:
    ascent-demo-service:
     image: ascent/ascent-demo-service
     environment:
-      - SPRING_PROFILES_ACTIVE=aws-prod
       - VAULT_ADDR=${VAULT_ADDR}
       - VAULT_TOKEN=${VAULT_TOKEN}
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async-connect: "true"
+        fluentd-max-retries: "10"
+        fluentd-retry-wait: "30s"
     networks:
       - ascentnet
    ascent-document-service:
     image: ascent/ascent-document-service
     environment:
-      - SPRING_PROFILES_ACTIVE=aws-prod
       - VAULT_ADDR=${VAULT_ADDR}
       - VAULT_TOKEN=${VAULT_TOKEN}
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async-connect: "true"
+        fluentd-max-retries: "10"
+        fluentd-retry-wait: "30s"
     networks:
       - ascentnet
 networks: 
