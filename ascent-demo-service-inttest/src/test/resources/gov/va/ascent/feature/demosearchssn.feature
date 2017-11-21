@@ -11,6 +11,6 @@ Feature: Demo person service API SSN search based on SSN
 
     Examples: 
       | ServiceURL          | RequestFile            | ResponseFile            |
-      | /demo/v1/person/ssn | demoinvalidssn.Request | demoinvalidssn.Response |
-      | /demo/v1/person/ssn | demoemptyssn.Request   | demoemptyssn.Response   |
-      | /demo/v1/person/ssn | demonossn.Request      | demonossn.Response      |
+      | /api/ascent-demo-service/demo/v1/person/ssn | demoinvalidssn.Request | demoinvalidssn.Response |
+      | /api/ascent-demo-service/demo/v1/person/ssn | demoemptyssn.Request   | demoemptyssn.Response   |
+      | /api/ascent-demo-service/demo/v1/person/ssn | demonossn.Request      | demonossn.Response      |

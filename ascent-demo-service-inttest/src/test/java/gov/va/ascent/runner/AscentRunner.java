@@ -12,9 +12,10 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 		"html:target/site/cucumber-pretty", "json:target/cucumber.json" }, features = {
 
-				"src/test/resources/gov/va/ascent/feature/democlaimstatuspendwithphasestatus.feature",
-				"src/test/resources/gov/va/ascent/feature/demononexistinganddifferentclaimid.feature",
-				"src/test/resources/gov/va/ascent/feature/demoopencompletedandcancelledclaim.feature",
+				"src/test/resources/gov/va/ascent/feature/demosearchssn.feature",
+				"src/test/resources/gov/va/ascent/feature/demossnfallbackcached.feature"
+				
+				
 },
 
 		glue = { "gov.va.ascent.steps" })
