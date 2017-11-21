@@ -31,8 +31,10 @@ public class DemoSearchSSNSteps extends BaseStepDef {
 
 	@When("^request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
 	public void clientrequestPOSTwithjsondata(String strURL, String requestFile) throws Throwable {
+		String bearerToken = getBearerToken();
+		headerMap.put("Authorization", "Bearer "+strResponse);
 		resUtil.setUpRequest(requestFile, headerMap);
-		strResponse = resUtil.POSTResponse(strURL);
+		invokeAPIUsingPost(strURL, "baseURL");
 	}
 
 	@Then("^the response code must be (\\d+)$")
