@@ -22,5 +22,5 @@ microservicePipeline {
     testEnvironment = ['test-env.yml']
 
     //Name of the service to test
-    serviceToTest = 'ascent-demo'
+    serviceToTest = 'demo-service'
 }
