@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   ascent-amqp:
     image: rabbitmq
@@ -11,9 +12,9 @@ services:
     ports:
     - 8761
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-ci
+    - SPRING_PROFILES_ACTIVE=aws-prod
     - VAULT_ADDR=${VAULT_ADDR}
-    - VAULT_TOKEN=${VAULT_TOKEN}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
   ascent-config:
@@ -21,9 +22,9 @@ services:
     ports:
     - 8760
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-ci
+    - SPRING_PROFILES_ACTIVE=aws-prod
     - VAULT_ADDR=https://${VAULT_HOST}:8200
-    - VAULT_TOKEN=${VAULT_TOKEN}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     - VAULT_HOST=${VAULT_HOST}
     - VAULT_SCHEME=https
     networks:
@@ -33,9 +34,9 @@ services:
     ports:
     - 8762
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-ci
+    - SPRING_PROFILES_ACTIVE=aws-prod
     - VAULT_ADDR=${VAULT_ADDR}
-    - VAULT_TOKEN=${VAULT_TOKEN}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
   ascent-dashboard:
@@ -43,9 +44,9 @@ services:
     ports:
     - 8763
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-ci
+    - SPRING_PROFILES_ACTIVE=aws-prod
     - VAULT_ADDR=${VAULT_ADDR}
-    - VAULT_TOKEN=${VAULT_TOKEN}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
   ascent-zipkin:
@@ -55,9 +56,92 @@ services:
     environment:
     - SPRING_PROFILES_ACTIVE=aws-prod
     - VAULT_ADDR=${VAULT_ADDR}
-    - VAULT_TOKEN=${VAULT_TOKEN}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
+
+  demo-service:
+    image: ascent/demo-service
+    ports:
+      - 8080
+    environment:
+      - SPRING_PROFILES_ACTIVE=aws-ci
+      - VAULT_ADDR=${VAULT_ADDR}
+      - VAULT_TOKEN=${DEMO_SERVICE_VAULT_TOKEN}
+    networks:
+      - ascentnet
+    deploy:
+      placement:
+        constraints:
+        - node.role == worker
+  document-service:
+    image: ascent/document-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=aws-ci
+      - VAULT_ADDR=${VAULT_ADDR}
+      - VAULT_TOKEN=${DEMO_SERVICE_VAULT_TOKEN}
+    networks:
+      - ascentnet
+    deploy:
+      placement:
+        constraints:
+        - node.role == worker
+  # redis-master:
+  #   image: redis:4.0.1-alpine
+  #   networks:
+  #     - ascentnet
+  #   deploy:
+  #     placement:
+  #       constraints:
+  #       - node.role == worker
+      
+  # redis-slave:
+  #   image: redis:4.0.1-alpine
+  #   command: redis-server --slaveof redis-master 6379
+  #   links:
+  #     - redis-master
+  #   networks:
+  #     - ascentnet
+  #   deploy:
+  #     placement:
+  #       constraints:
+  #       - node.role == worker
+      
+  # # Instance 1
+  # redis-sentinel:
+  #   image: ascent/redis-sentinel
+  #   links:
+  #     - redis-master
+  #   networks:
+  #     - ascentnet
+  #   deploy:
+  #     placement:
+  #       constraints:
+  #       - node.role == worker
+      
+  # # Instance 2
+  # redis-sentinel2:
+  #   image: ascent/redis-sentinel
+  #   links:
+  #     - redis-master
+  #   networks:
+  #     - ascentnet
+  #   deploy:
+  #     placement:
+  #       constraints:
+  #       - node.role == worker
+  
+  # # Instance 3
+  # redis-sentinel3:
+  #   image: ascent/redis-sentinel
+  #   links:
+  #     - redis-master
+  #   networks:
+  #     - ascentnet
+  #   deploy:
+  #     placement:
+  #       constraints:
+  #       - node.role == worker
   
 networks:
   ascentnet:
