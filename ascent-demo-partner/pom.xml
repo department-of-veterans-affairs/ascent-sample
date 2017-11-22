@@ -23,16 +23,6 @@
         <dependency>
             <groupId>gov.va.ascent</groupId>
             <artifactId>ascent-framework</artifactId>
-            <exclusions>
-			   <exclusion>
-			     <groupId>org.springframework.boot</groupId>
-				 <artifactId>spring-boot-starter-test</artifactId>
-			   </exclusion>
-			   <exclusion>
-			     <groupId>org.springframework.boot</groupId>
-				 <artifactId>spring-boot-starter</artifactId>
-			   </exclusion>
-			</exclusions>
         </dependency>
     
     	<!-- spring framework project dependencies -->
