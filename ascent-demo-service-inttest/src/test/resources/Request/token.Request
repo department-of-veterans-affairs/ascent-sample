@@ -1,0 +1,13 @@
+{
+  "assuranceLevel": "2",
+  "birthDate": "1978-05-20",
+  "correlationIds": [
+    "77779102^NI^200M^USVHA^P","912444689^PI^200BRLS^USVBA^A","6666345^PI^200CORP^USVBA^A","1105051936^NI^200DOD^USDOD^A","912444689^SS"],
+  "email": "jane.doe@va.gov",
+  "firstName": "JANE",
+  "gender": "FEMALE",
+  "lastName": "DOE",
+  "middleName": "M",
+  "prefix": "Ms",
+  "suffix": "S"
+}
