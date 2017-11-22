@@ -9,4 +9,4 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
 
     Examples: 
       | ServiceURL          | RequestFile                      | ResponseFile                      | loadsize |
-      | /demo/v1/person/ssn | demossnfallbackcachedone.Request | demossnfallbackcachedone.Response |      100 |
+      | /api/ascent-demo-service/demo/v1/person/ssn | demossnfallbackcachedone.Request | demossnfallbackcachedone.Response |      100 |
