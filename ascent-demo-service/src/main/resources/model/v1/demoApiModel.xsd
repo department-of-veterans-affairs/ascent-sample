@@ -48,7 +48,7 @@
         <xs:complexContent>
             <xs:extension base="wss:serviceResponse">
                 <xs:sequence>
-                    <xs:element name="serviceInstanceDetail" type="serviceInstanceDetail" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="serviceInstanceDetail" type="serviceInstanceDetail" minOccurs="0" maxOccurs="100"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>

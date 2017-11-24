@@ -4,11 +4,18 @@ import java.io.IOException;
 import java.io.StringReader;
 
 import javax.annotation.PostConstruct;
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.stream.StreamSource;
 
 import gov.va.ascent.framework.audit.AuditEvents;
 import gov.va.ascent.framework.audit.Auditable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,23 +87,51 @@ public class PersonWsClientSimulator extends BaseWsClientSimulator implements Pe
 	 */
 	@SuppressWarnings("unchecked")
 	private JAXBElement<FindPersonBySSNResponse> getSimulatedResponse() {
-		
+
 		// Read the xml response from the simulator file.
-		String personWSResponseString = null;
 		final String personWSResponseFile = SOAP_TEMPLATE_RESOURCE_DIRECTORY + "person.xml";
 		LOGGER.info("Reading file for Person WS simulator: " + personWSResponseFile);
+
+		JAXBContext jc = null;
 		try {
-			personWSResponseString = getSimulatorResponseByFileName(personWSResponseFile);
-		} catch (IOException iox) {
-			throw new PersonWsClientException("Unable to read simulator response file " + personWSResponseFile, iox);
+			jc = JAXBContext.newInstance(FindPersonBySSNResponse.class);
+		} catch (JAXBException e) {
+			LOGGER.error("Exception occurred while creating JAXBInstance of FindPersonBySSNResponse");
 		}
 
-		final JAXBElement<FindPersonBySSNResponse> responseElement = (JAXBElement<FindPersonBySSNResponse>) 
-				personMarshaller.unmarshal(new StreamSource(new StringReader(personWSResponseString)));
-			
+		Unmarshaller unmarshaller = null;
+		JAXBElement<FindPersonBySSNResponse> responseElement = null;
+		try {
+			if (jc != null) {
+				unmarshaller = jc.createUnmarshaller();
+				responseElement = (JAXBElement<FindPersonBySSNResponse>) unmarshaller.unmarshal(getXMLStreamReader(personWSResponseFile),
+						FindPersonBySSNResponse.class);
+			}
+		} catch (JAXBException e) {
+			LOGGER.error("Exception occurred while unmarshalling FindPersonBySSNResponse");
+		}
+
 		return responseElement;
 	}
 
+	/**
+	 * 
+	 * @param personWSResponseFile
+	 * @return XMLStreamReader object
+	 */
+	private XMLStreamReader getXMLStreamReader(String personWSResponseFile) {
+		XMLInputFactory xif = XMLInputFactory.newFactory();
+		xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+		xif.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+		XMLStreamReader xsr = null;
+		try {
+			xsr = xif.createXMLStreamReader(
+					new StreamSource(getSimulatorResponseStreamByFileName(personWSResponseFile)));
+		} catch (XMLStreamException e) {
+			LOGGER.error("Exception occurred while reading from person xml file");
+		}
+		return xsr;
+	}
 	@Override
 	@Auditable(event = AuditEvents.REQUEST_RESPONSE, activity = "simPersonInfoByPtcpntId")
 	public JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(
@@ -118,18 +153,28 @@ public class PersonWsClientSimulator extends BaseWsClientSimulator implements Pe
 	private JAXBElement<FindPersonByPtcpntIdResponse> getSimulatedResponseByPtcpntId() {
 		
 		// Read the xml response from the simulator file.
-		String personWSResponseString = null;
 		final String personWSResponseFile = SOAP_TEMPLATE_RESOURCE_DIRECTORY + "personbypid.xml";
 		LOGGER.info("Reading file for Person WS simulator: " + personWSResponseFile);
+		
+		JAXBContext jc = null;
 		try {
-			personWSResponseString = getSimulatorResponseByFileName(personWSResponseFile);
-		} catch (IOException iox) {
-			throw new PersonWsClientException("Unable to read simulator response file " + personWSResponseFile, iox);
+			jc = JAXBContext.newInstance(FindPersonByPtcpntIdResponse.class);
+		} catch (JAXBException e) {
+			LOGGER.error("Exception occurred while creating JAXBInstance of FindPersonBySSNResponse");
 		}
 
-		final JAXBElement<FindPersonByPtcpntIdResponse> responseElement = (JAXBElement<FindPersonByPtcpntIdResponse>) 
-				personMarshaller.unmarshal(new StreamSource(new StringReader(personWSResponseString)));
-			
-		return responseElement;
+		Unmarshaller unmarshaller = null;
+		JAXBElement<FindPersonByPtcpntIdResponse> responseElement = null;
+		try {
+			if (jc != null) {
+				unmarshaller = jc.createUnmarshaller();
+				responseElement = (JAXBElement<FindPersonByPtcpntIdResponse>) unmarshaller.unmarshal(getXMLStreamReader(personWSResponseFile),
+						FindPersonByPtcpntIdResponse.class);
+			}
+		} catch (JAXBException e) {
+			LOGGER.error("Exception occurred while unmarshalling FindPersonBySSNResponse");
+		}
+
+		return responseElement;	
 	}
 }

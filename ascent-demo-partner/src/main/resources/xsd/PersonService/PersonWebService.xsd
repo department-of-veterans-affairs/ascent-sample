@@ -98,7 +98,7 @@
 			<xs:element name="personTypeNm" type="xs:string" minOccurs="0"/>
 			<xs:element name="potntlDngrsInd" type="xs:string" minOccurs="0"/>
 			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
-			<xs:element name="ptcpntPhoneDTO" type="tns:ptcpntPhoneDTO" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ptcpntPhoneDTO" type="tns:ptcpntPhoneDTO" nillable="true" minOccurs="0" maxOccurs="100"/>
 			<xs:element name="ptcpntRlnshpTypeNm" type="xs:string" minOccurs="0"/>
 			<xs:element name="raceTypeNm" type="xs:string" minOccurs="0"/>
 			<xs:element name="sbstncAmt" type="xs:double" minOccurs="0"/>
@@ -175,25 +175,25 @@
 
 	<xs:complexType name="findPersonsByPtcpntIds">
 		<xs:sequence>
-			<xs:element name="ptcpntId" type="xs:long" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ptcpntId" type="xs:long" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="findPersonsByPtcpntIdsResponse">
 		<xs:sequence>
-			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="findPersonsByFileNumbers">
 		<xs:sequence>
-			<xs:element name="fileNumber" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="fileNumber" type="xs:string" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="findPersonsByFileNumbersResponse">
 		<xs:sequence>
-			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -211,13 +211,13 @@
 
 	<xs:complexType name="findPersonsBySsns">
 		<xs:sequence>
-			<xs:element name="ssn" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ssn" type="xs:string" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="findPersonsBySsnsResponse">
 		<xs:sequence>
-			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -253,7 +253,7 @@
 
 	<xs:complexType name="findRelationshipsResponse">
 		<xs:sequence>
-			<xs:element name="PtcpntRlnshpDTO" type="tns:ptcpntRlnshpDTO" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PtcpntRlnshpDTO" type="tns:ptcpntRlnshpDTO" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
@@ -315,26 +315,26 @@
 	<xs:complexType name="findRelationshipsByPtcpntIdRelationshipType">
 		<xs:sequence>
 			<xs:element name="ptcpntId" type="xs:long" minOccurs="0"/>
-			<xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="findRelationshipsByPtcpntIdRelationshipTypeResponse">
 		<xs:sequence>
-			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="findRelationshipsByFileNumberRelationshipType">
 		<xs:sequence>
 			<xs:element name="fileNumber" type="xs:string" minOccurs="0"/>
-			<xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="findRelationshipsByFileNumberRelationshipTypeResponse">
 		<xs:sequence>
-			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="PersonDTO" type="tns:personDTO" minOccurs="0" maxOccurs="100"/>
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
