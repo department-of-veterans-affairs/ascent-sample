@@ -28,7 +28,10 @@ public class PersonInfo extends AbstractTransferObject {
 	private Long participantId;
 	
 	/** the person's social security number. */
-	private String ssn;
+	private String uniqueNo;
+	
+	/** the person's social security number. */
+	private String socSecNo;
 
 	/**
 	 * Gets the file number.
@@ -125,8 +128,8 @@ public class PersonInfo extends AbstractTransferObject {
 	 *
 	 * @return The person SSN
 	 */
-	public final String getSsn() {
-		return ssn;
+	public String getSocSecNo() {
+		return socSecNo;
 	}
 
 	/**
@@ -134,9 +137,8 @@ public class PersonInfo extends AbstractTransferObject {
 	 *
 	 * @param ssn The person SSN
 	 */
-	public final void setSsn(final String ssn) {
-		this.ssn = ssn;
+	public void setSocSecNo(String socSecNo) {
+		this.socSecNo = socSecNo;
 	}
-
 }
 

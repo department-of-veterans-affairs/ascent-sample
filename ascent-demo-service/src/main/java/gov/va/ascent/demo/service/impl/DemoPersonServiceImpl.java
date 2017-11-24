@@ -289,7 +289,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 		personInfo.setMiddleName(personDto.getMiddleNm());
 		personInfo.setLastName(personDto.getLastNm());
 		personInfo.setParticipantId(personDto.getPtcpntId());
-		personInfo.setSsn(personDto.getSsnNbr());
+		personInfo.setSocSecNo(personDto.getSsnNbr());
 		return personInfo;
 	}
 

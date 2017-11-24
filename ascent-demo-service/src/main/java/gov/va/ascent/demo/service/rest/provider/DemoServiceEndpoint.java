@@ -16,6 +16,8 @@ import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,8 +68,20 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
         return Health.up().withDetail("Demo Service REST Endpoint", "Demo Service REST Provider Up and Running!").build();
     } 
 	
+	@RequestMapping(value = URL_PREFIX + "/healthone", method = RequestMethod.GET)
+	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = MESSAGE_200)})
+	public Health healthOne() {
+        return Health.up().withDetail("Demo Service REST Endpoint", "Demo Service REST Provider Up and Running!").build();
+    } 
+	
+	
 	@RequestMapping(value = URL_PREFIX + "/echo", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EchoHostServiceResponse> echo(HttpServletRequest request) {
+	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
+	@ApiResponses(value = {
+	@ApiResponse(code = 200, message = MESSAGE_200)})
+	public ResponseEntity<EchoHostServiceResponse> echo(HttpServletRequest request) {
 		InetAddress addr;
         try {
             addr = InetAddress.getLocalHost();
@@ -128,6 +142,19 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@ApiOperation(value = "PID based Person Info from DEMO Partner Service.", notes = "Will return a person info based on PID.")
 	public ResponseEntity<PersonInfoResponse> personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
 		return new ResponseEntity<>(demoPersonService.findPersonByParticipantID(personInfoRequest), HttpStatus.OK);
+	}
+	
+	
+	/**
+	 * Registers fields that should be allowed for data binding.
+	 * 
+	 * @param binder
+	 *            Spring-provided data binding context object.
+	 */
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.setAllowedFields(new String[] { "personInfo", "firstName", "lastName", "middleName", "fileNumber", "participantId",
+				"ssn" });
 	}
 
 }
