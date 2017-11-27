@@ -117,7 +117,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 		final PersonInfoResponse personInfoResponse =
 				createPersonInfoResponse(findPersonBySSNResponseElement, personInfoRequest.getSsn());
 		LOGGER.debug("PersonInfoResponse: {}", 
-				(personInfoResponse != null ? ReflectionToStringBuilder.toString(personInfoResponse): null));
+				ReflectionToStringBuilder.toString(personInfoResponse));
 
 		return personInfoResponse;
 	}
