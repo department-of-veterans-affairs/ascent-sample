@@ -25,36 +25,21 @@ public enum DocumentTypeEnum {
 	public String getDocTypeId() {
 		return docTypeId;
 	}
-	public void setDocTypeId(String docTypeId) {
-		this.docTypeId = docTypeId;
-	}
 	public String getDocTypeDesc() {
 		return docTypeDesc;
-	}
-	public void setDocTypeDesc(String docTypeDesc) {
-		this.docTypeDesc = docTypeDesc;
 	}
 	public String getDocTypeLabel() {
 		return docTypeLabel;
 	}
-	public void setDocTypeLabel(String docTypeLabel) {
-		this.docTypeLabel = docTypeLabel;
-	}
 	public String getCategoryId() {
 		return categoryId;
-	}
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
 	}
 	public String getCategoryDesc() {
 		return categoryDesc;
 	}
-	public void setCategoryDesc(String categoryDesc) {
-		this.categoryDesc = categoryDesc;
-	}
 	
 	public static List<DocumentType> getEnumAsDocumentTypeList() {
-		List<DocumentType> docTypes = new ArrayList<DocumentType>();
+		List<DocumentType> docTypes = new ArrayList<>();
 		DocumentTypeEnum[] docTypeEnums = DocumentTypeEnum.values();
 		for(int i=0; i < docTypeEnums.length;i++) {
 			DocumentType docType = new DocumentType();
