@@ -33,7 +33,6 @@ eureka:
       appType: REST-API
 
 ---
-
 spring:
   profiles: default
   cloud:
@@ -51,26 +50,13 @@ eureka:
     serviceUrl:
       defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@localhost:${discovery.server.port:8761}/eureka/
 ---
-
 spring:
-  profiles: docker-demo
+    profiles: docker-demo, aws-ci, aws-stage, aws-prod
 eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@ascent-discovery:${discovery.server.port:8761}/eureka/
-  instance:
-    hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
-    preferIpAddress: false
----
-
-spring:
-    profiles: aws-ci, aws-stage, aws-prod
-eureka:
-  client:
-    enabled: true
-    serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.peer1.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery-peer}:${discovery.server.peer2.port:8761}/eureka/
     preferSameZoneEureka: true
   instance:
     hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
