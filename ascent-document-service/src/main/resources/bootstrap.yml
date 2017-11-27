@@ -23,6 +23,8 @@ eureka:
     #false by default in local dev mode
     enabled: false
   instance: 
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 30
     metadata-map: 
       version:  "@project.version@"
       artifact: "@project.artifactId@"
@@ -48,10 +50,6 @@ eureka:
     enabled: true
     serviceUrl:
       defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@localhost:${discovery.server.port:8761}/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 10
-
 ---
 
 spring:
@@ -62,8 +60,6 @@ eureka:
     serviceUrl:
       defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@ascent-discovery:${discovery.server.port:8761}/eureka/
   instance:
-    leaseRenewalIntervalInSeconds: 10
-    leaseExpirationDurationInSeconds: 20
     hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
     preferIpAddress: false
 ---
