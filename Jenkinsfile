@@ -23,4 +23,7 @@ microservicePipeline {
 
     //Name of the service to test
     serviceToTest = 'ascent-gateway'
+
+    //Directory containing JSON files for Cucumber reports
+    cucumberReportDirectory = 'ascent-demo-service-inttest/target'
 }
