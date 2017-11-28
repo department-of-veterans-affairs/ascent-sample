@@ -17,7 +17,7 @@ import gov.va.ascent.util.RESTConfig;
 
 public class DemoSearchSSNSteps extends BaseStepDef {
 
-	final Logger log = LoggerFactory.getLogger(RESTConfig.class);
+	final Logger log = LoggerFactory.getLogger(DemoSearchSSNSteps.class);
 
 	@Before({ "@searchssn" })
 	public void setUpREST() {
@@ -31,8 +31,6 @@ public class DemoSearchSSNSteps extends BaseStepDef {
 
 	@When("^request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
 	public void clientrequestPOSTwithjsondata(String strURL, String requestFile) throws Throwable {
-		String bearerToken = getBearerToken();
-		headerMap.put("Authorization", "Bearer "+strResponse);
 		resUtil.setUpRequest(requestFile, headerMap);
 		invokeAPIUsingPost(strURL, "baseURL");
 	}
