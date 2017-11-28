@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0"
-	xmlns="http://www.va.gov/schema/1.2" targetNamespace="http://www.va.gov/schema/1.2"
+	xmlns="http://www.va.gov/ascent/framework/schema/v1" targetNamespace="http://www.va.gov/ascent/framework/schema/v1"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema">
 	
 	<xs:complexType name="serviceRequest">

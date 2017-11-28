@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0"
            xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:wss="http://www.va.gov/schema/1.2"
+           xmlns:ascent="http://www.va.gov/ascent/framework/schema/v1"
            xmlns="http://gov.va/model/v1"
            targetNamespace="http://gov.va/model/v1">
 
     <!--************************************************************************************************************************************
         REQUEST+RESPONSE OBJECTS
     *************************************************************************************************************************************-->
-    <xs:import schemaLocation="../wss-framework-types.xsd" namespace="http://www.va.gov/schema/1.2"/>
+    <xs:import schemaLocation="../ascent-framework-types.xsd" namespace="http://www.va.gov/ascent/framework/schema/v1"/>
     
     <xs:element name="demoServiceResponse" type="DemoServiceResponse"/>
     <xs:complexType name="DemoServiceResponse">
         <xs:complexContent>
-            <xs:extension base="wss:serviceResponse">
+            <xs:extension base="ascent:serviceResponse">
                 <xs:sequence>
                     <xs:element name="demo" type="demo" minOccurs="0"/>
                 </xs:sequence>
@@ -24,7 +24,7 @@
     <xs:element name="demoServiceRequest" type="DemoServiceRequest"/>
     <xs:complexType name="DemoServiceRequest">
         <xs:complexContent>
-            <xs:extension base="wss:serviceRequest">
+            <xs:extension base="ascent:serviceRequest">
                 <xs:sequence>
                     <xs:element name="demo" type="demo" minOccurs="0"/>
                 </xs:sequence>
@@ -35,7 +35,7 @@
     <xs:element name="echoHostServiceResponse" type="EchoHostServiceResponse"/>
     <xs:complexType name="EchoHostServiceResponse">
         <xs:complexContent>
-            <xs:extension base="wss:serviceResponse">
+            <xs:extension base="ascent:serviceResponse">
                 <xs:sequence>
                     <xs:element name="host" type="host" minOccurs="0"/>
                 </xs:sequence>
@@ -46,7 +46,7 @@
     <xs:element name="serviceInstancesServiceResponse" type="ServiceInstancesServiceResponse"/>
     <xs:complexType name="ServiceInstancesServiceResponse">
         <xs:complexContent>
-            <xs:extension base="wss:serviceResponse">
+            <xs:extension base="ascent:serviceResponse">
                 <xs:sequence>
                     <xs:element name="serviceInstanceDetail" type="serviceInstanceDetail" minOccurs="0" maxOccurs="100"/>
                 </xs:sequence>
