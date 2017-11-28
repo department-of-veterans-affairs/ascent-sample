@@ -81,7 +81,7 @@ hystrix:
             # is configuration for turning off timeouts per-command, if that is desired (see command.timeout.enabled). 
             # IMPORTANT NOTE: THIS TIMEOUT VALUE MUST BE GREATER THAN ANY SERVICE TIMEOUT TO AVOID ERRORS
             # Default Value: 1000
-            timeoutInMilliseconds: 10000    
+            timeoutInMilliseconds: 20000    
 
 # Sleuth configuration     
 # To skip specific patterns being exported, added few more customs on top of default skip pattern
