@@ -145,7 +145,7 @@ hystrix:
             # walk away from the command execution. Hystrix marks the HystrixCommand as a TIMEOUT, and performs fallback 
             # logic. Note that there is configuration for turning off timeouts per-command, if that is desired (see command.timeout.enabled).
             # Default Value: 1000
-            timeoutInMilliseconds: 5000
+            timeoutInMilliseconds: 20000
 
 # Sleuth configuration     
 # To skip specific patterns being exported, added few more customs on top of default skip pattern
