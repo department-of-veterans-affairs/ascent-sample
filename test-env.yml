@@ -19,6 +19,7 @@ services:
     - ascentnet
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/actuator/health"]
+      start-period: 60s
       interval: 30s
       timeout: 10s
       retries: 3
