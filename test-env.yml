@@ -86,62 +86,45 @@ services:
       placement:
         constraints:
         - node.role == worker
-  # redis-master:
-  #   image: redis:4.0.1-alpine
-  #   networks:
-  #     - ascentnet
-  #   deploy:
-  #     placement:
-  #       constraints:
-  #       - node.role == worker
+  redis-master:
+    image: redis:4.0.1-alpine
+    networks:
+      - ascentnet
+    deploy:
+      placement:
+        constraints:
+        - node.role == worker
+  redis-slave:
+    image: redis:4.0.1-alpine
+    command: redis-server --slaveof redis-master 6379
+    links:
+      - redis-master
+    networks:
+      - ascentnet
       
-  # redis-slave:
-  #   image: redis:4.0.1-alpine
-  #   command: redis-server --slaveof redis-master 6379
-  #   links:
-  #     - redis-master
-  #   networks:
-  #     - ascentnet
-  #   deploy:
-  #     placement:
-  #       constraints:
-  #       - node.role == worker
+  # Instance 1
+  redis-sentinel:
+    image: ascent/redis-sentinel
+    links:
+      - redis-master
+    networks:
+      - ascentnet
       
-  # # Instance 1
-  # redis-sentinel:
-  #   image: ascent/redis-sentinel
-  #   links:
-  #     - redis-master
-  #   networks:
-  #     - ascentnet
-  #   deploy:
-  #     placement:
-  #       constraints:
-  #       - node.role == worker
-      
-  # # Instance 2
-  # redis-sentinel2:
-  #   image: ascent/redis-sentinel
-  #   links:
-  #     - redis-master
-  #   networks:
-  #     - ascentnet
-  #   deploy:
-  #     placement:
-  #       constraints:
-  #       - node.role == worker
+  # Instance 2
+  redis-sentinel2:
+    image: ascent/redis-sentinel
+    links:
+      - redis-master
+    networks:
+      - ascentnet
   
-  # # Instance 3
-  # redis-sentinel3:
-  #   image: ascent/redis-sentinel
-  #   links:
-  #     - redis-master
-  #   networks:
-  #     - ascentnet
-  #   deploy:
-  #     placement:
-  #       constraints:
-  #       - node.role == worker
+  # Instance 3
+  redis-sentinel3:
+    image: ascent/redis-sentinel
+    links:
+      - redis-master
+    networks:
+      - ascentnet
   
 networks:
   ascentnet:
