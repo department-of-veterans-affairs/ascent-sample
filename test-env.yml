@@ -99,6 +99,8 @@ services:
       placement:
         constraints:
         - node.role == worker
+    labels:
+      gov.va.ascent.testable: "true"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
       interval: 60s
