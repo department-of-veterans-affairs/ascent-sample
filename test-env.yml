@@ -19,7 +19,7 @@ services:
     - ascentnet
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8761/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
   ascent-config:
@@ -36,7 +36,7 @@ services:
     - ascentnet
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8760/actuator/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
   ascent-gateway:
@@ -51,7 +51,7 @@ services:
     - ascentnet
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
   ascent-dashboard:
@@ -66,7 +66,7 @@ services:
     - ascentnet
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8763/actuator/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
   ascent-zipkin:
@@ -81,7 +81,7 @@ services:
     - ascentnet
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8700/actuator/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
 
@@ -101,7 +101,7 @@ services:
         - node.role == worker
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
   document-service:
@@ -118,7 +118,7 @@ services:
         - node.role == worker
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8088/actuator/health"]
-      interval: 30s
+      interval: 60s
       timeout: 10s
       retries: 3
   redis-master:
