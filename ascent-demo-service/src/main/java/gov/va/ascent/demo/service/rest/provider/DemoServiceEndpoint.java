@@ -68,15 +68,6 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
         return Health.up().withDetail("Demo Service REST Endpoint", "Demo Service REST Provider Up and Running!").build();
     } 
 	
-	@RequestMapping(value = URL_PREFIX + "/healthone", method = RequestMethod.GET)
-	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = MESSAGE_200)})
-	public Health healthOne() {
-        return Health.up().withDetail("Demo Service REST Endpoint", "Demo Service REST Provider Up and Running!").build();
-    } 
-	
-	
 	@RequestMapping(value = URL_PREFIX + "/echo", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
 	@ApiResponses(value = {
