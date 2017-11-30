@@ -31,10 +31,9 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 
 	@When("^client request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
 	public void clientRequestPOSTWithJsondataSSNFallBackCached(String strURL, String requestFile) throws Throwable {
-		String bearerToken = getBearerToken();
-		headerMap.put("Authorization", "Bearer "+strResponse);
 		resUtil.setUpRequest(requestFile, headerMap);
-		invokeAPIUsingPost(strURL, "baseURL");
+		String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
 
 	@Then("^the response code should be (\\d+)$")
@@ -55,10 +54,9 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 
 	@When("^client request POST url \"([^\"]*)\" with data \"([^\"]*)\"$")
 	public void ClientRequestPOSTWithJsondataSSNFallBackNotCached(String strURL, String requestFile) throws Throwable {
-		String bearerToken = getBearerToken();
-		headerMap.put("Authorization", "Bearer "+strResponse);
 		resUtil.setUpRequest(requestFile, headerMap);
-		invokeAPIUsingPost(strURL, "baseURL");
+		String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
 
 	@Then("^the response code be (\\d+)$")

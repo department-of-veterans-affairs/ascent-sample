@@ -34,8 +34,8 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoClaimserviceusingGET(String strURL) throws Throwable {
-
-		invokeAPIUsingGet(strURL, "claims.baseURL");
+	    String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
 	@Then("^the claim has a recieved date and does not have closed date and complete is false")
@@ -62,7 +62,8 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the closed claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoCompletedClaimserviceusingGET(String strURL) throws Throwable {
-		invokeAPIUsingGet(strURL, "claims.baseURL");
+	    String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
 	@Then("^the claim status is CLR and claims has a recived date and claims has a closed update and completed date and the claim phase status is complete and true")
@@ -96,7 +97,8 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the cancelled claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoCancelledClaimserviceusingGET(String strURL) throws Throwable {
-		invokeAPIUsingGet(strURL, "claims.baseURL");
+	    String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
 	@Then("^the claim status is CAN and claims has a recived date and claims has a closed update and completed date and the claim phase status is complete and true")
