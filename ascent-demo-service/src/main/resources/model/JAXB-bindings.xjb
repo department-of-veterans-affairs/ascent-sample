@@ -13,7 +13,7 @@
 		    />
 	</jaxb:globalBindings>
 	
-	<jaxb:bindings schemaLocation="./wss-framework-types.xsd" >
+	<jaxb:bindings schemaLocation="./ascent-framework-types.xsd" >
 		<jaxb:bindings node="//xs:complexType[@name='serviceRequest']">
 			<jaxb:class ref="gov.va.ascent.framework.service.ServiceRequest"/>
 		</jaxb:bindings>

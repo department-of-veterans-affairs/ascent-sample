@@ -34,7 +34,8 @@ public class DemoClaimStatusPendWithPhaseStatusSteps extends BaseStepDef {
 
 	@When("the pend gathering of claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoClaimserviceusingGET(String strURL) throws Throwable {
-		invokeAPIUsingGet(strURL, "claims.baseURL");
+	    String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
 	@Then("^the claim has a claimstaus of PEND and claim type of compensation$")
@@ -103,7 +104,8 @@ public class DemoClaimStatusPendWithPhaseStatusSteps extends BaseStepDef {
 
 	@When("the claim recieved service is called \"([^\"]*)\"$")
 	public void makerestcalltoReceivedClaimserviceusingGET(String strURL) throws Throwable {
-		invokeAPIUsingGet(strURL, "claims.baseURL");
+	    String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
 	@Then("^the claim recieved has a claimstaus of PEND and claim type of compensation$")

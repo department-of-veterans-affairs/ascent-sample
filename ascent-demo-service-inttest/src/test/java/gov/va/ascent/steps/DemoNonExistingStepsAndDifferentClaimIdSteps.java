@@ -35,7 +35,8 @@ public class DemoNonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
 	@When("claim service is called with claim Id \"([^\"]*)\" with \"([^\"]*)\"$")
 	public void makerestcalltoClaimserviceusingGET(String strURL, String claimId) throws Throwable {
 		String newUrl = strURL.replace("{claimId}", claimId);
-		invokeAPIUsingPost(newUrl, "claims.baseURL");
+		String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingPost(baseUrl + newUrl, true);
 	}
 
 	@Then("^the claim sercice returns message.severity of error")
@@ -66,7 +67,8 @@ public class DemoNonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
 	@When("the claim service is called with different claimid \"([^\"]*)\" with \"([^\"]*)\"$")
 	public void makerestcalltoDiffClaimserviceusingGET(String strURL, String claimId) throws Throwable {
 		String newUrl = strURL.replace("{claimId}", claimId);
-		invokeAPIUsingPost(newUrl, "claims.baseURL");
+		String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingPost(baseUrl + newUrl, true);
 	}
 
 	@Then("^the claim service returns different claimid message.severity of error")

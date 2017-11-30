@@ -13,11 +13,10 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import gov.va.ascent.util.BaseStepDef;
-import gov.va.ascent.util.RESTConfig;
 
 public class DemoSearchSSNSteps extends BaseStepDef {
 
-	final Logger log = LoggerFactory.getLogger(RESTConfig.class);
+	final Logger log = LoggerFactory.getLogger(DemoSearchSSNSteps.class);
 
 	@Before({ "@searchssn" })
 	public void setUpREST() {
@@ -31,10 +30,9 @@ public class DemoSearchSSNSteps extends BaseStepDef {
 
 	@When("^request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
 	public void clientrequestPOSTwithjsondata(String strURL, String requestFile) throws Throwable {
-		String bearerToken = getBearerToken();
-		headerMap.put("Authorization", "Bearer "+strResponse);
 		resUtil.setUpRequest(requestFile, headerMap);
-		invokeAPIUsingPost(strURL, "baseURL");
+		String baseUrl = restConfig.getBaseUrlPropertyName();
+		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
 
 	@Then("^the response code must be (\\d+)$")

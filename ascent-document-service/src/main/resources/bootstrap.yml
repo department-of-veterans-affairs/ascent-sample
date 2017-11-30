@@ -23,6 +23,8 @@ eureka:
     #false by default in local dev mode
     enabled: false
   instance: 
+    leaseRenewalIntervalInSeconds: 10
+    leaseExpirationDurationInSeconds: 30
     metadata-map: 
       version:  "@project.version@"
       artifact: "@project.artifactId@"
@@ -31,7 +33,6 @@ eureka:
       appType: REST-API
 
 ---
-
 spring:
   profiles: default
   cloud:
@@ -48,33 +49,14 @@ eureka:
     enabled: true
     serviceUrl:
       defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@localhost:${discovery.server.port:8761}/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 10
-
 ---
-
 spring:
-  profiles: docker-demo
+    profiles: docker-demo, aws-ci, aws-stage, aws-prod
 eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@ascent-discovery:${discovery.server.port:8761}/eureka/
-  instance:
-    leaseRenewalIntervalInSeconds: 10
-    leaseExpirationDurationInSeconds: 20
-    hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
-    preferIpAddress: false
----
-
-spring:
-    profiles: aws-ci, aws-stage, aws-prod
-eureka:
-  client:
-    enabled: true
-    serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
+      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.peer1.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery-peer}:${discovery.server.peer2.port:8761}/eureka/
     preferSameZoneEureka: true
   instance:
     hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
