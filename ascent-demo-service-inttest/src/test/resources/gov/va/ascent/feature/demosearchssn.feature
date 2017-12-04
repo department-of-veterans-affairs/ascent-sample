@@ -1,4 +1,4 @@
-Feature: Demo person service API SSN search based on SSN
+Feature: Demo person service API search based on SSN
 
   @searchssn
   Scenario Outline: Search based on SSN

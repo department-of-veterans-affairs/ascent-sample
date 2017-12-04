@@ -1,4 +1,4 @@
-package gov.va.ascent.runner;
+package gov.va.ascent.demo.service.runner;
 
 import org.junit.runner.RunWith;
 import org.testng.annotations.BeforeSuite;
@@ -18,7 +18,7 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 				
 },
 
-		glue = { "gov.va.ascent.steps" })
+		glue = { "gov.va.ascent.demo.service.steps" })
 public class AscentRunner extends AbstractTestNGCucumberTests {
 
 	@BeforeSuite(alwaysRun = true)
