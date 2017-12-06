@@ -10,7 +10,6 @@ info:
 # REDIS (RedisProperties)
 ascent:
   cache:
-    enabled: false
     defaultExpires: 86400 # (Seconds)
     expires:
       #Cache Name: TTL (In Seconds)
@@ -18,8 +17,19 @@ ascent:
       demoService: 600
 ---
 spring.profiles: default, local-int
-spring.cache.type: none
-  
+spring.profiles.include: remote_client_sims, embedded-redis
+spring.zipkin.enabled: false
+ascent:
+  cache:
+    redis-config: 
+      host: localhost
+      port: 6379
+spring: 
+  cache:
+    type: redis
+  redis: 
+    host: localhost
+    port: 6379
 ---
 spring: 
   cloud:
@@ -37,7 +47,7 @@ ascent-demo-service:
 # BGS-Specific SERVICE CLIENT PROPERTIES
 #*********************************************************************
 ---
-spring.profiles: default, local-int, docker-demo, aws-ci, aws-stage, aws-prod
+spring.profiles: docker-demo, aws-ci, aws-stage, aws-prod
 spring.profiles.include: remote_client_sims
 ---
 #----------------------------------------
