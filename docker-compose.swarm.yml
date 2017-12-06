@@ -1,0 +1,47 @@
+version: '3'
+services:
+   ascent-demo-service:
+    image: localhost:5000/ascent/ascent-demo-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker-demo
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=vaultroot
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async-connect: "true"
+        fluentd-max-retries: "10"
+        fluentd-retry-wait: "30s"
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+        - node.role == worker
+    networks:
+      - ascentnet
+   ascent-document-service:
+    image: localhost:5000/ascent/ascent-document-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker-demo
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_TOKEN=vaultroot
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async-connect: "true"
+        fluentd-max-retries: "10"
+        fluentd-retry-wait: "30s"
+    networks:
+      - ascentnet
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+        - node.role == worker
+networks:
+ ascentnet:
+    external:
+      name: ascent_ascentnet
+
