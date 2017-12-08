@@ -93,7 +93,8 @@ public class DemoPersonServiceImpl implements DemoPersonService {
      * 
      */
     @Override
-    @CachePut(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
+    @CachePut(value="demoPersonService", key="#personInfoRequest", 
+          unless="#result == null || #result.personInfo == null || #result.hasErrors() || #result.hasFatals()")
     @HystrixCommand(
             fallbackMethod = "getPersonInfoFallBack", 
             commandKey = "GetPersonInfoBySSNCommand", 
@@ -136,7 +137,8 @@ public class DemoPersonServiceImpl implements DemoPersonService {
      * @Cacheable Annotation indicating that the result of invoking a method (or all methods in a class) can be cached.
      */
     @Override
-    @CachePut(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
+    @CachePut(value="demoPersonService", key="#personInfoRequest", 
+      unless="#result == null || #result.personInfo == null || #result.hasErrors() || #result.hasFatals()")
     @HystrixCommand(
                 fallbackMethod = "findPersonByParticipantIDFallBack", 
                 commandKey = "GetPersonInfoByPIDCommand",
