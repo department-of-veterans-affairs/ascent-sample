@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -72,6 +73,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
 	@ApiResponses(value = {
 	@ApiResponse(code = 200, message = MESSAGE_200)})
+	@CachePut(value = "demoPersonService", key = "#root.methodName", unless="#result == null")	
 	public ResponseEntity<EchoHostServiceResponse> echo(HttpServletRequest request) {
 		InetAddress addr;
         try {
