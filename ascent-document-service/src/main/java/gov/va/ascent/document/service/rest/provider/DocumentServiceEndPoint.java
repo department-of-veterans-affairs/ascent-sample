@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
-import gov.va.ascent.framework.service.ServiceResponse;
 
 @RestController
 public class DocumentServiceEndPoint implements HealthIndicator {
