@@ -14,7 +14,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gov.va.ascent.util.BaseStepDef;
+import gov.va.ascent.test.framework.restassured.BaseStepDef;
 
 public class DemoNonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
 
@@ -35,7 +35,7 @@ public class DemoNonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
 	@When("claim service is called with claim Id \"([^\"]*)\" with \"([^\"]*)\"$")
 	public void makerestcalltoClaimserviceusingGET(String strURL, String claimId) throws Throwable {
 		String newUrl = strURL.replace("{claimId}", claimId);
-		String baseUrl = restConfig.getBaseUrlPropertyName();
+		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + newUrl, true);
 	}
 
@@ -67,7 +67,7 @@ public class DemoNonExistingStepsAndDifferentClaimIdSteps extends BaseStepDef {
 	@When("the claim service is called with different claimid \"([^\"]*)\" with \"([^\"]*)\"$")
 	public void makerestcalltoDiffClaimserviceusingGET(String strURL, String claimId) throws Throwable {
 		String newUrl = strURL.replace("{claimId}", claimId);
-		String baseUrl = restConfig.getBaseUrlPropertyName();
+		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + newUrl, true);
 	}
 

@@ -8,7 +8,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gov.va.ascent.util.BaseStepDef;
+import gov.va.ascent.test.framework.restassured.BaseStepDef;
 
 public class DemoStressTestSsnFallBackCached extends BaseStepDef {
 
@@ -28,8 +28,8 @@ public class DemoStressTestSsnFallBackCached extends BaseStepDef {
 			throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
 		for (int i = 0; i < loadsize; i++) {
-			strResponse = resUtil.POSTResponse(strURL);
-			ValidateStatusCode(200);
+			strResponse = resUtil.postResponse(strURL);
+			validateStatusCode(200);
 			Thread.sleep(1000);
 		}
 		// log.info("Actual Response=" + strResponse);
