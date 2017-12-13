@@ -178,7 +178,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	public PersonInfoResponse getPersonInfoFallBack(PersonInfoRequest personInfoRequest, Throwable t) {
 		if (t != null) {
 			LOGGER.error("Exception occurred in findPersonByParticipantID: " + t);
-			DemoServiceException exc = new DemoServiceException(t.toString());
+			DemoServiceException exc = new DemoServiceException("Error: " + t.toString());
 			throw exc;
 		}
 		LOGGER.error("No cached data found raising an exception for {}", personInfoRequest);
