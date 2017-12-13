@@ -15,7 +15,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gov.va.ascent.util.BaseStepDef;
+import gov.va.ascent.test.framework.restassured.BaseStepDef;
 
 public class DemoClaimStatusPendWithPhaseStatusSteps extends BaseStepDef {
 
@@ -34,7 +34,7 @@ public class DemoClaimStatusPendWithPhaseStatusSteps extends BaseStepDef {
 
 	@When("the pend gathering of claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
@@ -104,7 +104,7 @@ public class DemoClaimStatusPendWithPhaseStatusSteps extends BaseStepDef {
 
 	@When("the claim recieved service is called \"([^\"]*)\"$")
 	public void makerestcalltoReceivedClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 

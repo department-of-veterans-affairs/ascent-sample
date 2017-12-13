@@ -15,7 +15,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gov.va.ascent.util.BaseStepDef;
+import gov.va.ascent.test.framework.restassured.BaseStepDef;
 
 public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
@@ -34,7 +34,7 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
@@ -62,7 +62,7 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the closed claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoCompletedClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
@@ -97,7 +97,7 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the cancelled claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoCancelledClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 

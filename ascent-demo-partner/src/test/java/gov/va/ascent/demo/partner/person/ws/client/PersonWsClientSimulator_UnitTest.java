@@ -48,7 +48,6 @@ public class PersonWsClientSimulator_UnitTest extends TestCase {
 	/**
 	 * Test get icn.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testGetPersonInfo() {
 
@@ -70,7 +69,6 @@ public class PersonWsClientSimulator_UnitTest extends TestCase {
 	/**
 	 * Test get icn.
 	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Test
 	public void testGetPersonInfoByPtcpntId() {
 

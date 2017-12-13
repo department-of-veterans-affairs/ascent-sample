@@ -1,8 +1,5 @@
 package gov.va.ascent.demo.partner.person.ws.client;
 
-import java.io.IOException;
-import java.io.StringReader;
-
 import javax.annotation.PostConstruct;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -85,7 +82,6 @@ public class PersonWsClientSimulator extends BaseWsClientSimulator implements Pe
 	/**
 	 * @return The FindPersonBySSNResponse element
 	 */
-	@SuppressWarnings("unchecked")
 	private JAXBElement<FindPersonBySSNResponse> getSimulatedResponse() {
 
 		// Read the xml response from the simulator file.
@@ -149,7 +145,6 @@ public class PersonWsClientSimulator extends BaseWsClientSimulator implements Pe
 	/**
 	 * @return The FindPersonBySSNResponse element
 	 */
-	@SuppressWarnings("unchecked")
 	private JAXBElement<FindPersonByPtcpntIdResponse> getSimulatedResponseByPtcpntId() {
 		
 		// Read the xml response from the simulator file.

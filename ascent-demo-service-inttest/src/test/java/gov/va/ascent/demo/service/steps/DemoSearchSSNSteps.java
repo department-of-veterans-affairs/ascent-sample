@@ -12,7 +12,7 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import gov.va.ascent.util.BaseStepDef;
+import gov.va.ascent.test.framework.restassured.BaseStepDef;
 
 public class DemoSearchSSNSteps extends BaseStepDef {
 
@@ -31,13 +31,13 @@ public class DemoSearchSSNSteps extends BaseStepDef {
 	@When("^request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
 	public void clientrequestPOSTwithjsondata(String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
-		String baseUrl = restConfig.getBaseUrlPropertyName();
+		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
 
 	@Then("^the response code must be (\\d+)$")
 	public void serviceresposestatuscodemustbe(int intStatusCode) throws Throwable {
-		ValidateStatusCode(intStatusCode);
+		validateStatusCode(intStatusCode);
 	}
 
 	@And("^the search SSN result should be same as valid response \"(.*?)\"$")
