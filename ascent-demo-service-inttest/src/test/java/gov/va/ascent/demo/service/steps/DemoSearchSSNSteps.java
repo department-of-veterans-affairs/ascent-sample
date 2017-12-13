@@ -31,7 +31,7 @@ public class DemoSearchSSNSteps extends BaseStepDef {
 	@When("^request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
 	public void clientrequestPOSTwithjsondata(String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
-		String baseUrl = restConfig.getBaseUrlPropertyName();
+		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
 
