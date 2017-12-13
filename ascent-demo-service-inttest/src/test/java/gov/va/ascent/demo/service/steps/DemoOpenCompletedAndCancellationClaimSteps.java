@@ -34,7 +34,7 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
@@ -62,7 +62,7 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the closed claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoCompletedClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
@@ -97,7 +97,7 @@ public class DemoOpenCompletedAndCancellationClaimSteps extends BaseStepDef {
 
 	@When("the cancelled claim service is called \"([^\"]*)\"$")
 	public void makerestcalltoCancelledClaimserviceusingGET(String strURL) throws Throwable {
-	    String baseUrl = restConfig.getBaseUrlPropertyName();
+	    String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingGet(baseUrl + strURL, true);
 	}
 
