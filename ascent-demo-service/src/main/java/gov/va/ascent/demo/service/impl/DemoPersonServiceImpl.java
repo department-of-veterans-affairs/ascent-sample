@@ -28,6 +28,7 @@ import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
 import gov.va.ascent.demo.partner.person.ws.transfer.ObjectFactory;
 import gov.va.ascent.demo.partner.person.ws.transfer.PersonDTO;
 import gov.va.ascent.demo.service.api.DemoPersonService;
+import gov.va.ascent.demo.service.exception.DemoServiceException;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 import gov.va.ascent.demo.service.utils.StringUtil;
 import gov.va.ascent.framework.exception.AscentRuntimeException;
@@ -96,30 +97,42 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 			ignoreExceptions = {IllegalArgumentException.class})
 	public PersonInfoResponse getPersonInfo(PersonInfoRequest personInfoRequest) {
 		// Check for valid input arguments and WS Client reference.
-		Defense.notNull(personWsClient, "Unable to proceed with Person Service request. The personWsClient must not be null.");
+		Defense.notNull(personWsClient,
+				"Unable to proceed with Person Service request. The personWsClient must not be null.");
 		Defense.notNull(personInfoRequest, "Invalid argument, personInfoRequest must not be null.");
 		Defense.notNull(personInfoRequest.getSsn(), "Invalid personInfoRequest. SSN must not be null.");
-		Defense.isTrue(personInfoRequest.getSsn().length() == SSN_LENGTH, "Invalid personInfoRequest SSN. Length must be "
-				+ SSN_LENGTH);
-		// Prepare the WS request
-		final JAXBElement<FindPersonBySSN> findPersonBySSNRequestElement = createFindPersonBySSNRequest(personInfoRequest);
-		
-		LOGGER.debug("FindPersonBySSN JAXBElement: {}", 
-				(findPersonBySSNRequestElement != null ? ReflectionToStringBuilder.toString(findPersonBySSNRequestElement): null));
+		Defense.isTrue(personInfoRequest.getSsn().length() == SSN_LENGTH,
+				"Invalid personInfoRequest SSN. Length must be " + SSN_LENGTH);
+		if (cacheManager.getCache("demoPersonService") != null
+				&& cacheManager.getCache("demoPersonService").get(personInfoRequest) != null) {
+			LOGGER.info("returning cached data for {}", personInfoRequest);
+			return cacheManager.getCache("demoPersonService").get(personInfoRequest, PersonInfoResponse.class);
+		} else {
+			// Prepare the WS request
+			final JAXBElement<FindPersonBySSN> findPersonBySSNRequestElement = createFindPersonBySSNRequest(
+					personInfoRequest);
 
-		// Invoke the Person Web Service via the WS Client
-		final JAXBElement<FindPersonBySSNResponse> findPersonBySSNResponseElement = personWsClient.getPersonInfo(findPersonBySSNRequestElement);
-		
-		LOGGER.debug("FindPersonBySSNResponse JAXBElement: {}", 
-				(findPersonBySSNResponseElement != null ? ReflectionToStringBuilder.toString(findPersonBySSNResponseElement): null));
+			LOGGER.debug("FindPersonBySSN JAXBElement: {}",
+					(findPersonBySSNRequestElement != null
+							? ReflectionToStringBuilder.toString(findPersonBySSNRequestElement)
+							: null));
 
-		// Prepare the service response
-		final PersonInfoResponse personInfoResponse =
-				createPersonInfoResponse(findPersonBySSNResponseElement, personInfoRequest.getSsn());
-		LOGGER.debug("PersonInfoResponse: {}", 
-				ReflectionToStringBuilder.toString(personInfoResponse));
+			// Invoke the Person Web Service via the WS Client
+			final JAXBElement<FindPersonBySSNResponse> findPersonBySSNResponseElement = personWsClient
+					.getPersonInfo(findPersonBySSNRequestElement);
 
-		return personInfoResponse;
+			LOGGER.debug("FindPersonBySSNResponse JAXBElement: {}",
+					(findPersonBySSNResponseElement != null
+							? ReflectionToStringBuilder.toString(findPersonBySSNResponseElement)
+							: null));
+
+			// Prepare the service response
+			final PersonInfoResponse personInfoResponse = createPersonInfoResponse(findPersonBySSNResponseElement,
+					personInfoRequest.getSsn());
+			LOGGER.debug("PersonInfoResponse: {}", ReflectionToStringBuilder.toString(personInfoResponse));
+
+			return personInfoResponse;
+		}
 	}
 	
 	/* (non-Javadoc)
@@ -128,28 +141,31 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	 * @Cacheable Annotation indicating that the result of invoking a method (or all methods in a class) can be cached.
 	 */
 	@Override
-	@Cacheable(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
+	@CachePut(value="demoPersonService", key="#personInfoRequest", unless="#result == null")
 	@HystrixCommand(
 				fallbackMethod = "getPersonInfoFallBack", 
 				commandKey = "GetPersonInfoByPIDCommand",
 				ignoreExceptions = {IllegalArgumentException.class})
-	public PersonInfoResponse findPersonByParticipantID(final PersonInfoRequest personInfoRequest) {
+	public PersonInfoResponse findPersonByParticipantID(PersonInfoRequest personInfoRequest) {
 		
 		// Check for valid input arguments and WS Client reference.
 		Defense.notNull(personWsClient, "Unable to proceed with Person Service request. The personWsClient must not be null.");
 		Defense.notNull(personInfoRequest.getParticipantID(), "Invalid argument, pid must not be null.");
-
-		// Prepare the WS request
-		final JAXBElement<FindPersonByPtcpntId> findPersonByPtcpntIdRequestElement = createFindPersonByPidRequest(personInfoRequest);
-
-		// Invoke the Person Web Service via the WS Client
-		final JAXBElement<FindPersonByPtcpntIdResponse> findPersonByPtcpntIdResponseElement =
-				personWsClient.getPersonInfoByPtcpntId(findPersonByPtcpntIdRequestElement);
-
-		// Prepare the service response
-		final PersonInfoResponse personInfoResponse =
-				createPersonInfoResponse(findPersonByPtcpntIdResponseElement, personInfoRequest.getParticipantID());
-		return personInfoResponse;
+		if (cacheManager.getCache("demoPersonService") != null && cacheManager.getCache("demoPersonService").get(personInfoRequest) != null) {
+          LOGGER.info("returning cached data for {}", personInfoRequest);
+          return cacheManager.getCache("demoPersonService").get(personInfoRequest, PersonInfoResponse.class);
+        } else {
+    		// Prepare the WS request
+    		final JAXBElement<FindPersonByPtcpntId> findPersonByPtcpntIdRequestElement = createFindPersonByPidRequest(personInfoRequest);
+    
+    		// Invoke the Person Web Service via the WS Client
+    		JAXBElement<FindPersonByPtcpntIdResponse> findPersonByPtcpntIdResponseElement =
+    				personWsClient.getPersonInfoByPtcpntId(findPersonByPtcpntIdRequestElement);
+    		// Prepare the service response
+    		final PersonInfoResponse personInfoResponse =
+    				createPersonInfoResponse(findPersonByPtcpntIdResponseElement, personInfoRequest.getParticipantID());
+    		return personInfoResponse;
+        }
 
 	}
 	
@@ -159,14 +175,14 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	 * @return A JAXB element for the WS request
 	 */
 	@HystrixCommand(commandKey = "GetPersonInfoFallbackCommand")
-	public PersonInfoResponse getPersonInfoFallBack(PersonInfoRequest personInfoRequest) {
-	    if (cacheManager.getCache("demoPersonService") != null && cacheManager.getCache("demoPersonService").get(personInfoRequest) != null) {
-	    	LOGGER.info("getPersonInfoFallBack returning cached data for {}", personInfoRequest);
-	        return cacheManager.getCache("demoPersonService").get(personInfoRequest, PersonInfoResponse.class);
-	    } else {
-	    	LOGGER.error("getPersonInfoFallBack no cached data found raising exception for {}", personInfoRequest);
-	    	throw new AscentRuntimeException("No cached data found in the GetPersonInfoFallbackCommand. Raising an exception");
-	    }
+	public PersonInfoResponse getPersonInfoFallBack(PersonInfoRequest personInfoRequest, Throwable t) {
+		if (t != null) {
+			LOGGER.error("Exception occurred in findPersonByParticipantID: " + t);
+			DemoServiceException exc = new DemoServiceException(t.toString());
+			throw exc;
+		}
+		LOGGER.error("No cached data found raising an exception for {}", personInfoRequest);
+		throw new AscentRuntimeException("There was a problem processing your request.");
 	}
 
 	
