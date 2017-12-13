@@ -32,7 +32,7 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 	@When("^client request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
 	public void clientRequestPOSTWithJsondataSSNFallBackCached(String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
-		String baseUrl = restConfig.getBaseUrlPropertyName();
+		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
 
@@ -55,7 +55,7 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 	@When("^client request POST url \"([^\"]*)\" with data \"([^\"]*)\"$")
 	public void ClientRequestPOSTWithJsondataSSNFallBackNotCached(String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
-		String baseUrl = restConfig.getBaseUrlPropertyName();
+		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
 
