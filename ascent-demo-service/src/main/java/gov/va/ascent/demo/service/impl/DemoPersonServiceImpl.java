@@ -107,7 +107,6 @@ public class DemoPersonServiceImpl implements DemoPersonService {
         Defense.isTrue(personInfoRequest.getSsn().length() == SSN_LENGTH, "Invalid personInfoRequest SSN. Length must be "
                 + SSN_LENGTH);
         if (cacheManager.getCache("demoPersonService") != null && cacheManager.getCache("demoPersonService").get(personInfoRequest) != null) {
-          LOGGER.info("returning cached data for {}", personInfoRequest);
           return cacheManager.getCache("demoPersonService").get(personInfoRequest, PersonInfoResponse.class);
         } else {
             // Prepare the WS request
@@ -150,7 +149,6 @@ public class DemoPersonServiceImpl implements DemoPersonService {
         Defense.notNull(personInfoRequest.getParticipantID(), "Invalid argument, pid must not be null.");
 
         if (cacheManager.getCache("demoPersonService") != null && cacheManager.getCache("demoPersonService").get(personInfoRequest) != null) {
-          LOGGER.info("returning cached data for {}", personInfoRequest);
           return cacheManager.getCache("demoPersonService").get(personInfoRequest, PersonInfoResponse.class);
         } else {
             // Prepare the WS request
