@@ -30,6 +30,7 @@ import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
 import gov.va.ascent.demo.partner.person.ws.transfer.ObjectFactory;
 import gov.va.ascent.demo.partner.person.ws.transfer.PersonDTO;
 import gov.va.ascent.demo.service.api.DemoPersonService;
+import gov.va.ascent.demo.service.exception.DemoServiceException;
 import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 import gov.va.ascent.demo.service.utils.StringUtil;
 import gov.va.ascent.framework.exception.AscentRuntimeException;
@@ -176,14 +177,9 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 	public PersonInfoResponse getPersonInfoFallBack(PersonInfoRequest personInfoRequest, Throwable throwable) {
 	  final PersonInfoResponse response = new PersonInfoResponse();
 	    if (throwable != null) {
-	      final String msg = throwable.getMessage();
-	      final List<Message> messages = new ArrayList<Message>();
-	      messages.add(newMessage(MessageSeverity.ERROR, "ERROR", msg));
-          response.setMessages(messages);
-          if (LOGGER.isDebugEnabled()) {
-              LOGGER.debug(msg);
-          }
-	      return response; 
+	      LOGGER.error("Exception occurred in getPersonInfoFallBack {}", throwable);
+          DemoServiceException exc = new DemoServiceException("Error: " + throwable.toString());
+          throw exc;
 	    } 
 	    else {
 	      return response;  
@@ -207,7 +203,7 @@ public class DemoPersonServiceImpl implements DemoPersonService {
           if (LOGGER.isDebugEnabled()) {
                 LOGGER.debug(msg);
           }
-          return response; 
+          return response;
         } else {
             LOGGER.error("findPersonByParticipantIDFallBack No Throwable Exception and No Cached Data. Just Raise Runtime Exception {}", personInfoRequest);
             throw new AscentRuntimeException("There was a problem processing your request.");
@@ -353,6 +349,5 @@ public class DemoPersonServiceImpl implements DemoPersonService {
 		personInfo.setSocSecNo(personDto.getSsnNbr());
 		return personInfo;
 	}
-
 
 }
