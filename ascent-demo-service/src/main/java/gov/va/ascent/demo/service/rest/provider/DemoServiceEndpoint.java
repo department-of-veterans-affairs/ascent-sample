@@ -121,7 +121,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 			PersonInfoResponse personInfoResponse = new PersonInfoResponse();
 			personInfoResponse.addMessage(MessageSeverity.ERROR, HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 			LOGGER.error("Exception raised {}", e);
-			return new ResponseEntity<>(personInfoResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(personInfoResponse, HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			PersonInfoResponse personInfoResponse = new PersonInfoResponse();
 			personInfoResponse.addMessage(MessageSeverity.FATAL, HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
