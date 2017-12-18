@@ -1,11 +1,10 @@
 Feature: Demo person service SSN hystrix fallback cached and not cached
-
-   @ssnfallbacknotcached
+  @ssnfallbacknotcached
   Scenario Outline: Search based on SSN with Hystrix Fallback not Cached
-    Given I pass the header information for ssn not cached
+    Given I pass the header information for SSNNotcached
       | Content-Type | application/json |
-    When client request POST url "<ServiceURL>" with data "<RequestFile>"
-    Then the response code be 400
+    When client request SSNnotcached "<ServiceURL>" with SSNnotcached data "<RequestFile>"
+    Then the response code for SSNnotcached should be 400
     And the SSNnotcached result should be same as valid transaction response "<ResponseFile>"
 
     Examples: 
@@ -15,10 +14,10 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
  
  @ssnfallbackcached
   Scenario Outline: Search based on SSN with Hystrix Fallback Cached
-    Given I pass the header information for ssn
+    Given I pass the header information for ssn cached
       | Content-Type | application/json |
-    When client request POST "<ServiceURL>" with json data "<RequestFile>"
-    Then the response code should be 200
+    When client request SSNcached "<ServiceURL>" with SSNcached data "<RequestFile>"
+    Then the response code for SSNcached should be 200 
     And the SSNcached result should be same as valid transaction response "<ResponseFile>"
 
     Examples: 
