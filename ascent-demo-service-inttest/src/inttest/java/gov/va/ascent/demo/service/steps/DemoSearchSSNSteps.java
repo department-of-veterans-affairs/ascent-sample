@@ -22,20 +22,20 @@ public class DemoSearchSSNSteps extends BaseStepDef {
 	public void setUpREST() {
 		initREST();
 	}
-
+	   
 	@Given("^I pass the header information for search ssn$")
 	public void passHeaderInformationForVeteran(Map<String, String> tblHeader) throws Throwable {
 		passHeaderInformation(tblHeader);
 	}
-
-	@When("^request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
+	
+	@When("^request search ssn \"([^\"]*)\" with ssn data \"([^\"]*)\"$")
 	public void clientrequestPOSTwithjsondata(String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
 		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
-
-	@Then("^the response code must be (\\d+)$")
+	 
+	@Then("^the response code for search ssn should be (\\d+)$")
 	public void serviceresposestatuscodemustbe(int intStatusCode) throws Throwable {
 		validateStatusCode(intStatusCode);
 	}

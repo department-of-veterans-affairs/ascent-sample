@@ -24,19 +24,20 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 	}
 
 	// Steps for SSN Fall Back Cached//
-	@Given("^I pass the header information for ssn$")
+
+	@Given("^I pass the header information for ssn cached$")
 	public void passHeaderInformationForSSNFallBackCached(Map<String, String> tblHeader) throws Throwable {
 		passHeaderInformation(tblHeader);
 	}
-
-	@When("^client request POST \"([^\"]*)\" with json data \"([^\"]*)\"$")
+	
+	@When("^client request SSNcached \"([^\"]*)\" with SSNcached data \"([^\"]*)\"$")
 	public void clientRequestPOSTWithJsondataSSNFallBackCached(String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
 		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
-
-	@Then("^the response code should be (\\d+)$")
+	
+	@Then("^the response code for SSNcached should be (\\d+)$")
 	public void FallBackCachedserviceresposestatuscodemustbe(int intStatusCode) throws Throwable {
 		validateStatusCode(intStatusCode);
 	}
@@ -46,20 +47,20 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 		checkResponseContainsValue(strResFile);
 	}
 	// Steps for SSN Fall Back NotCached//
-
-	@Given("^I pass the header information for ssn not cached$")
+	
+	@Given("^I pass the header information for SSNNotcached$")
 	public void passHeaderInformationForSSNNotCached(Map<String, String> tblHeader) throws Throwable {
 		passHeaderInformation(tblHeader);
 	}
 
-	@When("^client request POST url \"([^\"]*)\" with data \"([^\"]*)\"$")
+	@When("^client request SSNnotcached \"([^\"]*)\" with SSNnotcached data \"([^\"]*)\"$")
 	public void ClientRequestPOSTWithJsondataSSNFallBackNotCached(String strURL, String requestFile) throws Throwable {
 		resUtil.setUpRequest(requestFile, headerMap);
 		String baseUrl = restConfig.getPropertyName("baseURL", true);
 		invokeAPIUsingPost(baseUrl + strURL, true);
 	}
-
-	@Then("^the response code be (\\d+)$")
+	
+	@Then("^the response code for SSNnotcached should be (\\d+)$")
 	public void SSNFallBackNotCachedServiceResposeStatusCodeMustBe(int intStatusCode) throws Throwable {
 		validateStatusCode(intStatusCode);
 	}
