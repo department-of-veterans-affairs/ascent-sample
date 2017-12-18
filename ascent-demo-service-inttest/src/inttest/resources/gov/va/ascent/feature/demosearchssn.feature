@@ -5,8 +5,8 @@ Feature: Demo person service API search based on SSN
     Given I pass the header information for search ssn
       | Accept       | application/json;v=3 |
       | Content-Type | application/json;v=3 |
-    When request POST "<ServiceURL>" with json data "<RequestFile>"
-    Then the response code must be 400
+    When request search ssn "<ServiceURL>" with ssn data "<RequestFile>"
+    Then the response code for search ssn should be 400 
     And the search SSN result should be same as valid response "<ResponseFile>"
 
     Examples: 
