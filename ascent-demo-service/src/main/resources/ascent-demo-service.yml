@@ -18,7 +18,7 @@ ascent:
 ---
 spring.profiles: default, local-int
 spring.profiles.include: remote_client_sims, embedded-redis
-spring.zipkin.enabled: false
+
 ascent:
   cache:
     redis-config: 
@@ -30,6 +30,8 @@ spring:
   redis: 
     host: localhost
     port: 6379
+  rabbitmq:
+    host: localhost
 ---
 spring: 
   cloud:
