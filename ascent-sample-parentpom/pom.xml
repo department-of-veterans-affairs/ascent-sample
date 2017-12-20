@@ -6,11 +6,7 @@
 	<parent>
 		<groupId>gov.va.ascent</groupId>
 		<artifactId>ascent-platform-parent</artifactId>
-		<!-- this should match wss.version property below. can't use property project.parent.version 
-			because that property won't resolve properly in the child poms that are 2 
-			levels down. -->
 		<version>0.0.1-SNAPSHOT</version>
-		<!-- Force artifact resolution from repository -->
 		<relativePath />
 	</parent>
 
@@ -29,7 +25,6 @@
 		<!-- Docker properties to add min and max memory for spring boot jar start up -->
 		<docker.java.opts.ms>-Xms64m</docker.java.opts.ms>
 		<docker.java.opts.mx>-Xmx256m</docker.java.opts.mx>
-		<ascent.version>0.0.1-SNAPSHOT</ascent.version>
 	</properties>
 
 	<dependencyManagement>
@@ -37,7 +32,7 @@
 			<dependency>
 				<groupId>gov.va.ascent</groupId>
 				<artifactId>ascent-platform-starter</artifactId>
-				<version>${ascent.version}</version>
+				<version>0.0.1-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>gov.va.ascent.sample</groupId>
