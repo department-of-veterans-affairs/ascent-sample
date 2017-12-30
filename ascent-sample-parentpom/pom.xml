@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>gov.va.ascent</groupId>
 		<artifactId>ascent-platform-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.2-SNAPSHOT</version>
 		<relativePath />
 	</parent>
 
@@ -32,7 +32,7 @@
 			<dependency>
 				<groupId>gov.va.ascent</groupId>
 				<artifactId>ascent-platform-starter</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.0.2-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>gov.va.ascent.sample</groupId>
