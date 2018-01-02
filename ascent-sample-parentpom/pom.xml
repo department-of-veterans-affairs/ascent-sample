@@ -12,8 +12,8 @@
 
 	<groupId>gov.va.ascent.sample</groupId>
 	<artifactId>ascent-sample-parentpom</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<version>0.0.1-SNAPSHOT</version>
 
 	<name>${project.artifactId}</name>
 	<description>Parent POM for Ascent Sample project</description>
@@ -26,14 +26,17 @@
 		<docker.java.opts.ms>-Xms64m</docker.java.opts.ms>
 		<docker.java.opts.mx>-Xmx256m</docker.java.opts.mx>
 	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-test-framework</artifactId>
+			<version>${ascent.test.framework.version}</version>
+		</dependency>
+	</dependencies>
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
-				<groupId>gov.va.ascent</groupId>
-				<artifactId>ascent-platform-starter</artifactId>
-				<version>0.0.2-SNAPSHOT</version>
-			</dependency>
 			<dependency>
 				<groupId>gov.va.ascent.sample</groupId>
 				<artifactId>ascent-demo-partner</artifactId>
