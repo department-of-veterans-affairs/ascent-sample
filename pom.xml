@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>gov.va.ascent.sample</groupId>
 		<artifactId>ascent-sample-parentpom</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>ascent-sample-parentpom</relativePath>
 	</parent>
 	
