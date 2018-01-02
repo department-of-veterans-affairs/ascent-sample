@@ -1,5 +1,7 @@
 package gov.va.ascent.demo.service.steps;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -44,7 +46,7 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 
 	@And("^the SSNcached result should be same as valid transaction response \"(.*?)\"$")
 	public void FallBackCachedresultshouldbesameasvalidTransactionsresponse(String strResFile) throws Throwable {
-		checkResponseContainsValue(strResFile);
+		assertTrue(compareExpectedResponseWithActual(strResFile));
 	}
 	// Steps for SSN Fall Back NotCached//
 	
@@ -67,7 +69,7 @@ public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
 
 	@And("^the SSNnotcached result should be same as valid transaction response \"(.*?)\"$")
 	public void SSNFallBackNotCachedResultShouldBeSameAsValidTransactionsResponse(String strResFile) throws Throwable {
-		checkResponseContainsValue(strResFile);
+		assertTrue(compareExpectedResponseWithActual(strResFile));
 	}
 
 	@After({ "@ssnfallbackcached, @ssnfallbacknotcached" })
