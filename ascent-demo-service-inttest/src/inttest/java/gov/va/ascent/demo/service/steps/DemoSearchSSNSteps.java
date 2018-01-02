@@ -1,5 +1,7 @@
 package gov.va.ascent.demo.service.steps;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -42,7 +44,7 @@ public class DemoSearchSSNSteps extends BaseStepDef {
 
 	@And("^the search SSN result should be same as valid response \"(.*?)\"$")
 	public void resultshouldbesameasvalidTransactionsresponse(String strResFile) throws Throwable {
-		checkResponseContainsValue(strResFile);
+		assertTrue(compareExpectedResponseWithActual(strResFile));
 	}
 
 	@After({ "@searchssn" })
