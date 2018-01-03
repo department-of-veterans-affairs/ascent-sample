@@ -1,6 +1,10 @@
 @Library('ascent') _
 
 microservicePipeline {
+
+    //Specify string of comma separated upstream projects that will
+    //trigger this build if successful
+    upstreamProjects = '../ascent-platform/development'
     
     dockerBuilds = [
         "ascent/demo-service": "ascent-demo-service",
