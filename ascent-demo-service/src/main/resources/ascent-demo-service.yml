@@ -30,8 +30,12 @@ spring:
   redis: 
     host: localhost
     port: 6379
-  rabbitmq:
-    host: localhost
+  sleuth:
+    stream:
+      enabled: false
+  zipkin:
+    enabled: true
+    baseUrl: http://localhost:8700
 ---
 spring: 
   cloud:
