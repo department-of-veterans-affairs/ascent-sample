@@ -6,6 +6,7 @@ services:
     hostname: ascent-amqp
     networks:
     - ascentnet
+    
   ascent-discovery:
     image: ascent/ascent-discovery
     hostname: ascent-discovery
@@ -17,11 +18,7 @@ services:
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8761/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
+
   ascent-config:
     image: ascent/ascent-config
     ports:
@@ -34,11 +31,7 @@ services:
     - VAULT_SCHEME=https
     networks:
     - ascentnet
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8760/actuator/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
+  
   ascent-gateway:
     image: ascent/ascent-gateway
     ports:
@@ -49,11 +42,7 @@ services:
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8762/actuator/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
+
   ascent-dashboard:
     image: ascent/ascent-dashboard
     ports:
@@ -64,11 +53,7 @@ services:
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8763/actuator/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
+
   ascent-zipkin:
     image: ascent/ascent-zipkin
     ports:
@@ -79,11 +64,7 @@ services:
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
     - ascentnet
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8700/actuator/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
+
 
   demo-service:
     image: ascent/demo-service
@@ -101,11 +82,7 @@ services:
         - node.role == worker
     labels:
       gov.va.ascent.testable: "true"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
+
   document-service:
     image: ascent/document-service
     environment:
@@ -118,11 +95,7 @@ services:
       placement:
         constraints:
         - node.role == worker
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8088/actuator/health"]
-      interval: 60s
-      timeout: 10s
-      retries: 3
+
   redis-master:
     image: redis:4.0.1-alpine
     networks:
