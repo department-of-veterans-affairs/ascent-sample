@@ -24,7 +24,7 @@ microservicePipeline {
 
     //Test Environment Definition
     testEnvironment = ['test-env.yml']
-    deployWaitTime = 500
+    deployWaitTime = 700
 
     //Name of the service to test
     serviceToTest = 'ascent-gateway'
