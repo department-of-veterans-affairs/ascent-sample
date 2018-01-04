@@ -19,7 +19,8 @@ microservicePipeline {
     */
     vaultTokens = [
         "DEMO_SERVICE_VAULT_TOKEN": "ascent-demo",
-        "PLATFORM_VAULT_TOKEN": "ascent-platform"
+        "PLATFORM_VAULT_TOKEN": "ascent-platform",
+        "REDIS_VAULT_TOKEN" : "redis",
     ]
 
     //Test Environment Definition
