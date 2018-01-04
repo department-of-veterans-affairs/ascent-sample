@@ -112,6 +112,10 @@
          </dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-sleuth-stream</artifactId>
 		</dependency>
 		<dependency>
@@ -277,6 +281,5 @@
         	</plugins>
         </pluginManagement>
     </build>
-    
-    
+
 </project>
