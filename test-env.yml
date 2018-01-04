@@ -12,7 +12,7 @@ services:
     ports:
     - 8761
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-prod
+    - SPRING_PROFILES_ACTIVE=aws-ci
     - VAULT_ADDR=${VAULT_ADDR}
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
@@ -27,7 +27,7 @@ services:
     ports:
     - 8760
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-prod
+    - SPRING_PROFILES_ACTIVE=aws-ci
     - VAULT_ADDR=https://${VAULT_HOST}:8200
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     - VAULT_HOST=${VAULT_HOST}
@@ -44,7 +44,7 @@ services:
     ports:
     - 8762
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-prod
+    - SPRING_PROFILES_ACTIVE=aws-ci
     - VAULT_ADDR=${VAULT_ADDR}
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
@@ -59,7 +59,7 @@ services:
     ports:
     - 8763
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-prod
+    - SPRING_PROFILES_ACTIVE=aws-ci
     - VAULT_ADDR=${VAULT_ADDR}
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
@@ -74,7 +74,7 @@ services:
     ports:
     - 8700
     environment:
-    - SPRING_PROFILES_ACTIVE=aws-prod
+    - SPRING_PROFILES_ACTIVE=aws-ci
     - VAULT_ADDR=${VAULT_ADDR}
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     networks:
