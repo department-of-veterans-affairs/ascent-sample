@@ -6,7 +6,7 @@ services:
     hostname: ascent-amqp
     networks:
     - ascentnet
-    
+
   ascent-discovery:
     image: ascent/ascent-discovery
     hostname: ascent-discovery
@@ -97,44 +97,77 @@ services:
         - node.role == worker
 
   redis-master:
-    image: redis:4.0.1-alpine
+    image: ascent/redis-sentinel
+    environment:
+      - START_COMMAND=sh /redis/redis-wrapper.sh
+      - VAULT_ADDR=${VAULT_ADDR}
+      - VAULT_TOKEN=${REDIS_VAULT_TOKEN}
     networks:
       - ascentnet
     deploy:
       placement:
         constraints:
         - node.role == worker
+      
   redis-slave:
-    image: redis:4.0.1-alpine
-    command: redis-server --slaveof redis-master 6379
+    image: ascent/redis-sentinel
+    environment:
+      - START_COMMAND=sh /redis/redis-wrapper.sh --slaveof redis-master 6379
+      - VAULT_ADDR=${VAULT_ADDR}
+      - VAULT_TOKEN=${REDIS_VAULT_TOKEN}
     links:
       - redis-master
     networks:
       - ascentnet
+    deploy:
+      placement:
+        constraints:
+        - node.role == worker
       
   # Instance 1
   redis-sentinel:
     image: ascent/redis-sentinel
+    environment:
+      - VAULT_ADDR=${VAULT_ADDR}
+      - VAULT_TOKEN=${REDIS_VAULT_TOKEN}
     links:
       - redis-master
     networks:
       - ascentnet
+    deploy:
+      placement:
+        constraints:
+        - node.role == worker
       
   # Instance 2
   redis-sentinel2:
     image: ascent/redis-sentinel
+    environment:
+      - VAULT_ADDR=${VAULT_ADDR}
+      - VAULT_TOKEN=${REDIS_VAULT_TOKEN}
     links:
       - redis-master
     networks:
       - ascentnet
+    deploy:
+      placement:
+        constraints:
+        - node.role == worker
   
   # Instance 3
   redis-sentinel3:
     image: ascent/redis-sentinel
+    environment:
+      - VAULT_ADDR=${VAULT_ADDR}
+      - VAULT_TOKEN=${REDIS_VAULT_TOKEN}
     links:
       - redis-master
     networks:
       - ascentnet
+    deploy:
+      placement:
+        constraints:
+        - node.role == worker
   
 networks:
   ascentnet:
