@@ -133,8 +133,9 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 	@RequestMapping(value = URL_PREFIX + "/person/pid", 
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "PID based Person Info from DEMO Partner Service.", notes = "Will return a person info based on PID.")
-	public ResponseEntity<PersonInfoResponse> personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
-		return new ResponseEntity<>(demoPersonService.findPersonByParticipantID(personInfoRequest), HttpStatus.OK);
+	public PersonInfoResponse personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
+		PersonInfoResponse personInfoResponse = demoPersonService.findPersonByParticipantID(personInfoRequest);
+		return personInfoResponse;
 	}
 	
 	
