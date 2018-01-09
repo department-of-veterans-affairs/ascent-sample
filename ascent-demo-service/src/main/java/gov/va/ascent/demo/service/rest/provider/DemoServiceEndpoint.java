@@ -150,8 +150,7 @@ public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMess
 			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
 	@ApiOperation(value = "PID based Person Info from DEMO Partner Service.", notes = "Will return a person info based on PID.")
 	public PersonInfoResponse personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
-		PersonInfoResponse personInfoResponse = demoPersonService.findPersonByParticipantID(personInfoRequest);
-		return personInfoResponse;
+		return demoPersonService.findPersonByParticipantID(personInfoRequest);
 	}
 	
 	
