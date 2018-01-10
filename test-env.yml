@@ -2,10 +2,12 @@ version: '3'
 
 services:
   ascent-amqp:
-    image: rabbitmq
-    hostname: ascent-amqp
+    image: ascent/rabbitmq
     networks:
     - ascentnet
+    environment:
+    - VAULT_ADDR=${VAULT_ADDR}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
 
   ascent-discovery:
     image: ascent/ascent-discovery
