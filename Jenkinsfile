@@ -1,6 +1,10 @@
 @Library('ascent') _
 
 microservicePipeline {
+
+    //Specify string of comma separated upstream projects that will
+    //trigger this build if successful
+    upstreamProjects = '../ascent-platform/development'
     
     dockerBuilds = [
         "ascent/demo-service": "ascent-demo-service",
@@ -15,11 +19,13 @@ microservicePipeline {
     */
     vaultTokens = [
         "DEMO_SERVICE_VAULT_TOKEN": "ascent-demo",
-        "PLATFORM_VAULT_TOKEN": "ascent-platform"
+        "PLATFORM_VAULT_TOKEN": "ascent-platform",
+        "REDIS_VAULT_TOKEN" : "redis",
     ]
 
     //Test Environment Definition
     testEnvironment = ['test-env.yml']
+    deployWaitTime = 400
 
     //Name of the service to test
     serviceToTest = 'ascent-gateway'
