@@ -106,18 +106,19 @@
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
         </dependency>
         <!-- Spring-cloud sleuth dependency for generating instrumentation data for audit purposes -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-         </dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-sleuth-stream</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-		</dependency>
+	   <dependency> 
+	       <groupId>org.springframework.cloud</groupId>
+	       <artifactId>spring-cloud-sleuth-stream</artifactId>
+	   </dependency>
+	   <dependency> 
+	       <groupId>org.springframework.cloud</groupId>
+	       <artifactId>spring-cloud-starter-sleuth</artifactId>
+	   </dependency>
+	   <!-- EXAMPLE FOR RABBIT BINDING -->
+	   <dependency> 
+	       <groupId>org.springframework.cloud</groupId>
+	       <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+	   </dependency>
         <dependency>
             <groupId>net.logstash.logback</groupId>
             <artifactId>logstash-logback-encoder</artifactId>
@@ -218,19 +219,19 @@
                 </executions>
             </plugin>
             <plugin>
-				<groupId>gov.va.wss.maven.plugins</groupId>
-				<artifactId>wss-jsr303keygen-maven-plugin</artifactId>
-				<version>1.0.1</version>
+				<groupId>gov.va.ascent.maven.plugins</groupId>
+				<artifactId>ascent-jsr303keygen-maven-plugin</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
 				<dependencies>
 					<dependency>
 						<groupId>${project.groupId}</groupId>
-    					<artifactId>${project.artifactId}</artifactId>
-	    				<version>${project.version}</version>
-    				</dependency>
+						<artifactId>${project.artifactId}</artifactId>
+						<version>${project.version}</version>
+					</dependency>
 				</dependencies>
 				<configuration>
-					<wssJsr303KeyGenDescriptorFile>${project.basedir}/src/main/resources/WssJsr303KeyGenDescriptor.json</wssJsr303KeyGenDescriptorFile>
-					<wssJsr303KeyGenOutputFile>${project.build.outputDirectory}/static/swagger/error-keys.html</wssJsr303KeyGenOutputFile>
+					<ascentJsr303KeyGenDescriptorFile>${project.basedir}/src/main/resources/AscentJsr303KeyGenDescriptor.json</ascentJsr303KeyGenDescriptorFile>
+					<ascentJsr303KeyGenOutputFile>${project.build.outputDirectory}/static/swagger/error-keys.html</ascentJsr303KeyGenOutputFile>
 				</configuration>
 				<executions>
 					<execution>
@@ -254,13 +255,13 @@
         						<pluginExecution>
         							<pluginExecutionFilter>
         								<groupId>
-        									gov.va.wss.maven.plugins
+        									gov.va.ascent.maven.plugins
         								</groupId>
         								<artifactId>
-        									wss-jsr303keygen-maven-plugin
+        									ascent-jsr303keygen-maven-plugin
         								</artifactId>
         								<versionRange>
-        									[1.0.1,)
+        									[0.0.1-SNAPSHOT,)
         								</versionRange>
         								<goals>
         									<goal>keygen</goal>
@@ -277,6 +278,5 @@
         	</plugins>
         </pluginManagement>
     </build>
-    
-    
+
 </project>

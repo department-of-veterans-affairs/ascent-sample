@@ -104,13 +104,13 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-         </dependency>
-        <!-- Spring-cloud sleuth dependency for generating instrumentation data for audit purposes -->
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
+         </dependency>
+        <!-- Spring-cloud sleuth dependency for generating instrumentation data for audit purposes -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-sleuth-stream</artifactId>
@@ -161,4 +161,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>

@@ -99,3 +99,12 @@ ascent:
     groupName: document-v1
     version: ${info.build.version}
     securePaths: /document.*
+---
+spring:
+  profiles: local-int
+  sleuth:
+    stream:
+      enabled: false
+  zipkin:
+    enabled: true
+    baseUrl: http://localhost:8700
