@@ -50,6 +50,10 @@
 			<groupId>gov.va.ascent</groupId>
 			<artifactId>ascent-platform-starter-cache</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-platform-starter-aws</artifactId>
+		</dependency>
     	<!-- spring-boot dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -130,6 +134,11 @@
             <artifactId>jackson-module-jaxb-annotations</artifactId>
         </dependency>
         
+        <dependency>
+	      <groupId>org.springframework</groupId>
+	      <artifactId>spring-jms</artifactId>
+	    </dependency>
+	        
         <!-- Cache Manager Dependencies -->
 		<dependency>
 		    <groupId>org.springframework.data</groupId>
