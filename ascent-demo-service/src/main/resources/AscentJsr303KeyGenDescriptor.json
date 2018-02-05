@@ -1,5 +1,5 @@
 {
-  "WssJsr303KeyGenDescriptor" : {
+  "AscentJsr303KeyGenDescriptor" : {
     "operationDescriptors" : [ 
 	    {
 	      "name" : "/demo/v1/create",

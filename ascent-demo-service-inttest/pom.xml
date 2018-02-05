@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     
-      <parent>
-		<groupId>gov.va.ascent</groupId>
-		<artifactId>ascent-libraries-parent</artifactId>
+    <parent>
+		<groupId>gov.va.ascent.sample</groupId>
+		<artifactId>ascent-sample-parentpom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath/>
-	 </parent>
+		<relativePath>../ascent-sample-parentpom</relativePath>
+	</parent>
 
 	<artifactId>ascent-demo-service-inttest</artifactId>
 	<packaging>jar</packaging>
@@ -21,7 +21,7 @@
 		<dependency>
 			<groupId>gov.va.ascent</groupId>
 			<artifactId>ascent-test-framework</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.2-SNAPSHOT</version>
 		</dependency>
 	
 	</dependencies>
