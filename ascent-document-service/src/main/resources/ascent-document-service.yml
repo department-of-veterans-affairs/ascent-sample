@@ -99,3 +99,9 @@ ascent:
     groupName: document-v1
     version: ${info.build.version}
     securePaths: /document.*
+---
+spring:
+  profiles: default, local-int
+  sleuth:
+    stream:
+      enabled: false
