@@ -101,10 +101,7 @@ ascent:
     securePaths: /document.*
 ---
 spring:
-  profiles: local-int
+  profiles: default, local-int
   sleuth:
     stream:
       enabled: false
-  zipkin:
-    enabled: true
-    baseUrl: http://localhost:8700
