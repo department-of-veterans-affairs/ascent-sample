@@ -16,16 +16,6 @@
 	<name>ascent-demo-service-inttest</name>
 	<description>Ascent Demo Service Integration Test Suite</description>
 
-	<dependencies>
-	
-		<dependency>
-			<groupId>gov.va.ascent</groupId>
-			<artifactId>ascent-test-framework</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
-		</dependency>
-	
-	</dependencies>
-
 	<build>
 		<plugins>
 			<!-- The skip property allows to skip the execution of the Spring Boot maven plugin altogether -->
