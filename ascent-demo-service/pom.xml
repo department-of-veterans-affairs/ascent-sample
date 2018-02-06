@@ -224,7 +224,7 @@
             <plugin>
 				<groupId>gov.va.ascent.maven.plugins</groupId>
 				<artifactId>ascent-jsr303keygen-maven-plugin</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.0.1</version>
 				<dependencies>
 					<dependency>
 						<groupId>${project.groupId}</groupId>
@@ -264,7 +264,7 @@
         									ascent-jsr303keygen-maven-plugin
         								</artifactId>
         								<versionRange>
-        									[0.0.1-SNAPSHOT,)
+        									[0.0.1,)
         								</versionRange>
         								<goals>
         									<goal>keygen</goal>
