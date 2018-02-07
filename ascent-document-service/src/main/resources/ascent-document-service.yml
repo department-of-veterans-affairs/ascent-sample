@@ -100,26 +100,29 @@ ascent:
     version: ${info.build.version}
     securePaths: /document.*
 ---
-spring.profiles: default, local-int
+spring.profiles: default,local-int
 spring.profiles.include: remote_client_sims
-spring.zipkin.enabled: false
+spring:
+  sleuth:
+    stream:
+      enabled: false
 --- 
 ## S3 and SQS Configurations for Ascent   
 ascent:
   aws:
-    access_key_id: ${AWS_ACCESS_KEY}
-    secret_access_key: ${AWS_SECRET_ACCESS_KEY}
+    access_key_id: ${AWS_ACCESS_KEY:AKIAJ2N6DQZJZT2ZMS2A}
+    secret_access_key: ${AWS_SECRET_ACCESS_KEY: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}
   s3:
-    bucket: ${AWS_S3_BUCKET_NAME}
+    bucket: ${AWS_S3_BUCKET_NAME:avkulkarni}
     region: ${AWS_REGION:us-east-1}
     uploadfile: classpath:ascent-s3-upload-file.txt
     key: ascent-s3-upload-file.txt
   sqs:
     region: ${AWS_SQS_REGION:us-east-1}
-    endpoint: ${AWS_SQS_ENDPOINT}
+    endpoint: ${AWS_SQS_ENDPOINT:https://sqs.us-east-1.amazonaws.com/612337245538/avkulkarni}
     numberOfMessagesToPrefetch: ${AMAZON_SQS_NUMBER_OF_MESSAGES_TO_PREFETCH:5}
     extended:
-      s3BucketName: ${AWS_SQS_EXT_S3_BUCKET_NAME}
+      s3BucketName: ${AWS_SQS_EXT_S3_BUCKET_NAME:avkulkarni}
 
 cloud.aws.stack.auto: false
 cloud.aws.region.static: us-east-1
