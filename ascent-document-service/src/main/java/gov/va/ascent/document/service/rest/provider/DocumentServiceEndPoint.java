@@ -1,6 +1,5 @@
 package gov.va.ascent.document.service.rest.provider;
 
-import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jms.core.JmsOperations;
+import org.springframework.jms.annotation.JmsListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -25,6 +25,7 @@ import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import gov.va.ascent.starter.aws.autoconfigure.s3.services.S3Services;
+import gov.va.ascent.starter.aws.autoconfigure.sqs.services.SQSServices;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -40,7 +41,7 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	S3Services s3Services;
 	
 	@Autowired
-	JmsOperations jmsTemplate;
+	SQSServices sqsServices;
 	    
 	@Value("${ascent.s3.uploadfile}")
 	private String uploadFilePath;
@@ -55,13 +56,13 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 		return Health.up().withDetail("Document Service REST Endpoint", "Document Service REST Provider Up and Running!").build();
 	}
 	
-	@RequestMapping(value = URL_PREFIX + "/uploadStaticFileDocument", method = RequestMethod.GET)
-    public void uploadStaticFileDocument() throws IOException {
-	  System.out.println("---------------- START UPLOAD FILE ----------------");
-      s3Services.uploadFile("ascent-s3-upload-file.txt", uploadFilePath);
+	//@RequestMapping(value = URL_PREFIX + "/uploadStaticFileDocument", method = RequestMethod.GET)
+    //public void uploadStaticFileDocument() throws IOException {
+	 // System.out.println("---------------- START UPLOAD FILE ----------------");
+     // s3Services.uploadFile("ascent-s3-upload-file.txt", uploadFilePath);
       //System.out.println("---------------- START DOWNLOAD FILE ----------------");
       //s3Services.downloadFile(downloadKey);
-    }
+    //}
 	
 	@PostMapping(value = URL_PREFIX + "/uploadDocument")
     @ApiOperation(value = "Upload a Document",
@@ -77,9 +78,14 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	@PostMapping("/message")
 	public ResponseEntity<?> sendMessage(@RequestBody String message) {
 	   LOGGER.info("Sending message {}.", message);
-	   jmsTemplate.convertAndSend(message);
+	   sqsServices.sendMessage(message);
 	   return ResponseEntity.ok().build();
 	}
+	
+    /*@JmsListener(destination = "")
+    public void receive(@Payload String message) {
+      LOGGER.info("Received message {}.", message);
+    }*/
 	
 	@RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GetDocumentTypesResponse> getDocumentTypes() {
@@ -87,6 +93,6 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 		docResponse = documentService.getDocumentTypes();
         LOGGER.info("DOCUMENT SERVICE getDocumentTypes INVOKED");
         return new ResponseEntity<>(docResponse, HttpStatus.OK);
-    }		
+    }	
 	
 }
