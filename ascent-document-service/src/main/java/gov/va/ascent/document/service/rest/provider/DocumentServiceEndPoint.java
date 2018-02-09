@@ -1,5 +1,7 @@
 package gov.va.ascent.document.service.rest.provider;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
+import gov.va.ascent.document.sqs.MessageAttributes;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import gov.va.ascent.starter.aws.autoconfigure.s3.services.S3Services;
 import gov.va.ascent.starter.aws.autoconfigure.sqs.services.SQSServices;
@@ -72,20 +75,41 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
                                       final @RequestBody MultipartFile documentOne
     )
     {
-	  return s3Services.uploadMultiPartSingle(documentOne);
+		Map<String, String> propertyMap = documentService.getDocumentAttributes();
+		return s3Services.uploadMultiPartSingle(documentOne, propertyMap );
     }
+	
+	@PostMapping(value = URL_PREFIX + "/uploadDocumentAndSendMessage")
+    @ApiOperation(value = "Upload a Document",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> uploadDocumentAndSendMessage(final @RequestHeader HttpHeaders headers,
+                                      final @RequestBody MultipartFile documentOne
+    )
+    {
+		Map<String, String> propertyMap = documentService.getDocumentAttributes();
+		s3Services.uploadMultiPartSingle(documentOne, propertyMap);
+		LOGGER.info("Sending message {}.", "Sample Test Message");
+		String jsonMessage = documentService.getMessageAttributes("Sample Test Message");
+		sqsServices.sendMessage(jsonMessage);
+		return ResponseEntity.ok().build();
+    }	
 	
 	@PostMapping("/message")
 	public ResponseEntity<?> sendMessage(@RequestBody String message) {
 	   LOGGER.info("Sending message {}.", message);
-	   sqsServices.sendMessage(message);
+	   String jsonMessage = documentService.getMessageAttributes(message);
+	   sqsServices.sendMessage(jsonMessage);
 	   return ResponseEntity.ok().build();
 	}
 	
-    /*@JmsListener(destination = "")
+    @JmsListener(destination = "evssstandardqueue")
     public void receive(@Payload String message) {
-      LOGGER.info("Received message {}.", message);
-    }*/
+    		MessageAttributes documentAttributes = documentService.getDocumentAttributesFromJson(message); 
+    		String docName = documentAttributes.getDocumentName();
+    		s3Services.copyFileFromSourceToTargetBucket(docName);
+    		LOGGER.info("Received message {}.", message);
+    }
 	
 	@RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GetDocumentTypesResponse> getDocumentTypes() {
