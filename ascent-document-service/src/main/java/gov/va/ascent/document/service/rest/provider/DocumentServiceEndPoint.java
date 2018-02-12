@@ -87,6 +87,9 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
                                       final @RequestBody MultipartFile documentOne
     )
     {
+		
+        sqsServices.startJmsConnection();
+
 		Map<String, String> propertyMap = documentService.getDocumentAttributes();
 		s3Services.uploadMultiPartSingle(documentOne, propertyMap);
 		LOGGER.info("Sending message {}.", "Sample Test Message");
@@ -103,13 +106,13 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	   return ResponseEntity.ok().build();
 	}
 	
-    @JmsListener(destination = "evssstandardqueue")
+/*    @JmsListener(destination = "evssstandardqueue")
     public void receive(@Payload String message) {
     		MessageAttributes documentAttributes = documentService.getDocumentAttributesFromJson(message); 
     		String docName = documentAttributes.getDocumentName();
     		s3Services.copyFileFromSourceToTargetBucket(docName);
     		LOGGER.info("Received message {}.", message);
-    }
+    }*/
 	
 	@RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GetDocumentTypesResponse> getDocumentTypes() {
