@@ -121,6 +121,7 @@ ascent:
     region: ${AWS_SQS_REGION:us-west-2}
     endpoint: https://sqs.us-west-2.amazonaws.com/180197991925/evssstandardqueue
     numberOfMessagesToPrefetch: ${AMAZON_SQS_NUMBER_OF_MESSAGES_TO_PREFETCH:5}
+    queuename: evssstandardqueue
     extended:
       s3BucketName: evsstestbucket
 
