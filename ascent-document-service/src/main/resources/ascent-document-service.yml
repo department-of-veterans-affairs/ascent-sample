@@ -107,6 +107,14 @@ spring:
     stream:
       enabled: false
 --- 
+
+# tomcat upload file configuration
+spring:
+  http:
+   multipart:
+    max-file-size: 25MB
+    max-request-size: 26MB
+---
 ## S3 and SQS Configurations for Ascent   
 ascent:
   aws:
