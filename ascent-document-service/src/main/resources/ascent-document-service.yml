@@ -110,20 +110,19 @@ spring:
 ## S3 and SQS Configurations for Ascent   
 ascent:
   aws:
-    access_key_id: AKIAI2E4234ES5P3ZXXQ
-    secret_access_key: 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
+    access_key_id: ${AWS_ACCESS_KEY}
+    secret_access_key: ${AWS_SECRET_ACCESS_KEY}
   s3:
-    bucket: evsstestbucket
-    region: ${AWS_REGION:us-east-1}
+    bucket: ${AWS_S3_BUCKET_NAME}
+    region: ${AWS_REGION:us-west-2}
     uploadfile: classpath:ascent-s3-upload-file.txt
     key: ascent-s3-upload-file.txt
   sqs:
     region: ${AWS_SQS_REGION:us-west-2}
-    endpoint: https://sqs.us-west-2.amazonaws.com/180197991925/evssstandardqueue
+    endpoint: ${AWS_SQS_ENDPOINT}
     numberOfMessagesToPrefetch: ${AMAZON_SQS_NUMBER_OF_MESSAGES_TO_PREFETCH:5}
-    queuename: evssstandardqueue
     extended:
-      s3BucketName: evsstestbucket
+      s3BucketName: ${AWS_SQS_EXT_S3_BUCKET_NAME}
 
 cloud.aws.stack.auto: false
-cloud.aws.region.static: us-east-1
+cloud.aws.region.static: ${AWS_REGION:us-west-2}

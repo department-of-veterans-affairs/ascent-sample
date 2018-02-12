@@ -87,9 +87,6 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
                                       final @RequestBody MultipartFile documentOne
     )
     {
-		
-        //sqsServices.startJmsConnection();
-
 		Map<String, String> propertyMap = documentService.getDocumentAttributes();
 		s3Services.uploadMultiPartSingle(documentOne, propertyMap);
 		LOGGER.info("Sending message {}.", "Sample Test Message");
