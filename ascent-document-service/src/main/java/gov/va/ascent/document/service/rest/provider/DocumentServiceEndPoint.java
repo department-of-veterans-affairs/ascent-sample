@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.document.sqs.MessageAttributes;
+import gov.va.ascent.document.sqs.service.QueueService;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import gov.va.ascent.starter.aws.autoconfigure.s3.services.S3Services;
 import gov.va.ascent.starter.aws.autoconfigure.sqs.services.SQSServices;
@@ -46,6 +47,9 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	@Autowired
 	SQSServices sqsServices;
 	    
+	@Autowired
+	QueueService queueService;
+	
 	@Value("${ascent.s3.uploadfile}")
 	private String uploadFilePath;
 	    
@@ -91,7 +95,7 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 		s3Services.uploadMultiPartSingle(documentOne, propertyMap);
 		LOGGER.info("Sending message {}.", "Sample Test Message");
 		String jsonMessage = documentService.getMessageAttributes("Sample Test Message");
-		sqsServices.sendMessage(jsonMessage);
+		queueService.sendMessage(jsonMessage);
 		return ResponseEntity.ok().build();
     }	
 	

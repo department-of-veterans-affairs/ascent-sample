@@ -10,6 +10,6 @@ public interface DocumentService {
 	public GetDocumentTypesResponse getDocumentTypes();
 	public String getMessageAttributes(String message);
 	public Map<String, String> getDocumentAttributes();
-	public MessageAttributes getDocumentAttributesFromJson(String message);
+	public MessageAttributes getMessageAttributesFromJson(String message);
 
 }

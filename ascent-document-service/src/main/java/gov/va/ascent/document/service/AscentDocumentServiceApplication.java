@@ -21,7 +21,8 @@ import org.springframework.web.servlet.DispatcherServlet;
 * AspectJ's @Aspect annotation.
 *
 */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={
+		"gov.va.ascent.document"})
 @EnableDiscoveryClient //needed to reach out to spring cloud config, eureka
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @EnableFeignClients

@@ -106,7 +106,7 @@ public class DocumentServiceImpl implements DocumentService {
 	 * convert the json string into DocumentAttributes object. 
 	 */
 	@Override
-	public MessageAttributes getDocumentAttributesFromJson(String message) {
+	public MessageAttributes getMessageAttributesFromJson(String message) {
 		try {
 			return mapper.readValue(message, MessageAttributes.class);
 		} catch (JsonParseException e) {

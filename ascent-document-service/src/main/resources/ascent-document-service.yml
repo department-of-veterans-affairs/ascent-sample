@@ -122,7 +122,7 @@ ascent:
     secret_access_key: ${AWS_SECRET_ACCESS_KEY}
   s3:
     bucket: ${AWS_S3_BUCKET_NAME}
-    region: ${AWS_REGION:us-west-2}
+    region: ${AWS_REGION:us-east-1}
     uploadfile: classpath:ascent-s3-upload-file.txt
     key: ascent-s3-upload-file.txt
   sqs:

@@ -6,8 +6,6 @@ public class MessageAttributes {
 	private String documentID;
 	private String documentType;
 	private String documentName;
-	
-
 	private String message;
 	
 	public String getProcessID() {
