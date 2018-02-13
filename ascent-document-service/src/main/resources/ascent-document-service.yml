@@ -125,6 +125,8 @@ ascent:
     region: ${AWS_REGION:us-west-2}
     uploadfile: classpath:ascent-s3-upload-file.txt
     key: ascent-s3-upload-file.txt
+    target:
+      bucket: ${AWS_S3_TARGET_BUCKET_NAME}
   sqs:
     region: ${AWS_SQS_REGION:us-west-2}
     endpoint: ${AWS_SQS_ENDPOINT}

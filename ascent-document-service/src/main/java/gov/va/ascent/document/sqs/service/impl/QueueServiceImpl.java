@@ -3,14 +3,12 @@ package gov.va.ascent.document.sqs.service.impl;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
-import javax.jms.BytesMessage;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
-import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
@@ -26,7 +24,6 @@ import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.stereotype.Service;
 
 import com.amazon.sqs.javamessaging.SQSConnection;
-import com.amazonaws.util.Base64;
 
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.sqs.MessageAttributes;
@@ -103,7 +100,6 @@ public class QueueServiceImpl implements QueueService {
 			connection.start();
 
 		} catch (JMSException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -118,34 +114,21 @@ public class QueueServiceImpl implements QueueService {
 							.getMessageAttributesFromJson(messageText.getText());
 					String docName = messageAttributes.getMessage();
 					if (docName.contains("donotprocess")) {
-						System.out.println("Message is not processed" );
+						logger.error("Message is not processed. JMS Message ID: " + message.getJMSMessageID());
 						return;
 					}
 					try {
 						s3Services.copyFileFromSourceToTargetBucket(docName);
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 						return;
 					}
 					message.acknowledge();
-					System.out.println("Reading message: " + messageText.getText());
-				} else if( message instanceof BytesMessage ){
-					BytesMessage byteMessage = ( BytesMessage ) message;
-					// Assume the length fits in an int - SQS only supports sizes up to 256k so that
-					// should be true
-					byte[] bytes = new byte[(int)byteMessage.getBodyLength()];
-					byteMessage.readBytes(bytes);
-					logger.info( "\t" +  Base64.encodeAsString( bytes ) );
-				} else if( message instanceof ObjectMessage ) {
-					ObjectMessage objMessage = (ObjectMessage) message;
-					logger.info( "\t" + objMessage.getObject() );
-				}
-				System.out.println("Acknowledged message " + message.getJMSMessageID());
+				} 
+				logger.info("Acknowledged message. JMS Message ID: " + message.getJMSMessageID());
 
 			} catch (JMSException e) {
-				System.err.println("Error processing message: " + e.getMessage());
-				e.printStackTrace();
+				logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
 			}
 		}
 	}
