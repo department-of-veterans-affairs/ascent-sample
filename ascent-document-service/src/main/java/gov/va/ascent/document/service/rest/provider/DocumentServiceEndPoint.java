@@ -94,7 +94,8 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 		Map<String, String> propertyMap = documentService.getDocumentAttributes();
 		s3Services.uploadMultiPartSingle(documentOne, propertyMap);
 		LOGGER.info("Sending message {}.", "Sample Test Message");
-		String jsonMessage = documentService.getMessageAttributes("Sample Test Message");
+		
+		String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
 		queueService.sendMessage(jsonMessage);
 		return ResponseEntity.ok().build();
     }	

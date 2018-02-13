@@ -116,8 +116,18 @@ public class QueueServiceImpl implements QueueService {
 					TextMessage messageText = (TextMessage) message;
 					MessageAttributes messageAttributes = documentService
 							.getMessageAttributesFromJson(messageText.getText());
-					String docName = messageAttributes.getDocumentName();
-					s3Services.copyFileFromSourceToTargetBucket(docName);
+					String docName = messageAttributes.getMessage();
+					if (docName.contains("donotprocess")) {
+						System.out.println("Message is not processed" );
+						return;
+					}
+					try {
+						s3Services.copyFileFromSourceToTargetBucket(docName);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return;
+					}
 					message.acknowledge();
 					System.out.println("Reading message: " + messageText.getText());
 				} else if( message instanceof BytesMessage ){
