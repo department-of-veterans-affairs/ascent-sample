@@ -26,7 +26,6 @@ import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.document.sqs.service.QueueService;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import gov.va.ascent.starter.aws.autoconfigure.s3.services.S3Services;
-import gov.va.ascent.starter.aws.autoconfigure.sqs.services.SQSServices;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -40,9 +39,6 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	
 	@Autowired
 	S3Services s3Services;
-	
-	@Autowired
-	SQSServices sqsServices;
 	    
 	@Autowired
 	QueueService queueService;
@@ -101,17 +97,9 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	public ResponseEntity<?> sendMessage(@RequestBody String message) {
 	   LOGGER.info("Sending message {}.", message);
 	   String jsonMessage = documentService.getMessageAttributes(message);
-	   sqsServices.sendMessage(jsonMessage);
+	   queueService.sendMessage(jsonMessage);
 	   return ResponseEntity.ok().build();
 	}
-	
-/*    @JmsListener(destination = "evssstandardqueue")
-    public void receive(@Payload String message) {
-    		MessageAttributes documentAttributes = documentService.getDocumentAttributesFromJson(message); 
-    		String docName = documentAttributes.getDocumentName();
-    		s3Services.copyFileFromSourceToTargetBucket(docName);
-    		LOGGER.info("Received message {}.", message);
-    }*/
 	
 	@RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<GetDocumentTypesResponse> getDocumentTypes() {
