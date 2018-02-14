@@ -7,6 +7,7 @@ public class MessageAttributes {
 	private String documentType;
 	private String documentName;
 	private String message;
+	private int numberOfRetries;
 	
 	public String getProcessID() {
 		return processID;
@@ -44,5 +45,11 @@ public class MessageAttributes {
 	}
 	public void setUserID(String userID) {
 		this.userID = userID;
+	}
+	public int getNumberOfRetries() {
+		return numberOfRetries;
+	}
+	public void setNumberOfRetries(int numberOfAttempts) {
+		this.numberOfRetries = numberOfAttempts;
 	}
 }

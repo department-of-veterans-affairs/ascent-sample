@@ -24,6 +24,8 @@ import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.stereotype.Service;
 
 import com.amazon.sqs.javamessaging.SQSConnection;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.sqs.MessageAttributes;
@@ -37,6 +39,9 @@ public class QueueServiceImpl implements QueueService {
 	private Logger logger = LoggerFactory.getLogger(QueueServiceImpl.class);
 	private SQSConnection connection;
 
+    @Autowired
+    ObjectMapper mapper;
+    
 	@Autowired
 	@Qualifier("IMPL")
 	DocumentService documentService;
@@ -68,6 +73,9 @@ public class QueueServiceImpl implements QueueService {
 		System.out.println("Connection closed");
 	}
 
+	/**
+	 * Sends the message to the main queue.
+	 */
 	@Override
 	@ManagedOperation
 	public ResponseEntity<String> sendMessage(String request) {
@@ -86,16 +94,26 @@ public class QueueServiceImpl implements QueueService {
 		return new ResponseEntity<>(messageId, HttpStatus.OK);
 	}
 
+	/**
+	 * Creates a SQS Connection and listeners to the main and dead letter queues.
+	 */
 	public void startJmsConnection() {
 		try {
 			connection = (SQSConnection) connectionFactory.createConnection();
 
 			// Create the session
 			Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+			
+			//Create the Main Queue
 			MessageConsumer consumer = session.createConsumer(session.createQueue(sqsProperties.getQueueName()));
 			ReceiverCallback callback = new ReceiverCallback();
 			consumer.setMessageListener(callback);
 
+			//Create the Dead Letter Queue
+			MessageConsumer dlqconsumer = session.createConsumer(session.createQueue(sqsProperties.getDLQQueueName()));
+			DLQReceiverCallback dlqcallback = new DLQReceiverCallback();
+			dlqconsumer.setMessageListener(dlqcallback);
+			
 			// No messages are processed until this is called
 			connection.start();
 
@@ -104,6 +122,11 @@ public class QueueServiceImpl implements QueueService {
 		}
 	}
 
+	/**
+	 * 
+	 * @author rajuthota
+	 * Listener for the Main Queue
+	 */
 	private class ReceiverCallback implements MessageListener {
 		@Override
 		public void onMessage(Message message) {
@@ -126,6 +149,41 @@ public class QueueServiceImpl implements QueueService {
 					message.acknowledge();
 				} 
 				logger.info("Acknowledged message. JMS Message ID: " + message.getJMSMessageID());
+
+			} catch (JMSException e) {
+				logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @author rajuthota
+	 * Listener for the Dead Letter Queue. The message is psuhed back into main queue.
+	 * After three attempts, the message is deleted.
+	 */
+	private class DLQReceiverCallback implements MessageListener {
+	    
+		@Override
+		public void onMessage(Message message) {
+			try {
+				if (message instanceof TextMessage) {
+					TextMessage messageText = (TextMessage) message;
+					MessageAttributes messageAttributes = documentService
+							.getMessageAttributesFromJson(messageText.getText());
+					if (messageAttributes.getNumberOfRetries() >= 3) {
+						logger.info("Deleting the message from DLQ after three attempts. JMS Message ID: " + message.getJMSMessageID());
+					} else {
+						messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
+						try {
+							sendMessage(mapper.writeValueAsString(messageAttributes));
+						} catch (JsonProcessingException e) {
+							logger.error("Error occurred while processing Json. Error: " + e.getStackTrace());
+						}
+					}
+					message.acknowledge();
+				}
+				logger.info("Acknowledged message from DLQ. JMS Message ID: " + message.getJMSMessageID());
 
 			} catch (JMSException e) {
 				logger.error("Error occurred while processing message. Error: " + e.getStackTrace());

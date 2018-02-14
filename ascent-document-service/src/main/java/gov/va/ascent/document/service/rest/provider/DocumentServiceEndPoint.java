@@ -45,9 +45,7 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	
 	@Value("${ascent.s3.uploadfile}")
 	private String uploadFilePath;
-	    
-	@Value("${ascent.s3.key}")
-	private String downloadKey;
+
 
 	public static final String URL_PREFIX = "/document/v1";
 
@@ -55,15 +53,7 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	public Health health() {
 		return Health.up().withDetail("Document Service REST Endpoint", "Document Service REST Provider Up and Running!").build();
 	}
-	
-	//@RequestMapping(value = URL_PREFIX + "/uploadStaticFileDocument", method = RequestMethod.GET)
-    //public void uploadStaticFileDocument() throws IOException {
-	 // System.out.println("---------------- START UPLOAD FILE ----------------");
-     // s3Services.uploadFile("ascent-s3-upload-file.txt", uploadFilePath);
-      //System.out.println("---------------- START DOWNLOAD FILE ----------------");
-      //s3Services.downloadFile(downloadKey);
-    //}
-	
+
 	@PostMapping(value = URL_PREFIX + "/uploadDocument")
     @ApiOperation(value = "Upload a Document",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
