@@ -37,7 +37,6 @@ import gov.va.ascent.framework.ws.client.WsClientSimulatorMarshallingInterceptor
 @Configuration
 @ComponentScan(basePackages = { "gov.va.ascent.demo.partner.person.ws.client" },
 		excludeFilters = @Filter(Configuration.class))
-@SuppressWarnings("PMD.ExcessiveImports")
 public class PersonWsClientConfig extends BaseWsClientConfig {
 
 	/**
