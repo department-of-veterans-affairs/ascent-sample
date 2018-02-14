@@ -163,7 +163,7 @@ public class QueueServiceImpl implements QueueService {
 	 * After three attempts, the message is deleted.
 	 */
 	private class DLQReceiverCallback implements MessageListener {
-	    
+	    private static final int MAX_RETRIES = 3;
 		@Override
 		public void onMessage(Message message) {
 			try {
@@ -171,7 +171,7 @@ public class QueueServiceImpl implements QueueService {
 					TextMessage messageText = (TextMessage) message;
 					MessageAttributes messageAttributes = documentService
 							.getMessageAttributesFromJson(messageText.getText());
-					if (messageAttributes.getNumberOfRetries() >= 3) {
+					if (messageAttributes.getNumberOfRetries() >= MAX_RETRIES) {
 						logger.info("Deleting the message from DLQ after three attempts. JMS Message ID: " + message.getJMSMessageID());
 					} else {
 						messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
