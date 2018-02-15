@@ -97,7 +97,7 @@ public class QueueServiceImpl implements QueueService {
 	/**
 	 * Creates a SQS Connection and listeners to the main and dead letter queues.
 	 */
-	public void startJmsConnection() {
+	private void startJmsConnection() {
 		try {
 			connection = (SQSConnection) connectionFactory.createConnection();
 
@@ -163,7 +163,6 @@ public class QueueServiceImpl implements QueueService {
 	 * After three attempts, the message is deleted.
 	 */
 	private class DLQReceiverCallback implements MessageListener {
-	    private static final int MAX_RETRIES = 3;
 		@Override
 		public void onMessage(Message message) {
 			try {
@@ -171,7 +170,12 @@ public class QueueServiceImpl implements QueueService {
 					TextMessage messageText = (TextMessage) message;
 					MessageAttributes messageAttributes = documentService
 							.getMessageAttributesFromJson(messageText.getText());
-					if (messageAttributes.getNumberOfRetries() >= MAX_RETRIES) {
+					if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
+						try {
+							s3Services.moveMessageToS3(messageAttributes.getDocumentID(), mapper.writeValueAsString(messageAttributes));
+						} catch (JsonProcessingException e) {
+							logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
+						}
 						logger.info("Deleting the message from DLQ after three attempts. JMS Message ID: " + message.getJMSMessageID());
 					} else {
 						messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);

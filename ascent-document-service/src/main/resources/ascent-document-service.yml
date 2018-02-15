@@ -127,10 +127,13 @@ ascent:
     key: ascent-s3-upload-file.txt
     target:
       bucket: ${AWS_S3_TARGET_BUCKET_NAME}
+    dlq:
+      bucket: ${AWS_S3_DLQ_BUCKET_NAME}
   sqs:
     region: ${AWS_SQS_REGION:us-west-2}
     endpoint: ${AWS_SQS_ENDPOINT}
     dlqendpoint: ${AWS_SQS_DLQ_ENDPOINT}
+    dlqRetriesCount: 2
     numberOfMessagesToPrefetch: ${AMAZON_SQS_NUMBER_OF_MESSAGES_TO_PREFETCH:5}
     extended:
       s3BucketName: ${AWS_SQS_EXT_S3_BUCKET_NAME}
