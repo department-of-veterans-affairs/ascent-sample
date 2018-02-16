@@ -24,7 +24,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.oxm.jaxb.Jaxb2Marshaller;
 import org.springframework.ws.client.core.WebServiceTemplate;
 import org.springframework.ws.client.support.interceptor.ClientInterceptor;
-import org.springframework.ws.soap.security.wss4j.Wss4jSecurityInterceptor;
+import org.springframework.ws.soap.security.wss4j2.Wss4jSecurityInterceptor;
 
 import gov.va.ascent.framework.exception.InterceptingExceptionTranslator;
 import gov.va.ascent.framework.log.PerformanceLogMethodInterceptor;
@@ -37,7 +37,6 @@ import gov.va.ascent.framework.ws.client.WsClientSimulatorMarshallingInterceptor
 @Configuration
 @ComponentScan(basePackages = { "gov.va.ascent.demo.partner.person.ws.client" },
 		excludeFilters = @Filter(Configuration.class))
-@SuppressWarnings("PMD.ExcessiveImports")
 public class PersonWsClientConfig extends BaseWsClientConfig {
 
 	/**
