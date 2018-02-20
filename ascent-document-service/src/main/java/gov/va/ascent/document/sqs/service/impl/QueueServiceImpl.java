@@ -24,6 +24,7 @@ import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.stereotype.Service;
 
 import com.amazon.sqs.javamessaging.SQSConnection;
+import com.amazon.sqs.javamessaging.SQSSession;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -65,12 +66,13 @@ public class QueueServiceImpl implements QueueService {
 	@PostConstruct
 	public void init() {
 		startJmsConnection();
+		logger.info("init called. Connection opened");
 	}
 
 	@PreDestroy
 	public void cleanUp() throws Exception {
 		connection.close();
-		System.out.println("Connection closed");
+		logger.info("Connection closed");
 	}
 
 	/**
@@ -86,7 +88,7 @@ public class QueueServiceImpl implements QueueService {
 			public String doInJms(Session session, MessageProducer producer) throws JMSException {
 				final TextMessage message = session.createTextMessage(request);
 				producer.send(message);
-				logger.debug("Sent JMS message with payload='{}', id: '{}'", request, message.getJMSMessageID());
+				logger.info("Sent JMS message with payload='{}', id: '{}'", request, message.getJMSMessageID());
 				return message.getJMSMessageID();
 			}
 		});
@@ -102,7 +104,7 @@ public class QueueServiceImpl implements QueueService {
 			connection = (SQSConnection) connectionFactory.createConnection();
 
 			// Create the session
-			Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
+			Session session = connection.createSession(false, SQSSession.UNORDERED_ACKNOWLEDGE);
 			
 			//Create the Main Queue
 			MessageConsumer consumer = session.createConsumer(session.createQueue(sqsProperties.getQueueName()));
@@ -131,6 +133,7 @@ public class QueueServiceImpl implements QueueService {
 		@Override
 		public void onMessage(Message message) {
 			try {
+			    logger.info("Consumer message processing started for Normal Queue. JMS Message ID: " + message.getJMSMessageID());
 				if (message instanceof TextMessage) {
 					TextMessage messageText = (TextMessage) message;
 					MessageAttributes messageAttributes = documentService
@@ -166,17 +169,19 @@ public class QueueServiceImpl implements QueueService {
 		@Override
 		public void onMessage(Message message) {
 			try {
+			  logger.info("Consumer message processing started for DLQ. JMS Message ID: " + message.getJMSMessageID());
 				if (message instanceof TextMessage) {
 					TextMessage messageText = (TextMessage) message;
 					MessageAttributes messageAttributes = documentService
 							.getMessageAttributesFromJson(messageText.getText());
-					if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
+				if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
 						try {
 							s3Services.moveMessageToS3(messageAttributes.getDocumentID(), mapper.writeValueAsString(messageAttributes));
 						} catch (JsonProcessingException e) {
 							logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
 						}
-						logger.info("Deleting the message from DLQ after three attempts. JMS Message ID: " + message.getJMSMessageID());
+						logger.info("Deleting the message from DLQ after {} attempts. JMS Message ID: {}", 
+						    sqsProperties.getDlqRetriesCount(), message.getJMSMessageID());
 					} else {
 						messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
 						try {
