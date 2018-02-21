@@ -8,6 +8,7 @@ public class MessageAttributes {
 	private String documentName;
 	private String message;
 	private int numberOfRetries;
+	private long createTimestamp = System.currentTimeMillis();
 	
 	public String getProcessID() {
 		return processID;
@@ -52,4 +53,10 @@ public class MessageAttributes {
 	public void setNumberOfRetries(int numberOfAttempts) {
 		this.numberOfRetries = numberOfAttempts;
 	}
+	public long getCreateTimestamp() {
+      return createTimestamp;
+    }
+    public void setCreateTimestamp(long createTimestamp) {
+      this.createTimestamp = createTimestamp;
+    }
 }
