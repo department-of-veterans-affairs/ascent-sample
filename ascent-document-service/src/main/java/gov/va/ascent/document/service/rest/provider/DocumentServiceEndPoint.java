@@ -6,15 +6,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 public class DocumentServiceEndPoint implements HealthIndicator {
@@ -41,4 +47,16 @@ public class DocumentServiceEndPoint implements HealthIndicator {
         return new ResponseEntity<>(docResponse, HttpStatus.OK);
     }		
 	
+
+	@PostMapping(value = URL_PREFIX + "/uploadDocument")
+    @ApiOperation(value = "Upload a Document",
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<GetDocumentTypesResponse> uploadDocument(final @RequestHeader HttpHeaders headers,
+                                      final @RequestBody MultipartFile documentOne
+    )
+    {
+		GetDocumentTypesResponse docResponse = new GetDocumentTypesResponse(); 
+		return new ResponseEntity<>(docResponse, HttpStatus.OK);
+    }	
 }
