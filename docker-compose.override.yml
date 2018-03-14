@@ -19,4 +19,4 @@ services:
 networks: 
  ascentnet: 
     external:
-      name: ascentplatformdockerbuild_ascentnet
+      name: dockercomposelocal_ascentnet
