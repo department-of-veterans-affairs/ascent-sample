@@ -175,7 +175,7 @@ public class PersonWsClientConfig extends BaseWsClientConfig {
 		// propagate through
 		// without again logging and/or wrapping
 		final Set<String> exclusionSet = new HashSet<String>();
-		exclusionSet.add(PACKAGE_WSS_FOUNDATION_EXCEPTION);
+		exclusionSet.add(PACKAGE_ASCENT_FRAMEWORK_EXCEPTION);
 		interceptingExceptionTranslator.setExclusionSet(exclusionSet);
 
 		return interceptingExceptionTranslator;
