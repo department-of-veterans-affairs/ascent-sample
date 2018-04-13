@@ -2,6 +2,8 @@ package gov.va.ascent.document.service.rest.provider;
 
 import java.util.Map;
 
+import javax.jms.TextMessage;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,16 +81,19 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 		LOGGER.info("Sending message {}.", "Sample Test Message");
 		
 		String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
-		sqsServices.sendMessage(jsonMessage);
+		TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
+
+		sqsServices.sendMessage(textMessage);
 		return ResponseEntity.ok().build();
     }	
 	
 	@PostMapping("/message")
 	public ResponseEntity<?> sendMessage(@RequestBody String message) {
-	   LOGGER.info("Sending message {}.", message);
-	   String jsonMessage = documentService.getMessageAttributes(message);
-	   sqsServices.sendMessage(jsonMessage);
-	   return ResponseEntity.ok().build();
+		   LOGGER.info("Sending message {}.", message);
+		   String jsonMessage = documentService.getMessageAttributes(message);
+		   TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
+		   sqsServices.sendMessage(textMessage);
+		   return ResponseEntity.ok().build();
 	}
 	
 	@RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)

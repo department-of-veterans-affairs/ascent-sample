@@ -144,47 +144,49 @@ public class QueueAsyncMessageReceiver {
    * Listener for the Dead Letter Queue. The message is psuhed back into main queue.
    * After three attempts, the message is deleted.
    */
-  private class DLQReceiverCallback implements MessageListener {
-    @Override
-    public void onMessage(Message message) {
-      try {
-        logger.info("Consumer message processing started for DLQ. JMS Message ID: " + message.getJMSMessageID());
-        if (message instanceof TextMessage) {
-          TextMessage messageText = (TextMessage) message;
-          MessageAttributes messageAttributes = documentService
-              .getMessageAttributesFromJson(messageText.getText());
-          long elapsedTime = findJMSElapsedTime(messageAttributes.getCreateTimestamp());
+	private class DLQReceiverCallback implements MessageListener {
+		@Override
+		public void onMessage(Message message) {
+			try {
+				logger.info(
+						"Consumer message processing started for DLQ. JMS Message ID: " + message.getJMSMessageID());
+				if (message instanceof TextMessage) {
+					TextMessage messageText = (TextMessage) message;
+					MessageAttributes messageAttributes = documentService
+							.getMessageAttributesFromJson(messageText.getText());
+					// long elapsedTime =
+					// findJMSElapsedTime(messageAttributes.getCreateTimestamp());
 
-          if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
-            try {
-              // move the message to s3 dlq bucket
-              s3Services.moveMessageToS3(messageAttributes.getDocumentID(), mapper.writeValueAsString(messageAttributes));
-            } catch (JsonProcessingException e) {
-              logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
-            }
-            logger.info("Deleting the message from DLQ after {} attempts. JMS Message ID: {}", 
-                sqsProperties.getDlqRetriesCount(), message.getJMSMessageID());
-            /*} else if (TimeUnit.MILLISECONDS.toHours(elapsedTime) < 12 ) {
-            // keep the message in flight
-            return;*/
-          } else {
-            // move the message to normal queue for processing
-            messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
-            try {
-              sqsServices.sendMessage(mapper.writeValueAsString(messageAttributes));
-            } catch (JsonProcessingException e) {
-              logger.error("Error occurred while processing Json. Error: " + e.getStackTrace());
-            }
-          }
-          message.acknowledge();
-        }
-        logger.info("Acknowledged message from DLQ. JMS Message ID: " + message.getJMSMessageID());
+					if (messageAttributes == null)
+						return;
+					if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
+						try {
+							// move the message to s3 dlq bucket
+							s3Services.moveMessageToS3(messageAttributes.getDocumentID(),
+									mapper.writeValueAsString(messageAttributes));
+						} catch (JsonProcessingException e) {
+							logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
+						}
+						logger.info("Deleting the message from DLQ after {} attempts. JMS Message ID: {}",
+								sqsProperties.getDlqRetriesCount(), message.getJMSMessageID());
+						/*
+						 * } else if (TimeUnit.MILLISECONDS.toHours(elapsedTime) < 12 ) { // keep the
+						 * message in flight return;
+						 */
+					} else {
+						// move the message to normal queue for processing
+						messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
+						sqsServices.sendMessage((TextMessage) message);
+					}
+					message.acknowledge();
+				}
+				logger.info("Acknowledged message from DLQ. JMS Message ID: " + message.getJMSMessageID());
 
-      } catch (JMSException e) {
-        logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
-      }
-    }
-  }
+			} catch (JMSException e) {
+				logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
+			}
+		}
+	}
 
   /**
    * @param message
