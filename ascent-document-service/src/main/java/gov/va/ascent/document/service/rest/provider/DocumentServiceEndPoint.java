@@ -24,8 +24,8 @@ import org.springframework.web.multipart.MultipartFile;
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
-import gov.va.ascent.starter.aws.autoconfigure.s3.services.S3Services;
-import gov.va.ascent.starter.aws.autoconfigure.sqs.services.SQSServices;
+import gov.va.ascent.starter.aws.s3.services.S3Service;
+import gov.va.ascent.starter.aws.sqs.services.SqsService;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -38,10 +38,10 @@ public class DocumentServiceEndPoint implements HealthIndicator, SwaggerResponse
 	DocumentService documentService;
 	
 	@Autowired
-	S3Services s3Services;
+	S3Service s3Services;
 	    
 	@Autowired
-	SQSServices sqsServices;
+	SqsService sqsServices;
 	
 	@Value("${ascent.s3.uploadfile}")
 	private String uploadFilePath;

@@ -113,6 +113,7 @@ spring:
   http:
    multipart:
     max-file-size: 25MB
+<<<<<<< HEAD
     max-request-size: 26MB
 ---
 ## S3 and SQS Configurations for Ascent   
@@ -140,3 +141,6 @@ ascent:
 
 cloud.aws.stack.auto: false
 cloud.aws.region.static: ${AWS_REGION:us-west-2}
+=======
+    max-request-size: 26MB
+>>>>>>> development

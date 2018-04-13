@@ -25,9 +25,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.sqs.MessageAttributes;
-import gov.va.ascent.starter.aws.autoconfigure.s3.services.S3Services;
-import gov.va.ascent.starter.aws.autoconfigure.sqs.config.SqsProperties;
-import gov.va.ascent.starter.aws.autoconfigure.sqs.services.SQSServices;
+import gov.va.ascent.starter.aws.s3.services.S3Service;
+import gov.va.ascent.starter.aws.sqs.config.SqsProperties;
+import gov.va.ascent.starter.aws.sqs.services.SqsService;
 
 @Service
 public class QueueAsyncMessageReceiver {
@@ -47,10 +47,10 @@ public class QueueAsyncMessageReceiver {
   ConnectionFactory connectionFactory;
 
   @Autowired
-  S3Services s3Services;
+  S3Service s3Services;
 
   @Autowired
-  SQSServices sqsServices;
+  SqsService sqsServices;
 
   private SqsProperties sqsProperties;
 
