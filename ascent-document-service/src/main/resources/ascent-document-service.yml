@@ -101,7 +101,7 @@ ascent:
     securePaths: /document.*
 ---
 spring.profiles: default,local-int
-spring.profiles.include: remote_client_sims
+spring.profiles.include: remote_client_sims, embedded-aws
 spring:
   sleuth:
     stream:
@@ -118,6 +118,22 @@ spring:
 ## S3 and SQS Configurations for Ascent   
 ascent:
   aws:
+    localstack-config:
+      s3:
+        bucket: ${AWS_S3_BUCKET_NAME}
+        target:
+          bucket: ${AWS_S3_TARGET_BUCKET_NAME}
+        region: ${AWS_REGION:us-east-1}
+        s3endpoint: http://localhost:4572/
+      services:
+        - name: s3
+          port: 4572
+        - name: sqs
+          port: 4576
+      sqs:
+        region: us-east-1
+        standardqueuename: evssstandardqueue
+        deadletterqueuename: deadletterqueue    
     access_key_id: ${AWS_ACCESS_KEY}
     secret_access_key: ${AWS_SECRET_ACCESS_KEY}
   s3:
