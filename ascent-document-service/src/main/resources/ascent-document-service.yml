@@ -120,20 +120,12 @@ ascent:
   aws:
     localstack-config:
       s3:
-        bucket: ${AWS_S3_BUCKET_NAME}
-        target:
-          bucket: ${AWS_S3_TARGET_BUCKET_NAME}
-        region: ${AWS_REGION:us-east-1}
-        s3endpoint: http://localhost:4572/
+        endpoint: http://localhost:4572/
       services:
         - name: s3
           port: 4572
         - name: sqs
-          port: 4576
-      sqs:
-        region: us-east-1
-        standardqueuename: evssstandardqueue
-        deadletterqueuename: deadletterqueue    
+          port: 4576 
     access_key_id: ${AWS_ACCESS_KEY}
     secret_access_key: ${AWS_SECRET_ACCESS_KEY}
   s3:
@@ -151,8 +143,6 @@ ascent:
     dlqendpoint: ${AWS_SQS_DLQ_ENDPOINT}
     dlqRetriesCount: 2
     numberOfMessagesToPrefetch: ${AMAZON_SQS_NUMBER_OF_MESSAGES_TO_PREFETCH:5}
-    extended:
-      s3BucketName: ${AWS_SQS_EXT_S3_BUCKET_NAME}
 
 cloud.aws.stack.auto: false
 cloud.aws.region.static: ${AWS_REGION:us-west-2}
