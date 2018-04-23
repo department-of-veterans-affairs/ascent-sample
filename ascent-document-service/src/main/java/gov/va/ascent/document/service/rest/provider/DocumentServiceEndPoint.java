@@ -1,5 +1,6 @@
 package gov.va.ascent.document.service.rest.provider;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.jms.TextMessage;
@@ -79,6 +80,25 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
     TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
 
     sqsServices.sendMessage(textMessage);
+    return ResponseEntity.ok().build();
+  } 
+  
+  @PostMapping(value = URL_PREFIX + "/uploadDocumentWithByteArray")
+  @ApiOperation(value = "Uploads a Document afetr converting that into a byte array",
+  consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+  produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> uploadDocumentWithByteArray(final @RequestHeader HttpHeaders headers,
+      final @RequestBody MultipartFile documentOne
+      )
+  {
+    Map<String, String> propertyMap = documentService.getDocumentAttributes();
+    try {
+		s3Services.uploadByteArray(documentOne.getBytes(), documentOne.getOriginalFilename(), propertyMap);
+	} catch (IOException e) {
+		LOGGER.error("Error reading bytes: {}", e);
+	}
+    LOGGER.info("Sending message {}.", "Sample Test Message");
+
     return ResponseEntity.ok().build();
   } 
 
