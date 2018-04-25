@@ -37,23 +37,28 @@ import io.swagger.annotations.ApiParam;
 @RestController
 public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 
-  private final static Logger LOGGER = LoggerFactory.getLogger(DocumentServiceEndPoint.class);
+	private final static Logger LOGGER = LoggerFactory.getLogger(DocumentServiceEndPoint.class);
 
-  @Autowired
-  @Qualifier("IMPL")
-  DocumentService documentService;
+	@Autowired
+	@Qualifier("IMPL")
+	DocumentService documentService;
 
-  @Autowired
-  S3Service s3Services;
+	@Autowired
+	S3Service s3Services;
 
-  @Autowired
-  SqsService sqsServices;
+	@Autowired
+	SqsService sqsServices;
 
-  @Value("${ascent.s3.uploadfile}")
-  private String uploadFilePath;
+	@Value("${ascent.s3.bucket}")
+	private String bucketName;
 
+	@Value("${ascent.s3.target.bucket}")
+	private String targetBucketName;
 
-  public static final String URL_PREFIX = "/document/v1";
+	@Value("${ascent.s3.dlq.bucket}")
+	private String dlqBucketName;
+
+	public static final String URL_PREFIX = "/document/v1";
 
 
   @RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
@@ -73,7 +78,7 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
       )
   {
     Map<String, String> propertyMap = documentService.getDocumentAttributes();
-    s3Services.uploadMultiPartSingle(documentOne, propertyMap);
+    s3Services.uploadMultiPartSingle(bucketName, documentOne, propertyMap);
     LOGGER.info("Sending message {}.", "Sample Test Message");
 
     String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
@@ -93,7 +98,7 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
   {
     Map<String, String> propertyMap = documentService.getDocumentAttributes();
     try {
-		s3Services.uploadByteArray(documentOne.getBytes(), documentOne.getOriginalFilename(), propertyMap);
+		s3Services.uploadByteArray(bucketName, documentOne.getBytes(), "participantid/" + documentOne.getOriginalFilename(), propertyMap);
 	} catch (IOException e) {
 		LOGGER.error("Error reading bytes: {}", e);
 	}

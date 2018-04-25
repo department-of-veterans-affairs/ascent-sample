@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.amazon.sqs.javamessaging.SQSConnection;
@@ -35,6 +36,15 @@ public class QueueAsyncMessageReceiver {
   private Logger logger = LoggerFactory.getLogger(QueueAsyncMessageReceiver.class);
   
   private SQSConnection connection;
+  
+  @Value("${ascent.s3.bucket}")
+  private String bucketName;
+	
+  @Value("${ascent.s3.target.bucket}")
+  private String targetBucketName;
+	
+  @Value("${ascent.s3.dlq.bucket}")
+  private String dlqBucketName;
 
   @Autowired
   ObjectMapper mapper;
@@ -123,7 +133,7 @@ public class QueueAsyncMessageReceiver {
             return;
           }
           try {
-            s3Services.copyFileFromSourceToTargetBucket(docName);
+            s3Services.copyFileFromSourceToTargetBucket(bucketName, targetBucketName, docName);
           } catch (Exception e) {
             e.printStackTrace();
             return;
@@ -162,7 +172,7 @@ public class QueueAsyncMessageReceiver {
 					if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
 						try {
 							// move the message to s3 dlq bucket
-							s3Services.moveMessageToS3(messageAttributes.getDocumentID(),
+							s3Services.moveMessageToS3(dlqBucketName, messageAttributes.getDocumentID(),
 									mapper.writeValueAsString(messageAttributes));
 						} catch (JsonProcessingException e) {
 							logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
@@ -176,7 +186,13 @@ public class QueueAsyncMessageReceiver {
 					} else {
 						// move the message to normal queue for processing
 						messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
-						sqsServices.sendMessage((TextMessage) message);
+						TextMessage txtMessage = null;
+						try {
+							txtMessage = sqsServices.createTextMessage(mapper.writeValueAsString(messageAttributes));
+						} catch (JsonProcessingException e) {
+							logger.error("Error occurred while creating text message. Error: " + e.getStackTrace());
+						}
+						sqsServices.sendMessage(txtMessage);
 					}
 					message.acknowledge();
 				}
