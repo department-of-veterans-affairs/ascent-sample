@@ -101,7 +101,7 @@ ascent:
     securePaths: /document.*
 ---
 spring.profiles: default,local-int
-spring.profiles.include: remote_client_sims
+spring.profiles.include: remote_client_sims, embedded-aws
 spring:
   sleuth:
     stream:
