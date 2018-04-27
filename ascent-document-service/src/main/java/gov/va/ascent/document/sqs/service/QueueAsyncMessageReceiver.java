@@ -186,7 +186,7 @@ public class QueueAsyncMessageReceiver {
               s3Services.moveMessageToS3(dlqBucketName, messageAttributes.getDocumentID(),
                   mapper.writeValueAsString(messageAttributes));
             } catch (JsonProcessingException e) {
-              logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
+              logger.error("Error occurred while moving DLQ message to S3. Error: {}", e);
             }
             logger.info("Deleting the message from DLQ after {} attempts. JMS Message ID: {}",
                 sqsProperties.getDlqRetriesCount(), message.getJMSMessageID());
