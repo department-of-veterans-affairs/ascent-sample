@@ -34,15 +34,16 @@ import gov.va.ascent.starter.aws.sqs.services.SqsService;
 public class QueueAsyncMessageReceiver {
 
   private Logger logger = LoggerFactory.getLogger(QueueAsyncMessageReceiver.class);
-  
+
+  private static String MESSAGE_TIME_ELAPSED = "Message time elapsed: ";
   private SQSConnection connection;
-  
+
   @Value("${ascent.s3.bucket}")
   private String bucketName;
-	
+
   @Value("${ascent.s3.target.bucket}")
   private String targetBucketName;
-	
+
   @Value("${ascent.s3.dlq.bucket}")
   private String dlqBucketName;
 
@@ -107,8 +108,8 @@ public class QueueAsyncMessageReceiver {
       connection.start();
 
     } catch (JMSException e) {
-      e.printStackTrace();
       logger.error("Error occurred while starting JMS connection and listeners. Error: " + e.getStackTrace());
+      e.printStackTrace();
     }
   }
 
@@ -135,13 +136,12 @@ public class QueueAsyncMessageReceiver {
           try {
             s3Services.copyFileFromSourceToTargetBucket(bucketName, targetBucketName, docName);
           } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Error occurred while copying the object. Error: " + e.getStackTrace());
             return;
           }
           message.acknowledge();
         } 
         logger.info("Acknowledged message. JMS Message ID: " + message.getJMSMessageID());
-
       } catch (JMSException e) {
         logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
       }
@@ -154,55 +154,55 @@ public class QueueAsyncMessageReceiver {
    * Listener for the Dead Letter Queue. The message is psuhed back into main queue.
    * After three attempts, the message is deleted.
    */
-	private class DLQReceiverCallback implements MessageListener {
-		@Override
-		public void onMessage(Message message) {
-			try {
-				logger.info(
-						"Consumer message processing started for DLQ. JMS Message ID: " + message.getJMSMessageID());
-				if (message instanceof TextMessage) {
-					TextMessage messageText = (TextMessage) message;
-					MessageAttributes messageAttributes = documentService
-							.getMessageAttributesFromJson(messageText.getText());
-					// long elapsedTime =
-					// findJMSElapsedTime(messageAttributes.getCreateTimestamp());
+  private class DLQReceiverCallback implements MessageListener {
+    @Override
+    public void onMessage(Message message) {
+      try {
+        logger.info(
+            "Consumer message processing started for DLQ. JMS Message ID: " + message.getJMSMessageID());
+        if (message instanceof TextMessage) {
+          TextMessage messageText = (TextMessage) message;
+          MessageAttributes messageAttributes = documentService
+              .getMessageAttributesFromJson(messageText.getText());
+          // long elapsedTime =
+          // findJMSElapsedTime(messageAttributes.getCreateTimestamp());
 
-					if (messageAttributes == null)
-						return;
-					if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
-						try {
-							// move the message to s3 dlq bucket
-							s3Services.moveMessageToS3(dlqBucketName, messageAttributes.getDocumentID(),
-									mapper.writeValueAsString(messageAttributes));
-						} catch (JsonProcessingException e) {
-							logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
-						}
-						logger.info("Deleting the message from DLQ after {} attempts. JMS Message ID: {}",
-								sqsProperties.getDlqRetriesCount(), message.getJMSMessageID());
-						/*
-						 * } else if (TimeUnit.MILLISECONDS.toHours(elapsedTime) < 12 ) { // keep the
-						 * message in flight return;
-						 */
-					} else {
-						// move the message to normal queue for processing
-						messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
-						TextMessage txtMessage = null;
-						try {
-							txtMessage = sqsServices.createTextMessage(mapper.writeValueAsString(messageAttributes));
-						} catch (JsonProcessingException e) {
-							logger.error("Error occurred while creating text message. Error: " + e.getStackTrace());
-						}
-						sqsServices.sendMessage(txtMessage);
-					}
-					message.acknowledge();
-				}
-				logger.info("Acknowledged message from DLQ. JMS Message ID: " + message.getJMSMessageID());
+          if (messageAttributes == null)
+            return;
+          if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
+            try {
+              // move the message to s3 dlq bucket
+              s3Services.moveMessageToS3(dlqBucketName, messageAttributes.getDocumentID(),
+                  mapper.writeValueAsString(messageAttributes));
+            } catch (JsonProcessingException e) {
+              logger.error("Error occurred while moving DLQ message to S3. Error: " + e.getStackTrace());
+            }
+            logger.info("Deleting the message from DLQ after {} attempts. JMS Message ID: {}",
+                sqsProperties.getDlqRetriesCount(), message.getJMSMessageID());
+            /*
+             * } else if (TimeUnit.MILLISECONDS.toHours(elapsedTime) < 12 ) { // keep the
+             * message in flight return;
+             */
+          } else {
+            // move the message to normal queue for processing
+            messageAttributes.setNumberOfRetries(messageAttributes.getNumberOfRetries() + 1);
+            TextMessage txtMessage = null;
+            try {
+              txtMessage = sqsServices.createTextMessage(mapper.writeValueAsString(messageAttributes));
+            } catch (JsonProcessingException e) {
+              logger.error("Error occurred while creating text message. Error: " + e.getStackTrace());
+            }
+            sqsServices.sendMessage(txtMessage);
+          }
+          message.acknowledge();
+        }
+        logger.info("Acknowledged message from DLQ. JMS Message ID: " + message.getJMSMessageID());
 
-			} catch (JMSException e) {
-				logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
-			}
-		}
-	}
+      } catch (JMSException e) {
+        logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
+      }
+    }
+  }
 
   /**
    * @param message
@@ -211,10 +211,10 @@ public class QueueAsyncMessageReceiver {
   private long findJMSElapsedTime(long createTimeStamp) throws JMSException {
     long currentTime=System.currentTimeMillis();
     long differenceTime = currentTime - createTimeStamp;
-    logger.info("Message time elapsed: " + differenceTime + " ms");
-    logger.info("Message time elapsed: " + TimeUnit.MILLISECONDS.toSeconds(differenceTime) + " secs");
-    logger.info("Message time elapsed: " + TimeUnit.MILLISECONDS.toMinutes(differenceTime) + " mins");
-    logger.info("Message time elapsed: " + TimeUnit.MILLISECONDS.toHours(differenceTime) + " hrs");
+    logger.info(MESSAGE_TIME_ELAPSED + differenceTime + " ms");
+    logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toSeconds(differenceTime) + " secs");
+    logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toMinutes(differenceTime) + " mins");
+    logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toHours(differenceTime) + " hrs");
     return differenceTime;
   }
 }

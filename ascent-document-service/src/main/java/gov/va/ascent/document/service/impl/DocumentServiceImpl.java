@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -32,94 +34,94 @@ import gov.va.ascent.document.sqs.MessageAttributes;
 
 public class DocumentServiceImpl implements DocumentService {
 
-    @Autowired
-    ObjectMapper mapper;
-	
-	/** Bean name constant */
-	public static final String BEAN_NAME = "documentServiceImpl";	
-	
-	@Override
-	@HystrixCommand(
-			fallbackMethod = "getDocumentTypesFallBack", 
-			commandKey = "GetDocumentTypesCommand", 
-			ignoreExceptions = {IllegalArgumentException.class})		
-	public GetDocumentTypesResponse getDocumentTypes() {
-		// TODO Auto-generated method stub
-		GetDocumentTypesResponse serviceResponse = new GetDocumentTypesResponse();
-		serviceResponse.setDocumentTypes(getListOfDocumentTypes());
-		return serviceResponse;
-	}
-	
-	@HystrixCommand(commandKey = "GetDocumentTypesFallBackCommand")	
-	public GetDocumentTypesResponse getDocumentTypesFallBack() {
-		GetDocumentTypesResponse serviceResponse = new GetDocumentTypesResponse();
-		//TODO:Currently calling the DocumentTypeEnum to get the DocumentType list for fallback
-		serviceResponse.setDocumentTypes(getListOfDocumentTypes());
-		return serviceResponse;
-	}
-	
-	private List<DocumentType> getListOfDocumentTypes() {
-		return DocumentTypeEnum.getEnumAsDocumentTypeList();
-	}
+  private final static Logger LOGGER = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
-	/**
-	 * Populate the metadata for message.
-	 * Hard-coding the properties for poc purpose.
-	 */
-	@Override
-	public String getMessageAttributes(String message) {
-		MessageAttributes documentAttributes = new MessageAttributes();
-		documentAttributes.setProcessID("123456789");
-		documentAttributes.setUserID("user123");
-		documentAttributes.setDocumentID("document123");
-		documentAttributes.setDocumentType("userUploaded");
-		documentAttributes.setDocumentName("Sample Upload File");
-		documentAttributes.setMessage(message);
-		try {
-			return mapper.writeValueAsString(documentAttributes);
-		} catch (JsonProcessingException e) {
-            return documentAttributes.toString();
-		}
-		
-	}
+  @Autowired
+  ObjectMapper mapper;
 
-	/**
-	 * Populate the metadata for document.
-	 * Hard-coding the properties for poc purpose.
-	 */
-	@Override
-	public Map<String, String> getDocumentAttributes() {
-		
-		Map<String, String> propertyMap = new HashMap();
+  /** Bean name constant */
+  public static final String BEAN_NAME = "documentServiceImpl";	
 
-		propertyMap.put("processId", "123456789");
-		propertyMap.put("userId", "user123");
-		propertyMap.put("documentId", "document123");
-		propertyMap.put("docType", "user uploaded");
-		propertyMap.put("documentName", "Sample Upload File");
-		
-		return propertyMap;
-	}
-	
-	
-	/**
-	 * convert the json string into DocumentAttributes object. 
-	 */
-	@Override
-	public MessageAttributes getMessageAttributesFromJson(String message) {
-		try {
-			return mapper.readValue(message, MessageAttributes.class);
-		} catch (JsonParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null; 
-	}
+  @Override
+  @HystrixCommand(
+      fallbackMethod = "getDocumentTypesFallBack", 
+      commandKey = "GetDocumentTypesCommand", 
+      ignoreExceptions = {IllegalArgumentException.class})		
+  public GetDocumentTypesResponse getDocumentTypes() {
+    // TODO Auto-generated method stub
+    GetDocumentTypesResponse serviceResponse = new GetDocumentTypesResponse();
+    serviceResponse.setDocumentTypes(getListOfDocumentTypes());
+    return serviceResponse;
+  }
+
+  @HystrixCommand(commandKey = "GetDocumentTypesFallBackCommand")	
+  public GetDocumentTypesResponse getDocumentTypesFallBack() {
+    GetDocumentTypesResponse serviceResponse = new GetDocumentTypesResponse();
+    //TODO:Currently calling the DocumentTypeEnum to get the DocumentType list for fallback
+    serviceResponse.setDocumentTypes(getListOfDocumentTypes());
+    return serviceResponse;
+  }
+
+  private List<DocumentType> getListOfDocumentTypes() {
+    return DocumentTypeEnum.getEnumAsDocumentTypeList();
+  }
+
+  /**
+   * Populate the metadata for message.
+   * Hard-coding the properties for poc purpose.
+   */
+  @Override
+  public String getMessageAttributes(String message) {
+    MessageAttributes documentAttributes = new MessageAttributes();
+    documentAttributes.setProcessID("123456789");
+    documentAttributes.setUserID("user123");
+    documentAttributes.setDocumentID("document123");
+    documentAttributes.setDocumentType("userUploaded");
+    documentAttributes.setDocumentName("Sample Upload File");
+    documentAttributes.setMessage(message);
+    try {
+      return mapper.writeValueAsString(documentAttributes);
+    } catch (JsonProcessingException e) {
+      LOGGER.error("JsonProcessingException {}", e);
+      return documentAttributes.toString();
+    }
+
+  }
+
+  /**
+   * Populate the metadata for document.
+   * Hard-coding the properties for poc purpose.
+   */
+  @Override
+  public Map<String, String> getDocumentAttributes() {
+
+    Map<String, String> propertyMap = new HashMap<>();
+
+    propertyMap.put("processId", "123456789");
+    propertyMap.put("userId", "user123");
+    propertyMap.put("documentId", "document123");
+    propertyMap.put("docType", "user uploaded");
+    propertyMap.put("documentName", "Sample Upload File");
+
+    return propertyMap;
+  }
+
+
+  /**
+   * convert the json string into DocumentAttributes object. 
+   */
+  @Override
+  public MessageAttributes getMessageAttributesFromJson(String message) {
+    try {
+      return mapper.readValue(message, MessageAttributes.class);
+    } catch (JsonParseException e) {
+      LOGGER.error("JsonParseException {}", e);
+    } catch (JsonMappingException e) {
+      LOGGER.error("JsonMappingException {}", e);
+    } catch (IOException e) {
+      LOGGER.error("IOException {}", e);
+    }
+    return null; 
+  }
 
 }

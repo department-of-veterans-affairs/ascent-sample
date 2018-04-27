@@ -67,8 +67,7 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 
   @RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GetDocumentTypesResponse> getDocumentTypes() {
-    GetDocumentTypesResponse docResponse = new GetDocumentTypesResponse(); 
-    docResponse = documentService.getDocumentTypes();
+    GetDocumentTypesResponse docResponse = documentService.getDocumentTypes();
     LOGGER.info("DOCUMENT SERVICE getDocumentTypes INVOKED");
     return new ResponseEntity<>(docResponse, HttpStatus.OK);
   }
@@ -171,9 +170,9 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
         LOGGER.debug("MultipartFile Original Name: {}", file.getOriginalFilename());
       }
       if (headers != null) {
-        headers.forEach((k, v) -> {
-          LOGGER.debug("Key: " + k + " Value: " + v);
-        });
+        headers.forEach((k, v) -> 
+          LOGGER.debug("Key: " + k + " Value: " + v)
+        );
       }
     }
     GetDocumentTypesResponse docResponse = new GetDocumentTypesResponse();
