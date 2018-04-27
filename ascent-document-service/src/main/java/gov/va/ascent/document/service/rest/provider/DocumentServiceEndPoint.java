@@ -1,17 +1,23 @@
 package gov.va.ascent.document.service.rest.provider;
 
+import java.io.IOException;
+import java.util.Map;
+
+import javax.jms.TextMessage;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthIndicator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,50 +26,115 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.transfer.model.UploadResult;
+
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.document.service.api.transfer.SubmitPayloadRequest;
+import gov.va.ascent.framework.log.LogUtil;
+import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
+import gov.va.ascent.starter.aws.s3.services.S3Service;
+import gov.va.ascent.starter.aws.sqs.services.SqsService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import net.shibboleth.utilities.java.support.annotation.constraint.NotEmpty;
 
 @RestController
-public class DocumentServiceEndPoint implements HealthIndicator {
+public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 
-  private final static Logger LOGGER = LoggerFactory.getLogger(DocumentServiceEndPoint.class);
+  /** Constant for the logger for this class */
+  private static final Logger LOGGER = LoggerFactory.getLogger(DocumentServiceEndPoint.class);
 
-  @Autowired
-  @Qualifier("IMPL")
-  DocumentService documentService;
+	@Autowired
+	@Qualifier("IMPL")
+	DocumentService documentService;
 
-  public static final String URL_PREFIX = "/document/v1";
+	@Autowired
+	S3Service s3Services;
 
-  @RequestMapping(value = URL_PREFIX + "/health", method = RequestMethod.GET)
-  public Health health() {
-    // TODO Auto-generated method stub
-    return Health.up().withDetail("Document Service REST Endpoint",
-        "Document Service REST Provider Up and Running!").build();
-  }
+	@Autowired
+	SqsService sqsServices;
 
-  @RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+	@Value("${ascent.s3.bucket}")
+	private String bucketName;
+
+	@Value("${ascent.s3.target.bucket}")
+	private String targetBucketName;
+
+	@Value("${ascent.s3.dlq.bucket}")
+	private String dlqBucketName;
+
+	public static final String URL_PREFIX = "/document/v1";
+
+
+  @RequestMapping(value = URL_PREFIX + "/documentTypes", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GetDocumentTypesResponse> getDocumentTypes() {
-    GetDocumentTypesResponse docResponse = new GetDocumentTypesResponse();
-    docResponse = documentService.getDocumentTypes();
+    GetDocumentTypesResponse docResponse = documentService.getDocumentTypes();
     LOGGER.info("DOCUMENT SERVICE getDocumentTypes INVOKED");
     return new ResponseEntity<>(docResponse, HttpStatus.OK);
   }
 
+  @PostMapping(value = URL_PREFIX + "/uploadDocumentSendMessage")
+  @ApiOperation(value = "Upload a Document and Sends Message",
+  consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+  produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> uploadDocumentSendMessage(final @RequestHeader HttpHeaders headers,
+      final @RequestBody MultipartFile documentOne
+      )
+  {
+    Map<String, String> propertyMap = documentService.getDocumentAttributes();
+    ResponseEntity<UploadResult> uploadResult = s3Services.uploadMultiPartFile(bucketName, documentOne, propertyMap);
+    if (uploadResult.getBody() == null) {
+      LogUtil.logErrorWithBanner(LOGGER, "Upload Failed", "Error during Upload. Some action needs to be taken in the service");
+    }
+    LOGGER.info("Sending message {}.", "Sample Test Message");
+
+    String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
+    TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
+
+    ResponseEntity<String> jmsID = sqsServices.sendMessage(textMessage);
+    if (StringUtils.isEmpty(jmsID.getBody())) {
+      LogUtil.logErrorWithBanner(LOGGER, "Message Failed", "Error during send message. Some action needs to be taken in the service");
+    }
+    return ResponseEntity.ok().build();
+  } 
+  
+  @PostMapping(value = URL_PREFIX + "/uploadDocumentWithByteArray")
+  @ApiOperation(value = "Uploads a Document afetr converting that into a byte array",
+  consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+  produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<?> uploadDocumentWithByteArray(final @RequestHeader HttpHeaders headers,
+      final @RequestBody MultipartFile documentOne
+      )
+  {
+    Map<String, String> propertyMap = documentService.getDocumentAttributes();
+    try {
+		s3Services.uploadByteArray(bucketName, documentOne.getBytes(), "participantid/" + documentOne.getOriginalFilename(), propertyMap);
+	} catch (IOException e) {
+		LOGGER.error("Error reading bytes: {}", e);
+	}
+    LOGGER.info("Sending message {}.", "Sample Test Message");
+
+    return ResponseEntity.ok().build();
+  } 
+
+  @PostMapping("/message")
+  public ResponseEntity<?> sendMessage(@RequestBody String message) {
+    LOGGER.info("Sending message {}.", message);
+    String jsonMessage = documentService.getMessageAttributes(message);
+    TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
+    sqsServices.sendMessage(textMessage);
+    return ResponseEntity.ok().build();
+  }
 
   @RequestMapping(path = URL_PREFIX + "/submit", method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE)
   @ApiOperation(value = "Submit a Binary Document and Data",
-      consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
+  consumes = MediaType.APPLICATION_OCTET_STREAM_VALUE,
+  produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GetDocumentTypesResponse> submit(@RequestHeader HttpHeaders headers,
       @ApiParam(value = "Document to upload", required = true) @RequestBody byte[] byteFile,
       @ApiParam(value = "Document data",
-          required = true) @NotNull @NotEmpty SubmitPayloadRequest submitPayloadRequest) {
+      required = true) @NotNull @NotEmpty SubmitPayloadRequest submitPayloadRequest) {
 
     if (LOGGER.isDebugEnabled()) {
       if (submitPayloadRequest != null) {
@@ -81,12 +152,12 @@ public class DocumentServiceEndPoint implements HealthIndicator {
   @RequestMapping(path = URL_PREFIX + "/submitForm", method = RequestMethod.POST,
       consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   @ApiOperation(value = "Submit a MultiPart Document and Data",
-      consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<GetDocumentTypesResponse> submitForm(@RequestHeader HttpHeaders headers,
       @ApiParam(value = "Document to upload",
-          required = true) @RequestParam("file") MultipartFile file,
+      required = true) @RequestParam("file") MultipartFile file,
       @ApiParam(value = "Document data",
-          required = true) @NotNull @NotEmpty SubmitPayloadRequest submitPayloadRequest) {
+      required = true) @NotNull @NotEmpty SubmitPayloadRequest submitPayloadRequest) {
 
     if (LOGGER.isDebugEnabled()) {
       if (submitPayloadRequest != null) {
@@ -100,12 +171,13 @@ public class DocumentServiceEndPoint implements HealthIndicator {
         LOGGER.debug("MultipartFile Original Name: {}", file.getOriginalFilename());
       }
       if (headers != null) {
-        headers.forEach((k, v) -> {
-          LOGGER.debug("Key: " + k + " Value: " + v);
-        });
+        headers.forEach((k, v) -> 
+          LOGGER.debug("Key: " + k + " Value: " + v)
+        );
       }
     }
     GetDocumentTypesResponse docResponse = new GetDocumentTypesResponse();
     return new ResponseEntity<>(docResponse, HttpStatus.OK);
   }
+
 }
