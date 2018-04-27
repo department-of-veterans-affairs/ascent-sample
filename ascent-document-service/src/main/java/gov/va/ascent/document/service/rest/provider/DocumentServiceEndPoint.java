@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.jms.TextMessage;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,9 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.services.s3.transfer.model.UploadResult;
+
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.document.service.api.transfer.SubmitPayloadRequest;
+import gov.va.ascent.framework.log.LogUtil;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import gov.va.ascent.starter.aws.s3.services.S3Service;
 import gov.va.ascent.starter.aws.sqs.services.SqsService;
@@ -78,13 +82,19 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
       )
   {
     Map<String, String> propertyMap = documentService.getDocumentAttributes();
-    s3Services.uploadMultiPartSingle(bucketName, documentOne, propertyMap);
+    ResponseEntity<UploadResult> uploadResult = s3Services.uploadMultiPartFile(bucketName, documentOne, propertyMap);
+    if (uploadResult.getBody() == null) {
+      LogUtil.logErrorWithBanner(LOGGER, "Upload Failed", "Error during Upload. Some action needs to be taken in the service");
+    }
     LOGGER.info("Sending message {}.", "Sample Test Message");
 
     String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
     TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
 
-    sqsServices.sendMessage(textMessage);
+    ResponseEntity<String> jmsID = sqsServices.sendMessage(textMessage);
+    if (StringUtils.isEmpty(jmsID.getBody())) {
+      LogUtil.logErrorWithBanner(LOGGER, "Message Failed", "Error during send message. Some action needs to be taken in the service");
+    }
     return ResponseEntity.ok().build();
   } 
   
