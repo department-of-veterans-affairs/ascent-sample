@@ -34,7 +34,8 @@ import gov.va.ascent.document.sqs.MessageAttributes;
 
 public class DocumentServiceImpl implements DocumentService {
 
-  private final static Logger LOGGER = LoggerFactory.getLogger(DocumentServiceImpl.class);
+  /** Constant for the logger for this class */
+  private static final Logger LOGGER = LoggerFactory.getLogger(DocumentServiceImpl.class);
 
   @Autowired
   ObjectMapper mapper;

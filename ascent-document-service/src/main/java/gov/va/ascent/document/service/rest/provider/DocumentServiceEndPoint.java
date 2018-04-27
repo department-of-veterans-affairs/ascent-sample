@@ -41,7 +41,8 @@ import io.swagger.annotations.ApiParam;
 @RestController
 public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(DocumentServiceEndPoint.class);
+  /** Constant for the logger for this class */
+  private static final Logger LOGGER = LoggerFactory.getLogger(DocumentServiceEndPoint.class);
 
 	@Autowired
 	@Qualifier("IMPL")

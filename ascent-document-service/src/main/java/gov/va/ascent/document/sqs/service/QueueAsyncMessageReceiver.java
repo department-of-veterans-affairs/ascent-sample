@@ -77,7 +77,7 @@ public class QueueAsyncMessageReceiver {
   }
 
   @PreDestroy
-  public void cleanUp() throws Exception {
+  public void cleanUp() throws JMSException {
     if (connection != null) {
       connection.close();
       logger.info("JMS connection closed");
@@ -108,8 +108,7 @@ public class QueueAsyncMessageReceiver {
       connection.start();
 
     } catch (JMSException e) {
-      logger.error("Error occurred while starting JMS connection and listeners. Error: " + e.getStackTrace());
-      e.printStackTrace();
+      logger.error("Error occurred while starting JMS connection and listeners. Error: {}", e);
     }
   }
 
@@ -136,15 +135,29 @@ public class QueueAsyncMessageReceiver {
           try {
             s3Services.copyFileFromSourceToTargetBucket(bucketName, targetBucketName, docName);
           } catch (Exception e) {
-            logger.error("Error occurred while copying the object. Error: " + e.getStackTrace());
+            logger.error("Error occurred while copying the object. Error: {}", e);
             return;
           }
           message.acknowledge();
         } 
         logger.info("Acknowledged message. JMS Message ID: " + message.getJMSMessageID());
       } catch (JMSException e) {
-        logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
+        logger.error("Error occurred while processing message. Error: {}", e);
       }
+    }
+    
+    /**
+     * @param message
+     * @throws JMSException
+     */
+    private long findJMSElapsedTime(long createTimeStamp) throws JMSException {
+      long currentTime=System.currentTimeMillis();
+      long differenceTime = currentTime - createTimeStamp;
+      logger.info(MESSAGE_TIME_ELAPSED + differenceTime + " ms");
+      logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toSeconds(differenceTime) + " secs");
+      logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toMinutes(differenceTime) + " mins");
+      logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toHours(differenceTime) + " hrs");
+      return differenceTime;
     }
   }
 
@@ -164,8 +177,6 @@ public class QueueAsyncMessageReceiver {
           TextMessage messageText = (TextMessage) message;
           MessageAttributes messageAttributes = documentService
               .getMessageAttributesFromJson(messageText.getText());
-          // long elapsedTime =
-          // findJMSElapsedTime(messageAttributes.getCreateTimestamp());
 
           if (messageAttributes == null)
             return;
@@ -190,7 +201,7 @@ public class QueueAsyncMessageReceiver {
             try {
               txtMessage = sqsServices.createTextMessage(mapper.writeValueAsString(messageAttributes));
             } catch (JsonProcessingException e) {
-              logger.error("Error occurred while creating text message. Error: " + e.getStackTrace());
+              logger.error("Error occurred while creating text message. Error: {}", e);
             }
             sqsServices.sendMessage(txtMessage);
           }
@@ -199,22 +210,8 @@ public class QueueAsyncMessageReceiver {
         logger.info("Acknowledged message from DLQ. JMS Message ID: " + message.getJMSMessageID());
 
       } catch (JMSException e) {
-        logger.error("Error occurred while processing message. Error: " + e.getStackTrace());
+        logger.error("Error occurred while processing message. Error: {}", e);
       }
     }
-  }
-
-  /**
-   * @param message
-   * @throws JMSException
-   */
-  private long findJMSElapsedTime(long createTimeStamp) throws JMSException {
-    long currentTime=System.currentTimeMillis();
-    long differenceTime = currentTime - createTimeStamp;
-    logger.info(MESSAGE_TIME_ELAPSED + differenceTime + " ms");
-    logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toSeconds(differenceTime) + " secs");
-    logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toMinutes(differenceTime) + " mins");
-    logger.info(MESSAGE_TIME_ELAPSED + TimeUnit.MILLISECONDS.toHours(differenceTime) + " hrs");
-    return differenceTime;
   }
 }
