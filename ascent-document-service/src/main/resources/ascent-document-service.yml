@@ -92,13 +92,13 @@ ascent:
   security:
     jwt:
       enabled: false
-      filter-process-url: /document/v?/**
+      filter-process-url: /v?/**
   swagger:
     title: Ascent Document Service v1 API Documentation
     description: API Error Keys <a href="swagger/error-keys.html">error keys</a>
     groupName: document-v1
     version: ${info.build.version}
-    securePaths: /document.*
+    securePaths: /api/.*/v?.*|/v[0-9]/?.*
 ---
 spring.profiles: default,local-int
 spring.profiles.include: remote_client_sims, embedded-aws
