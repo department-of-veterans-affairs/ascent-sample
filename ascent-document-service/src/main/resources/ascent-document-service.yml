@@ -101,7 +101,7 @@ ascent:
     securePaths: /api/.*/v?.*|/v[0-9]/?.*
 ---
 spring.profiles: default,local-int
-spring.profiles.include: remote_client_sims, embedded-aws
+spring.profiles.include: remote_client_sims,embedded-aws
 spring:
   sleuth:
     stream:
