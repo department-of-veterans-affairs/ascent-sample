@@ -2,15 +2,22 @@ Feature: Demo person service API search based on SSN
 
   @searchssn
   Scenario Outline: Search based on SSN
-    Given I pass the header information for search ssn
-      | Accept       | application/json;v=3 |
-      | Content-Type | application/json;v=3 |
+    Given the claimant is a "<Veteran>"
+    And invoke token API by passing header from "<tokenrequestfile>" and sets the authorization in the header
     When request search ssn "<ServiceURL>" with ssn data "<RequestFile>"
-    Then the response code for search ssn should be 400 
-    And the search SSN result should be same as valid response "<ResponseFile>"
+    Then the service returns status code = 400
+    And the response should be same as "<ResponseFile>"
 
+    @CI
     Examples: 
-      | ServiceURL          | RequestFile            | ResponseFile            |
-      | /api/ascent-demo-service/demo/v1/person/ssn | demoinvalidssn.Request | demoinvalidssn.Response |
-      | /api/ascent-demo-service/demo/v1/person/ssn | demoemptyssn.Request   | demoemptyssn.Response   |
-      | /api/ascent-demo-service/demo/v1/person/ssn | demonossn.Request      | demonossn.Response      |
+      | Veteran    | tokenrequestfile | ServiceURL                                  | RequestFile               | ResponseFile            |
+      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demoinvalidssn.Request | demoinvalidssn.Response |
+      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demoemptyssn.Request   | demoemptyssn.Response   |
+      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demonossn.Request      | demonossn.Response      |
+
+    @VA
+    Examples: 
+      | Veteran    | tokenrequestfile | ServiceURL                                  | RequestFile               | ResponseFile            |
+      | va-janedoe | va/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | va/demoinvalidssn.Request | demoinvalidssn.Response |
+      | va-janedoe | va/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | va/demoemptyssn.Request   | demoemptyssn.Response   |
+      | va-janedoe | va/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | va/demonossn.Request      | demonossn.Response      |

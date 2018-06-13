@@ -1,80 +1,49 @@
 package gov.va.ascent.demo.service.steps;
 
-import static org.junit.Assert.assertTrue;
-
-import java.util.Map;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cucumber.api.Scenario;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
-import cucumber.api.java.en.And;
-import cucumber.api.java.en.Given;
-import cucumber.api.java.en.Then;
+
 import cucumber.api.java.en.When;
-import gov.va.ascent.test.framework.restassured.BaseStepDef;
+import gov.va.ascent.test.framework.restassured.BaseStepDefHandler;
 
-public class DemoSsnFallBackCachedAndNotCachedSteps extends BaseStepDef {
+public class DemoSsnFallBackCachedAndNotCachedSteps {
 
-	final Logger log = LoggerFactory.getLogger(BaseStepDef.class);
+	final static Logger LOGGER = LoggerFactory.getLogger(DemoSsnFallBackCachedAndNotCachedSteps.class);
+	private BaseStepDefHandler handler = null;
 
-	@Before({ "@ssnfallbackcached, @ssnfallbacknotcached" })
+	public DemoSsnFallBackCachedAndNotCachedSteps(BaseStepDefHandler handler) {
+		this.handler = handler;
+	}
+
+	@Before({})
 	public void setUpREST() {
-		initREST();
+		handler.initREST();
 	}
 
 	// Steps for SSN Fall Back Cached//
 
-	@Given("^I pass the header information for ssn cached$")
-	public void passHeaderInformationForSSNFallBackCached(Map<String, String> tblHeader) throws Throwable {
-		passHeaderInformation(tblHeader);
-	}
-	
 	@When("^client request SSNcached \"([^\"]*)\" with SSNcached data \"([^\"]*)\"$")
 	public void clientRequestPOSTWithJsondataSSNFallBackCached(String strURL, String requestFile) throws Throwable {
-		resUtil.setUpRequest(requestFile, headerMap);
-		String baseUrl = restConfig.getPropertyName("baseURL", true);
-		invokeAPIUsingPost(baseUrl + strURL, true);
-	}
-	
-	@Then("^the response code for SSNcached should be (\\d+)$")
-	public void FallBackCachedserviceresposestatuscodemustbe(int intStatusCode) throws Throwable {
-		validateStatusCode(intStatusCode);
+		String baseUrl = handler.getRestConfig().getPropertyName("baseURL", true);
+		handler.getRestUtil().setUpRequest(requestFile, handler.getHeaderMap());
+		handler.invokeAPIUsingPost(baseUrl + strURL);
 	}
 
-	@And("^the SSNcached result should be same as valid transaction response \"(.*?)\"$")
-	public void FallBackCachedresultshouldbesameasvalidTransactionsresponse(String strResFile) throws Throwable {
-		assertTrue(compareExpectedResponseWithActual(strResFile));
-	}
 	// Steps for SSN Fall Back NotCached//
-	
-	@Given("^I pass the header information for SSNNotcached$")
-	public void passHeaderInformationForSSNNotCached(Map<String, String> tblHeader) throws Throwable {
-		passHeaderInformation(tblHeader);
-	}
 
 	@When("^client request SSNnotcached \"([^\"]*)\" with SSNnotcached data \"([^\"]*)\"$")
 	public void ClientRequestPOSTWithJsondataSSNFallBackNotCached(String strURL, String requestFile) throws Throwable {
-		resUtil.setUpRequest(requestFile, headerMap);
-		String baseUrl = restConfig.getPropertyName("baseURL", true);
-		invokeAPIUsingPost(baseUrl + strURL, true);
-	}
-	
-	@Then("^the response code for SSNnotcached should be (\\d+)$")
-	public void SSNFallBackNotCachedServiceResposeStatusCodeMustBe(int intStatusCode) throws Throwable {
-		validateStatusCode(intStatusCode);
+		String baseUrl = handler.getRestConfig().getPropertyName("baseURL", true);
+		handler.invokeAPIUsingPost(baseUrl + strURL);
 	}
 
-	@And("^the SSNnotcached result should be same as valid transaction response \"(.*?)\"$")
-	public void SSNFallBackNotCachedResultShouldBeSameAsValidTransactionsResponse(String strResFile) throws Throwable {
-		assertTrue(compareExpectedResponseWithActual(strResFile));
-	}
-
-	@After({ "@ssnfallbackcached, @ssnfallbacknotcached" })
+	@After({})
 	public void cleanUp(Scenario scenario) {
-		postProcess(scenario);
+		handler.postProcess(scenario);
 
 	}
 }
