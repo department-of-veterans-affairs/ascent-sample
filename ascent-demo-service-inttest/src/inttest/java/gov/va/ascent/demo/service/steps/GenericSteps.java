@@ -19,7 +19,7 @@ public class GenericSteps {
 	}
 
 	@Given("^the claimant is a \"([^\"]*)\"$")
-	public void ValidVafiHeader(String users) throws Throwable {
+	public void setHeader(String users) throws Throwable {
 		handler.setHeader(users);
 	}
 
