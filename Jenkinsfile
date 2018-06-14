@@ -32,4 +32,5 @@ microservicePipeline {
 
     //Directory containing JSON files for Cucumber reports
     cucumberReportDirectory = 'ascent-demo-service-inttest/target'
+    cucumberOpts = '--tags @CI'
 }
