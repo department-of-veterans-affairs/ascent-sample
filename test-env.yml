@@ -27,9 +27,10 @@ services:
     - 8760
     environment:
     - SPRING_PROFILES_ACTIVE=aws-ci
-    - VAULT_ADDR=https://${VAULT_HOST}:8200
+    - VAULT_ADDR=${VAULT_ADDR}
     - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN}
     - VAULT_HOST=${VAULT_HOST}
+    - VAULT_PORT=${VAULT_PORT:-8200}
     - VAULT_SCHEME=https
     networks:
     - ascentnet
