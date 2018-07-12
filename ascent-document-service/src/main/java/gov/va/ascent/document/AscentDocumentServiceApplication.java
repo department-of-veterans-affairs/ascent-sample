@@ -1,4 +1,4 @@
-package gov.va.ascent.document.service;
+package gov.va.ascent.document;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +22,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 *
 */
 @SpringBootApplication(scanBasePackages={
-		"gov.va.ascent.document"})
+		"gov.va.ascent.document", "gov.va.ascent.starter"})
 @EnableDiscoveryClient //needed to reach out to spring cloud config, eureka
 @EnableAspectJAutoProxy(proxyTargetClass=true)
 @EnableFeignClients

@@ -1,4 +1,4 @@
-package gov.va.ascent.document.service;
+package gov.va.ascent.document;
 
 
 import java.io.IOException;
