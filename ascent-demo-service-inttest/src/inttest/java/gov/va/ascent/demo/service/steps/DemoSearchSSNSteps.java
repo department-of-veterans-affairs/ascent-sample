@@ -29,7 +29,7 @@ public class DemoSearchSSNSteps {
 
 	@When("^request search ssn \"([^\"]*)\" with ssn data \"([^\"]*)\"$")
 	public void clientrequestPOSTwithjsondata(String strURL, String requestFile) throws Throwable {
-        String baseUrl = handler.getRestConfig().getPropertyName("baseURL", true);
+        String baseUrl = handler.getRestConfig().getProperty("baseURL", true);
 		handler.invokeAPIUsingPost(baseUrl + strURL);
 	}
 
