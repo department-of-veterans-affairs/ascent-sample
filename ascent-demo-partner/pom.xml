@@ -93,25 +93,6 @@
                 <skip>true</skip>
             </configuration>
         </plugin>
-        <!-- commented for now, need to figure out error and then enable it later -->
-        <plugin>
-			<groupId>eviware</groupId>
-			<artifactId>maven-soapui-plugin</artifactId>
-			<version>4.5.1</version>
-			<executions>
-				<execution>
-					<id>soapUIMockStartup</id>
-					<phase>process-test-classes</phase>
-					<goals>
-						<goal>mock</goal>
-					</goals>
-					<configuration>
-						<projectFile>${basedir}/src/test/resources/ascent-demo-partner-soapui-project.xml</projectFile>
-						<noBlock>true</noBlock>
-					</configuration>
-				</execution>
-			</executions>
-		</plugin>
 		<plugin>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>jaxb2-maven-plugin</artifactId>
