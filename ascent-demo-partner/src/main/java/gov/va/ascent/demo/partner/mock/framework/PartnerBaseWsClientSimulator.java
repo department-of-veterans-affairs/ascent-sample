@@ -1,15 +1,16 @@
 package gov.va.ascent.demo.partner.mock.framework;
 
-
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.openqa.selenium.io.IOUtils;
+
 /**
  * The base class for Web Service client simulations, containing utility operations, etc. that are likely reusable
  * across such simulators.
- * 
+ *
  * @author jshrader
  */
 public class PartnerBaseWsClientSimulator {
@@ -24,7 +25,7 @@ public class PartnerBaseWsClientSimulator {
 
 	/**
 	 * Gets the Response from a simulator file.
-	 * 
+	 *
 	 * @param fileName resource path to file
 	 * @return file's contents as string
 	 * @throws IOException Signals that an I/O exception has occurred.
@@ -38,15 +39,13 @@ public class PartnerBaseWsClientSimulator {
 		} catch (final IOException ioe) {
 			throw new IOException("Failed to read from simulator response file at resource \"" + fileName + "\"", ioe);
 		} finally {
-			if (inputStream != null) {
-				inputStream.close();
-			}
+			IOUtils.closeQuietly(inputStream);
 		}
 	}
 
 	/**
 	 * Gets the Response from a simulator file.
-	 * 
+	 *
 	 * @param fileName1 the First File Path
 	 * @param fileName2 the First File Path
 	 * @return the ByteBuffer
@@ -58,7 +57,7 @@ public class PartnerBaseWsClientSimulator {
 		String content = null;
 		try {
 			content = getSimulatorResponseByFileName(fileName1);
-		} catch (final IOException ex) {
+		} catch (final IOException ex) { // NOSONAR intentionally not logging or rethrowing
 			content = getSimulatorResponseByFileName(fileName2);
 		}
 
@@ -67,7 +66,7 @@ public class PartnerBaseWsClientSimulator {
 
 	/**
 	 * Convert stream to string.
-	 * 
+	 *
 	 * @param inputStream the in
 	 * @return the string
 	 * @throws IOException Signals that an I/O exception has occurred.

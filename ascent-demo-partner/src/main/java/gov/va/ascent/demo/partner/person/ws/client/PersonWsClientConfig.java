@@ -91,16 +91,16 @@ public class PersonWsClientConfig extends BaseWsClientConfig {
 	/**
 	 * Axiom based WebServiceTemplate for the Person Web Service Client.
 	 *
-	 * @param endpoint          the endpoint
-	 * @param readTimeout       the read timeout
+	 * @param endpoint the endpoint
+	 * @param readTimeout the read timeout
 	 * @param connectionTimeout the connection timeout
 	 * @return the web service template
-	 * @throws KeyManagementException    the key management exception
+	 * @throws KeyManagementException the key management exception
 	 * @throws UnrecoverableKeyException the unrecoverable key exception
-	 * @throws NoSuchAlgorithmException  the no such algorithm exception
-	 * @throws KeyStoreException         the key store exception
-	 * @throws CertificateException      the certificate exception
-	 * @throws IOException               Signals that an I/O exception has occurred.
+	 * @throws NoSuchAlgorithmException the no such algorithm exception
+	 * @throws KeyStoreException the key store exception
+	 * @throws CertificateException the certificate exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 */
 	// Ignoring DesignForExtension check, we cannot make this spring bean method private or final
 	// CHECKSTYLE:OFF
@@ -110,9 +110,7 @@ public class PersonWsClientConfig extends BaseWsClientConfig {
 			// CHECKSTYLE:ON
 			@Value("${wss-partner-person.ws.client.endpoint}") final String endpoint,
 			@Value("${wss-partner-person.ws.client.readTimeout:60000}") final int readTimeout,
-			@Value("${wss-partner-person.ws.client.connectionTimeout:60000}") final int connectionTimeout)
-			throws KeyManagementException, UnrecoverableKeyException, NoSuchAlgorithmException, KeyStoreException,
-			CertificateException, IOException {
+			@Value("${wss-partner-person.ws.client.connectionTimeout:60000}") final int connectionTimeout) {
 
 		return createDefaultWebServiceTemplate(endpoint, readTimeout, connectionTimeout, personMarshaller(), personMarshaller(),
 				new ClientInterceptor[] { personSecurityInterceptor() });
@@ -159,6 +157,7 @@ public class PersonWsClientConfig extends BaseWsClientConfig {
 	 */
 	// Ignoring DesignForExtension check, we cannot make this spring bean method private or final
 	// CHECKSTYLE:OFF
+	@SuppressWarnings("unchecked")
 	@Bean
 	InterceptingExceptionTranslator personWsClientExceptionInterceptor() throws ClassNotFoundException {
 		// CHECKSTYLE:ON
@@ -169,12 +168,13 @@ public class PersonWsClientConfig extends BaseWsClientConfig {
 		// set the default type of exception that should be returned when this
 		// interceptor runs
 		interceptingExceptionTranslator.setDefaultExceptionType(
-				(Class<? extends RuntimeException>) Class.forName("gov.va.ascent.demo.partner.person.ws.client.PersonWsClientException"));
+				(Class<? extends RuntimeException>) Class
+						.forName("gov.va.ascent.demo.partner.person.ws.client.PersonWsClientException"));
 
 		// define packages that contain "our exceptions" that we want to
 		// propagate through
 		// without again logging and/or wrapping
-		final Set<String> exclusionSet = new HashSet<String>();
+		final Set<String> exclusionSet = new HashSet<>();
 		exclusionSet.add(PACKAGE_ASCENT_FRAMEWORK_EXCEPTION);
 		interceptingExceptionTranslator.setExclusionSet(exclusionSet);
 
@@ -208,7 +208,7 @@ public class PersonWsClientConfig extends BaseWsClientConfig {
 	@Bean
 	WsClientSimulatorMarshallingInterceptor personWsClientSimulatorMarshallingInterceptor() {
 		// CHECKSTYLE:ON
-		final Map<String, Jaxb2Marshaller> marshallerForPackageMap = new HashMap<String, Jaxb2Marshaller>();
+		final Map<String, Jaxb2Marshaller> marshallerForPackageMap = new HashMap<>();
 		marshallerForPackageMap.put(TRANSFER_PACKAGE, personMarshaller());
 		return new WsClientSimulatorMarshallingInterceptor(marshallerForPackageMap);
 	}
@@ -227,10 +227,10 @@ public class PersonWsClientConfig extends BaseWsClientConfig {
 		return getBeanNameAutoProxyCreator(new String[] { PersonWsClientSimulator.BEAN_NAME },
 				new String[] { "personWsClientSimulatorMarshallingInterceptor" });
 	}
-	
+
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer placeHolderConfigurer() {
-	  return new PropertySourcesPlaceholderConfigurer();
+		return new PropertySourcesPlaceholderConfigurer();
 	}
 
 }

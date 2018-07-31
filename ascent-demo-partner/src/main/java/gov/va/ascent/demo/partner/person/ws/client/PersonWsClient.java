@@ -11,8 +11,8 @@ import gov.va.ascent.demo.partner.person.ws.transfer.FindPersonBySSNResponse;
  * The interface for the PersonWsClient Web Service Client.
  *
  */
-public interface PersonWsClient {
-	
+public interface PersonWsClient { // NOSONAR constants will remain here
+
 	/**
 	 * Spring profile for personservicewsclient remote client implementation.
 	 */
@@ -27,12 +27,12 @@ public interface PersonWsClient {
 	 * @param findPersonBySSNRequest The Person Web Service request entity
 	 * @return FindPersonBySSNResponse The Person Web Service response entity
 	 */
-	JAXBElement<FindPersonBySSNResponse> getPersonInfo(JAXBElement<FindPersonBySSN>  findPersonBySSNRequest);
-	
+	JAXBElement<FindPersonBySSNResponse> getPersonInfo(JAXBElement<FindPersonBySSN> findPersonBySSNRequest);
+
 	/**
 	 * @param findPersonByPtcpntIdRequest The Person Web Service request entity
 	 * @return findPersonByPtcpntIdResponse The Person Web Service response entity
 	 */
-	JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(JAXBElement<FindPersonByPtcpntId>  findPersonByPtcpntIdRequest);
+	JAXBElement<FindPersonByPtcpntIdResponse> getPersonInfoByPtcpntId(JAXBElement<FindPersonByPtcpntId> findPersonByPtcpntIdRequest);
 
 }

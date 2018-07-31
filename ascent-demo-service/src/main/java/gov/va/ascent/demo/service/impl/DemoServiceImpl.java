@@ -2,8 +2,6 @@ package gov.va.ascent.demo.service.impl;
 
 import java.util.concurrent.Future;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,67 +23,66 @@ import gov.va.ascent.demo.service.utils.HystrixCommandConstants;
 @RefreshScope
 @DefaultProperties(groupKey = HystrixCommandConstants.ASCENT_DEMO_SERVICE_GROUP_KEY)
 public class DemoServiceImpl implements DemoService {
-	final static Logger LOGGER = LoggerFactory.getLogger(DemoServiceImpl.class);
-	
+
+	private static final String THROWN_ON_PURPOSE = "Thrown on purpose!";
+
 	@Autowired
 	private AscentDemoServiceProperties properties;
-	
-	@Value("${ascent-demo-service.sampleProperty}") 
-	private String sampleProperty;
 
+	@Value("${ascent-demo-service.sampleProperty}")
+	private String sampleProperty;
 
 	@Override
 	@HystrixCommand(fallbackMethod = "getFallbackDemoResponse", commandKey = "DemoServiceReadCommand")
-	public DemoServiceResponse read(String name){
+	public DemoServiceResponse read(final String name) {
 		if ("error".equals(name)) {
-			throw new RuntimeException("thrown on purpose!");
+			throw new RuntimeException(THROWN_ON_PURPOSE); // NOSONAR intentional generic exception
 		}
-		DemoServiceResponse response = new DemoServiceResponse();
-		Demo demo = new Demo();
+		final DemoServiceResponse response = new DemoServiceResponse();
+		final Demo demo = new Demo();
 		demo.setName(name);
 		demo.setDescription("description for demo with name: " + name + ".  " +
-				"FYI Sample property is as followed from 2 different sources " + 
-				"[AscentDemoServiceConfig] and [Autowired]: [" + 
+				"FYI Sample property is as followed from 2 different sources " +
+				"[AscentDemoServiceConfig] and [Autowired]: [" +
 				properties.getSampleProperty() + "][" + sampleProperty + "]");
 		response.setDemo(demo);
 		return response;
 	}
-	
-    @Override
-    @HystrixCommand(fallbackMethod = "getFallbackDemoResponse", commandKey = "DemoServiceAsyncReadCommand")
-    public Future<DemoServiceResponse> readAsync(final String name) {
-    	if ("error".equals(name)) {
-			throw new RuntimeException("thrown on purpose!");
-		}
-        return new AsyncResult<DemoServiceResponse>() {
-            @Override
-            public DemoServiceResponse invoke() {
-            	DemoServiceResponse response = new DemoServiceResponse();
-        		Demo demo = new Demo();
-        		demo.setName(name);
-        		demo.setDescription("ASYNC CALL: description for demo with name: " + name + ".  " +
-        				"FYI Sample property is as followed from 2 different sources " + 
-        				"[AscentDemoServiceConfig] and [Autowired]: [" + 
-        				properties.getSampleProperty() + "][" + sampleProperty + "]");
-        		response.setDemo(demo);
-        		try {
-        			if ("sleep".equals(name)) {
-        				Thread.sleep(15000);
-        			}
-				} catch (InterruptedException e) {
-					throw new RuntimeException("thrown on purpose!");
-				}
-        		return response;
-            }
-        };
-    }
 
-	public DemoServiceResponse getFallbackDemoResponse(String name) {
-		DemoServiceResponse response = new DemoServiceResponse();
-		Demo demo = new Demo();
+	@Override
+	@HystrixCommand(fallbackMethod = "getFallbackDemoResponse", commandKey = "DemoServiceAsyncReadCommand")
+	public Future<DemoServiceResponse> readAsync(final String name) {
+		if ("error".equals(name)) {
+			throw new RuntimeException(THROWN_ON_PURPOSE); // NOSONAR intentional generic exception
+		}
+		return new AsyncResult<DemoServiceResponse>() {
+			@Override
+			public DemoServiceResponse invoke() {
+				final DemoServiceResponse response = new DemoServiceResponse();
+				final Demo demo = new Demo();
+				demo.setName(name);
+				demo.setDescription("ASYNC CALL: description for demo '" + name + "'.  " +
+						"Sample property sourced from [AscentDemoServiceConfig] and [Autowired]: [" +
+						properties.getSampleProperty() + "] and [" + sampleProperty + "]");
+				response.setDemo(demo);
+				try {
+					if ("sleep".equals(name)) {
+						Thread.sleep(15000);
+					}
+				} catch (final InterruptedException e) { // NOSONAR not rethrowing e
+					throw new RuntimeException(THROWN_ON_PURPOSE); // NOSONAR intentional
+				}
+				return response;
+			}
+		};
+	}
+
+	public DemoServiceResponse getFallbackDemoResponse(final String name) {
+		final DemoServiceResponse response = new DemoServiceResponse();
+		final Demo demo = new Demo();
 		demo.setName(name);
 		demo.setDescription("Fallback Response to the client");
 		response.setDemo(demo);
 		return response;
-    }
+	}
 }

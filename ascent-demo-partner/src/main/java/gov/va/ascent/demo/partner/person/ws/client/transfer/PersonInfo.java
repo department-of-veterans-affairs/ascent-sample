@@ -3,33 +3,30 @@ package gov.va.ascent.demo.partner.person.ws.client.transfer;
 import gov.va.ascent.framework.transfer.AbstractTransferObject;
 
 /**
- * 
+ *
  * This class represents the relevant subset of the data returned from the Person Web Service.
- * 
+ *
  */
 public class PersonInfo extends AbstractTransferObject {
 
 	/** The class version id. */
 	private static final long serialVersionUID = 5791227842810442936L;
-	
+
 	/** The person's file number. */
 	private String fileNumber;
-	
+
 	/** The person's first name. */
 	private String firstName;
-	
+
 	/** the person's middle name. */
 	private String middleName;
-	
+
 	/** the person's last name. */
 	private String lastName;
-	
+
 	/** the person's participant id. */
 	private Long participantId;
-	
-	/** the person's social security number. */
-	private String uniqueNo;
-	
+
 	/** the person's social security number. */
 	private String socSecNo;
 
@@ -68,7 +65,7 @@ public class PersonInfo extends AbstractTransferObject {
 	public final void setFirstName(final String firstName) {
 		this.firstName = firstName;
 	}
-	
+
 	/**
 	 * Gets the last name.
 	 *
@@ -137,8 +134,7 @@ public class PersonInfo extends AbstractTransferObject {
 	 *
 	 * @param ssn The person SSN
 	 */
-	public void setSocSecNo(String socSecNo) {
+	public void setSocSecNo(final String socSecNo) {
 		this.socSecNo = socSecNo;
 	}
 }
-

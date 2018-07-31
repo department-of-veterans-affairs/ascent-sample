@@ -42,126 +42,131 @@ import io.swagger.annotations.ApiResponses;
 @RestController
 
 /**
- * REST Demo Service endpoint 
+ * REST Demo Service endpoint
+ *
  * @author
  *
  */
 public class DemoServiceEndpoint implements HealthIndicator, SwaggerResponseMessages {
 
-	private final static Logger LOGGER = LoggerFactory.getLogger(DemoServiceEndpoint.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(DemoServiceEndpoint.class);
 
 	@Autowired
 	@Qualifier("IMPL")
 	DemoService demoService;
-	
+
 	@Autowired
 	@Qualifier("IMPL")
 	DemoPersonService demoPersonService;
-	
+
 	public static final String URL_PREFIX = "/demo/v1";
-	
-	//TODO make this method a REST call to test this endpoint is up and running
+
+	// NOSONAR TODO make this method a REST call to test this endpoint is up and running
+	@Override
 	@RequestMapping(value = URL_PREFIX + "/health", method = RequestMethod.GET)
-	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
+	@ApiOperation(value = "A health check of this endpoint",
+			notes = "Will perform a basic health check to see if the operation is running.")
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = MESSAGE_200)})
+			@ApiResponse(code = 200, message = MESSAGE_200) })
 	public Health health() {
-        return Health.up().withDetail("Demo Service REST Endpoint", "Demo Service REST Provider Up and Running!").build();
-    } 
-	
-	@RequestMapping(value = URL_PREFIX + "/echo", method = RequestMethod.GET, produces=MediaType.APPLICATION_JSON_VALUE)
-	@ApiOperation(value = "A health check of this endpoint", notes = "Will perform a basic health check to see if the operation is running.")
+		return Health.up().withDetail("Demo Service REST Endpoint", "Demo Service REST Provider Up and Running!").build();
+	}
+
+	@RequestMapping(value = URL_PREFIX + "/echo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@ApiOperation(value = "A health check of this endpoint",
+			notes = "Will perform a basic health check to see if the operation is running.")
 	@ApiResponses(value = {
-	@ApiResponse(code = 200, message = MESSAGE_200)})
-	@CachePut(value = "demoPersonService", key = "#root.methodName", unless="#result == null")	
-	public ResponseEntity<EchoHostServiceResponse> echo(HttpServletRequest request) {
+			@ApiResponse(code = 200, message = MESSAGE_200) })
+	@CachePut(value = "demoPersonService", key = "#root.methodName", unless = "#result == null")
+	public ResponseEntity<EchoHostServiceResponse> echo(final HttpServletRequest request) {
 		InetAddress addr;
-        try {
-            addr = InetAddress.getLocalHost();
-        } catch (UnknownHostException e) {
-            throw new AscentRuntimeException(e);
-        }
-        EchoHostServiceResponse response = new EchoHostServiceResponse();
-        Host host = new Host();
-        host.setHostName(addr.getHostName());
-        host.setLocalPort(request.getLocalPort());
-        host.setLocalAddress(request.getLocalAddr());
-        response.setHost(host);
-        LOGGER.info("ECHO SERVICE INVOKED: " + response);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-	
-	@RequestMapping(value = URL_PREFIX + "/read/{name}", produces=MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+		try {
+			addr = InetAddress.getLocalHost();
+		} catch (final UnknownHostException e) {
+			throw new AscentRuntimeException(e);
+		}
+		final EchoHostServiceResponse response = new EchoHostServiceResponse();
+		final Host host = new Host();
+		host.setHostName(addr.getHostName());
+		host.setLocalPort(request.getLocalPort());
+		host.setLocalAddress(request.getLocalAddr());
+		response.setHost(host);
+		LOGGER.info("ECHO SERVICE INVOKED: " + response);
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = URL_PREFIX + "/read/{name}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	@ApiOperation(value = "Reads a DEMO.", notes = "Will retrieve and return a previously created DEMO entity.")
-	public ResponseEntity<DemoServiceResponse> read(@PathVariable String name) {
+	public ResponseEntity<DemoServiceResponse> read(@PathVariable final String name) {
 		return new ResponseEntity<>(demoService.read(name), HttpStatus.OK);
 	}
-	
-	@RequestMapping(value = URL_PREFIX + "/readAsync/{name}", produces=MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
+
+	@RequestMapping(value = URL_PREFIX + "/readAsync/{name}", produces = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.GET)
 	@ApiOperation(value = "Reads a DEMO.", notes = "Will retrieve and return a previously created DEMO entity.")
-	public ResponseEntity<DemoServiceResponse> readAsync(@PathVariable String name) {
+	public ResponseEntity<DemoServiceResponse> readAsync(@PathVariable final String name) {
 		try {
-			Future<DemoServiceResponse> futureDemoResponse = demoService.readAsync(name);
+			final Future<DemoServiceResponse> futureDemoResponse = demoService.readAsync(name);
 			while (!futureDemoResponse.isDone()) {
 				continue;
 			}
 			return new ResponseEntity<>(futureDemoResponse.get(), HttpStatus.OK);
-		} catch (InterruptedException | ExecutionException e) {
+		} catch (InterruptedException | ExecutionException e) { // NOSONAR do not log or rethrow
 			return new ResponseEntity<>(new DemoServiceResponse(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	/**
-	 * CODING PRACTICE FOR RETURN TYPES - Ascent Platform auditing aspects support two return types. 
+	 * CODING PRACTICE FOR RETURN TYPES - Ascent Platform auditing aspects support two return types.
 	 * 1) An object derived from ServiceResponse. For ex: PersonInfoResponse as returned below.
 	 * 2) An object derived from ServiceResponse wrapped inside ResponseEntity. For ex: ResponseEntity<PersonInfoResponse>
 	 * The auditing aspect won't be triggered if the return type in not one of the above.
+	 *
 	 * @param personInfoRequest
 	 * @return ResponseEntity<PersonInfoResponse>
 	 */
-	@RequestMapping(value = URL_PREFIX + "/person/ssn", 
-			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
+	@RequestMapping(value = URL_PREFIX + "/person/ssn",
+			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	@ApiOperation(value = "SSN based Person Info from DEMO Partner Service.", notes = "Will return a person info based on SSN.")
-	public ResponseEntity<PersonInfoResponse> personBySSN(@RequestBody PersonInfoRequest personInfoRequest) {
+	public ResponseEntity<PersonInfoResponse> personBySSN(@RequestBody final PersonInfoRequest personInfoRequest) {
 		try {
 			return new ResponseEntity<>(demoPersonService.getPersonInfo(personInfoRequest), HttpStatus.OK);
-		}catch (IllegalArgumentException e){
-			PersonInfoResponse personInfoResponse = new PersonInfoResponse();
+		} catch (final IllegalArgumentException e) {
+			final PersonInfoResponse personInfoResponse = new PersonInfoResponse();
 			personInfoResponse.addMessage(MessageSeverity.ERROR, HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 			LOGGER.error("Exception raised {}", e);
 			return new ResponseEntity<>(personInfoResponse, HttpStatus.BAD_REQUEST);
-		} catch (Exception e) {
-			PersonInfoResponse personInfoResponse = new PersonInfoResponse();
+		} catch (final Exception e) {
+			final PersonInfoResponse personInfoResponse = new PersonInfoResponse();
 			personInfoResponse.addMessage(MessageSeverity.FATAL, HttpStatus.INTERNAL_SERVER_ERROR.name(), e.getMessage());
 			LOGGER.error("Exception raised {}", e);
 			return new ResponseEntity<>(personInfoResponse, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
 	/**
-	 * CODING PRACTICE FOR RETURN TYPES - Ascent Platform auditing aspects support two return types. 
+	 * CODING PRACTICE FOR RETURN TYPES - Ascent Platform auditing aspects support two return types.
 	 * 1) An object derived from ServiceResponse. For ex: PersonInfoResponse as returned below.
 	 * 2) An object derived from ServiceResponse wrapped inside ResponseEntity. For ex: ResponseEntity<PersonInfoResponse>
 	 * The auditing aspect won't be triggered if the return type in not one of the above.
+	 *
 	 * @param personInfoRequest
 	 * @return PersonInfoResponse
 	 */
-	@RequestMapping(value = URL_PREFIX + "/person/pid", 
-			produces=MediaType.APPLICATION_JSON_VALUE, consumes=MediaType.APPLICATION_JSON_VALUE,  method = RequestMethod.POST)
+	@RequestMapping(value = URL_PREFIX + "/person/pid",
+			produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE, method = RequestMethod.POST)
 	@ApiOperation(value = "PID based Person Info from DEMO Partner Service.", notes = "Will return a person info based on PID.")
-	public PersonInfoResponse personByPid(@RequestBody PersonInfoRequest personInfoRequest) {
+	public PersonInfoResponse personByPid(@RequestBody final PersonInfoRequest personInfoRequest) {
 		return demoPersonService.findPersonByParticipantID(personInfoRequest);
 	}
-	
-	
+
 	/**
 	 * Registers fields that should be allowed for data binding.
-	 * 
+	 *
 	 * @param binder
 	 *            Spring-provided data binding context object.
 	 */
 	@InitBinder
-	public void initBinder(WebDataBinder binder) {
+	public void initBinder(final WebDataBinder binder) {
 		binder.setAllowedFields(new String[] { "personInfo", "firstName", "lastName", "middleName", "fileNumber", "participantId",
 				"ssn" });
 	}

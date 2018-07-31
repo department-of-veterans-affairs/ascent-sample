@@ -11,30 +11,30 @@ import gov.va.ascent.demo.service.api.v1.transfer.ServiceInstancesServiceRespons
 
 /**
  * REST Client class that uses DiscoveryClient api to invoke the service by iterating through
- * the service instances  
+ * the service instances
+ *
  * @author prashanthmds
  *
  */
 
 public class DemoUsageDiscoveryClient {
 	@Autowired
-    private DiscoveryClient discoveryClient;
-	
+	private DiscoveryClient discoveryClient;
+
 	public ServiceInstancesServiceResponse invokeServiceUsingDiscoveryClient() {
-		ServiceInstancesServiceResponse response = new ServiceInstancesServiceResponse();
-		
-		discoveryClient.getServices().forEach((String service) -> {
-			//use discovery service to build out a collection of our ServiceInstanceDetail objects
-			discoveryClient.getInstances(service).forEach((ServiceInstance serviceInstance) -> {
-				ServiceInstanceDetail serviceInstanceDetail = new ServiceInstanceDetail();
-				serviceInstanceDetail.setHost(serviceInstance.getHost());
-				serviceInstanceDetail.setPort(Integer.toString(serviceInstance.getPort()));
-				serviceInstanceDetail.setUri(serviceInstance.getUri().toString());
-				serviceInstanceDetail.setServiceId(serviceInstance.getServiceId());
-				serviceInstanceDetail.setMetaData(Arrays.toString(serviceInstance.getMetadata().entrySet().toArray()));
-				response.getServiceInstanceDetail().add(serviceInstanceDetail);
-			});
-		});
+		final ServiceInstancesServiceResponse response = new ServiceInstancesServiceResponse();
+
+		discoveryClient.getServices().forEach((final String service) ->
+		// use discovery service to build out a collection of our ServiceInstanceDetail objects
+		discoveryClient.getInstances(service).forEach((final ServiceInstance serviceInstance) -> {
+			final ServiceInstanceDetail serviceInstanceDetail = new ServiceInstanceDetail();
+			serviceInstanceDetail.setHost(serviceInstance.getHost());
+			serviceInstanceDetail.setPort(Integer.toString(serviceInstance.getPort()));
+			serviceInstanceDetail.setUri(serviceInstance.getUri().toString());
+			serviceInstanceDetail.setServiceId(serviceInstance.getServiceId());
+			serviceInstanceDetail.setMetaData(Arrays.toString(serviceInstance.getMetadata().entrySet().toArray()));
+			response.getServiceInstanceDetail().add(serviceInstanceDetail);
+		}));
 		return response;
 	}
 }
