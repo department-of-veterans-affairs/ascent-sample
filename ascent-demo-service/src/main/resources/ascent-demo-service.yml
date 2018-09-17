@@ -50,7 +50,8 @@ ascent-demo-service:
 # BGS-Specific SERVICE CLIENT PROPERTIES
 #*********************************************************************
 ---
-spring.profiles: docker-demo, aws-ci, aws-stage, aws-prod
+# demo should never hit partner, should it?
+spring.profiles: docker-demo, aws-ci, aws-dev, aws-stage, aws-prod
 spring.profiles.include: remote_client_sims
 ---
 #----------------------------------------
