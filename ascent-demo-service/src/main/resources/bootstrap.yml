@@ -52,7 +52,7 @@ eureka:
     hostname: "${INSTANCE_HOST_NAME:localhost}"
 ---
 spring:
-    profiles: docker-demo, aws-ci, aws-stage, aws-prod
+    profiles: docker-demo, aws-ci, aws-dev, aws-stage, aws-prod
 eureka:
   client:
     enabled: true

@@ -107,7 +107,7 @@ spring:
     stream:
       enabled: false
 ---
-spring.profiles: docker-demo,aws-ci
+spring.profiles: docker-demo,aws-ci,aws-dev
 spring.profiles.include: remote_client_sims
 ---
 # tomcat upload file configuration
