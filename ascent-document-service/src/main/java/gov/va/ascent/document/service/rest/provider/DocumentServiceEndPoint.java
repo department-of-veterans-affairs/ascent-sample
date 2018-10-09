@@ -8,8 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +30,9 @@ import com.amazonaws.services.s3.transfer.model.UploadResult;
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.document.service.api.transfer.SubmitPayloadRequest;
-import gov.va.ascent.framework.log.LogUtil;
+import gov.va.ascent.framework.log.AscentBanner;
+import gov.va.ascent.framework.log.AscentLogger;
+import gov.va.ascent.framework.log.AscentLoggerFactory;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
 import gov.va.ascent.starter.aws.s3.services.S3Service;
 import gov.va.ascent.starter.aws.sqs.services.SqsService;
@@ -42,7 +43,7 @@ import io.swagger.annotations.ApiParam;
 public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 
 	/** Constant for the logger for this class */
-	private static final Logger LOGGER = LoggerFactory.getLogger(DocumentServiceEndPoint.class);
+	private static final AscentLogger LOGGER = AscentLoggerFactory.getLogger(DocumentServiceEndPoint.class);
 
 	private static final String SENDING_MESSAGE = "Sending message {}.";
 	private static final String SAMPLE_TEST_MESSAGE = "Sample Test Message";
@@ -84,7 +85,8 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 		final Map<String, String> propertyMap = documentService.getDocumentAttributes();
 		final ResponseEntity<UploadResult> uploadResult = s3Services.uploadMultiPartFile(bucketName, documentOne, propertyMap);
 		if (uploadResult.getBody() == null) {
-			LogUtil.logErrorWithBanner(LOGGER, "Upload Failed", "Error during Upload. Some action needs to be taken in the service");
+			LOGGER.error(AscentBanner.newBanner("Upload Failed", Level.ERROR),
+					"Error during multipart file upload to the file store service.");
 		}
 		LOGGER.info(SENDING_MESSAGE, SAMPLE_TEST_MESSAGE);
 
@@ -93,8 +95,8 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 
 		final ResponseEntity<String> jmsID = sqsServices.sendMessage(textMessage);
 		if (StringUtils.isEmpty(jmsID.getBody())) {
-			LogUtil.logErrorWithBanner(LOGGER, "Message Failed",
-					"Error during send message. Some action needs to be taken in the service");
+			LOGGER.error(AscentBanner.newBanner("Message Failed", Level.ERROR),
+					"Error during send message to the message queue service.");
 		}
 		return ResponseEntity.ok().build();
 	}
