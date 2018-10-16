@@ -1,22 +1,110 @@
 version: '3'
-services: 
-   ascent-demo-service:
+services:
+  ascent-demo-service:
     build:
       context: ./ascent-demo-service
-    environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-      - VAULT_ADDR=http://vault:8200
-      - VAULT_TOKEN=vaultroot
+    logging:
+      driver: json-file
 
-   ascent-document-service:
+  ascent-document-service:
     build:
       context: ./ascent-document-service
     environment:
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
-      - VAULT_ADDR=http://vault:8200
-      - VAULT_TOKEN=vaultroot
+      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
+    networks:
+      - ascentnet
 
-networks: 
- ascentnet: 
-    external:
-      name: dockercomposelocal_ascentnet
+####### Platform Services ########
+  ascent-amqp:
+    image: ascent/rabbitmq
+    networks:
+    - ascentnet
+    environment:
+      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+    depends_on:
+      - vault
+      - consul
+
+  consul:
+    image: consul:1.0.2
+    networks:
+      - ascentnet
+
+  ascent-discovery:
+    image: ascent/ascent-discovery
+    hostname: ascent-discovery
+    ports:
+    - 8761:8761
+    environment:
+    - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
+    - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+    - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+    - eureka.client.registerWithEureka=false
+    depends_on:
+      - vault
+    networks:
+    - ascentnet
+
+  ascent-config:
+    image: ascent/ascent-config
+    ports:
+    - 8760:8760
+    environment:
+    - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
+    - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+    - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+    - VAULT_HOST=${VAULT_HOST:-vault}
+    - VAULT_PORT=${VAULT_PORT:-8200}
+    - VAULT_SCHEME=${VAULT_SCHEME:-http}
+    depends_on:
+      - ascent-discovery
+      - vault
+      - ascent-amqp
+    networks:
+    - ascentnet
+
+###### Cache Services ########
+
+  redis-master:
+    image: ascent/redis-sentinel
+    environment:
+      - START_COMMAND=sh /redis/redis-wrapper.sh
+      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+    depends_on:
+      - vault
+    networks:
+      - ascentnet
+
+  redis-sentinel:
+    image: ascent/redis-sentinel
+    environment:
+      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+    depends_on:
+      - redis-master
+    networks:
+      - ascentnet
+
+###### Vault ##########
+
+  vault:
+    image: ascent/ascent-vault
+    hostname: vault
+    cap_add:
+      - IPC_LOCK
+    environment:
+      - VAULT_ADDR=http://vault:8200
+      - VAULT_DEV_ROOT_TOKEN_ID=vaultroot
+      - tls_disable=1
+      - GIT_ACCESS_TOKEN=$GIT_ACCESS_TOKEN
+    command: server -dev
+    networks:
+      - ascentnet
+
+networks:
+  ascentnet:
+    driver: ${DRIVER_TYPE:-bridge}
