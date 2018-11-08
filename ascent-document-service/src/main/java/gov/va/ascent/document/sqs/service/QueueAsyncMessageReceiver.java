@@ -26,6 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.sqs.MessageAttributes;
+import gov.va.ascent.starter.aws.s3.dto.CopyFileRequest;
+import gov.va.ascent.starter.aws.s3.dto.MoveMessageRequest;
 import gov.va.ascent.starter.aws.s3.services.S3Service;
 import gov.va.ascent.starter.aws.sqs.config.SqsProperties;
 import gov.va.ascent.starter.aws.sqs.services.SqsService;
@@ -134,7 +136,11 @@ public class QueueAsyncMessageReceiver {
 					}
 
 					// throws to Exception catch block
-					s3Services.copyFileFromSourceToTargetBucket(bucketName, targetBucketName, docName);
+					CopyFileRequest copyFileRequest = new CopyFileRequest();
+					copyFileRequest.setKey(docName);
+					copyFileRequest.setSourceBucketName(bucketName);
+					copyFileRequest.setTargetBucketName(targetBucketName);
+					s3Services.copyFileFromSourceToTargetBucket(copyFileRequest);
 					message.acknowledge();
 				}
 				logger.info("Acknowledged message. JMS Message ID: " + message.getJMSMessageID());
@@ -215,8 +221,12 @@ public class QueueAsyncMessageReceiver {
 	private void moveMessageToDlq(final MessageAttributes messageAttributes) { // NOSONAR
 		try {
 			// move the message to s3 dlq bucket
-			s3Services.moveMessageToS3(dlqBucketName, messageAttributes.getDocumentID(),
-					mapper.writeValueAsString(messageAttributes));
+			MoveMessageRequest moveMessageRequest = new MoveMessageRequest();
+			moveMessageRequest.setDlqBucketName(dlqBucketName);
+			moveMessageRequest.setKey(messageAttributes.getDocumentID());
+			moveMessageRequest.setMessage(mapper.writeValueAsString(messageAttributes));
+			s3Services.moveMessageToS3(moveMessageRequest);
+			
 		} catch (final JsonProcessingException e) {
 			logger.error("Error occurred while moving DLQ message to S3. Error: {}", e);
 		}

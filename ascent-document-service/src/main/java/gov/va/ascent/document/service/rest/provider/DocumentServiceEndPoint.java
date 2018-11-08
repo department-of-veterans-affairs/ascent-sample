@@ -34,6 +34,8 @@ import gov.va.ascent.framework.log.AscentBanner;
 import gov.va.ascent.framework.log.AscentLogger;
 import gov.va.ascent.framework.log.AscentLoggerFactory;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
+import gov.va.ascent.starter.aws.s3.dto.SendMessageResponse;
+import gov.va.ascent.starter.aws.s3.dto.UploadResultRequest;
 import gov.va.ascent.starter.aws.s3.services.S3Service;
 import gov.va.ascent.starter.aws.sqs.services.SqsService;
 import io.swagger.annotations.ApiOperation;
@@ -76,30 +78,6 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 		return new ResponseEntity<>(docResponse, HttpStatus.OK);
 	}
 
-	@PostMapping(value = URL_PREFIX + "/uploadDocumentSendMessage")
-	@ApiOperation(value = "Upload a Document and Sends Message",
-			consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> uploadDocumentSendMessage(final @RequestHeader HttpHeaders headers,
-			final @RequestBody MultipartFile documentOne) {
-		final Map<String, String> propertyMap = documentService.getDocumentAttributes();
-		final ResponseEntity<UploadResult> uploadResult = s3Services.uploadMultiPartFile(bucketName, documentOne, propertyMap);
-		if (uploadResult.getBody() == null) {
-			LOGGER.error(AscentBanner.newBanner("Upload Failed", Level.ERROR),
-					"Error during multipart file upload to the file store service.");
-		}
-		LOGGER.info(SENDING_MESSAGE, SAMPLE_TEST_MESSAGE);
-
-		final String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
-		final TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
-
-		final ResponseEntity<String> jmsID = sqsServices.sendMessage(textMessage);
-		if (StringUtils.isEmpty(jmsID.getBody())) {
-			LOGGER.error(AscentBanner.newBanner("Message Failed", Level.ERROR),
-					"Error during send message to the message queue service.");
-		}
-		return ResponseEntity.ok().build();
-	}
 
 	@PostMapping(value = URL_PREFIX + "/uploadDocumentWithByteArray")
 	@ApiOperation(value = "Uploads a Document afetr converting that into a byte array",
@@ -108,9 +86,13 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 	public ResponseEntity<Object> uploadDocumentWithByteArray(final @RequestHeader HttpHeaders headers,
 			final @RequestBody MultipartFile documentOne) {
 		final Map<String, String> propertyMap = documentService.getDocumentAttributes();
+		UploadResultRequest uploadResultRequest = new UploadResultRequest();
 		try {
-			s3Services.uploadByteArray(bucketName, documentOne.getBytes(), "participantid/" + documentOne.getOriginalFilename(),
-					propertyMap);
+			uploadResultRequest.setBucketName(bucketName);
+			uploadResultRequest.setByteData(documentOne.getBytes());
+			uploadResultRequest.setFileName("participantid/" + documentOne.getOriginalFilename());
+			uploadResultRequest.setPropertyMap(propertyMap);
+			s3Services.uploadByteArray(uploadResultRequest);
 		} catch (final IOException e) {
 			LOGGER.error("Error reading bytes: {}", e);
 		}
