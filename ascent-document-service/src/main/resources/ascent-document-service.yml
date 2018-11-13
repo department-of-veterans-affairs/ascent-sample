@@ -119,17 +119,6 @@ spring:
 
 ## S3 and SQS Configurations for Ascent   
 ascent:
-  aws:
-    localstack-config:
-      s3:
-        endpoint: http://localhost:4572/
-      services:
-        - name: s3
-          port: 4572
-        - name: sqs
-          port: 4576 
-    access_key_id: ${AWS_ACCESS_KEY:test-key}
-    secret_access_key: ${AWS_SECRET_ACCESS_KEY:test-secret}
   s3:
     bucket: ${AWS_S3_BUCKET_NAME:test-bucket}
     region: ${AWS_REGION:us-east-1}
