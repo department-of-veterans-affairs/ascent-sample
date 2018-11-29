@@ -6,9 +6,7 @@ import java.util.Map;
 import javax.jms.TextMessage;
 import javax.validation.constraints.NotNull;
 
-import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.slf4j.event.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,18 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import gov.va.ascent.document.service.api.DocumentService;
 import gov.va.ascent.document.service.api.transfer.GetDocumentTypesResponse;
 import gov.va.ascent.document.service.api.transfer.SubmitPayloadRequest;
-import gov.va.ascent.framework.log.AscentBanner;
 import gov.va.ascent.framework.log.AscentLogger;
 import gov.va.ascent.framework.log.AscentLoggerFactory;
-import gov.va.ascent.framework.messages.MessageSeverity;
 import gov.va.ascent.framework.swagger.SwaggerResponseMessages;
-import gov.va.ascent.starter.aws.s3.dto.DeleteFileRequest;
-import gov.va.ascent.starter.aws.s3.dto.SendMessageResponse;
 import gov.va.ascent.starter.aws.s3.dto.UploadResultRequest;
-import gov.va.ascent.starter.aws.s3.dto.UploadResultResponse;
 import gov.va.ascent.starter.aws.s3.services.S3Service;
 import gov.va.ascent.starter.aws.sqs.services.SqsService;
 import io.swagger.annotations.ApiOperation;
@@ -78,7 +72,6 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 		return new ResponseEntity<>(docResponse, HttpStatus.OK);
 	}
 
-
 	@PostMapping(value = URL_PREFIX + "/uploadDocumentWithByteArray")
 	@ApiOperation(value = "Uploads a Document afetr converting that into a byte array",
 			consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
@@ -100,48 +93,48 @@ public class DocumentServiceEndPoint implements SwaggerResponseMessages {
 
 		return ResponseEntity.ok().build();
 	}
-	
-	@PostMapping(value = URL_PREFIX + "/uploadDocumentSendMessage")
-	@ApiOperation(value = "Upload a Document and Sends Message",
-			consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> uploadDocumentSendMessage(final @RequestHeader HttpHeaders headers,
-			final @RequestBody MultipartFile documentOne) {
-		final Map<String, String> propertyMap = documentService.getDocumentAttributes();
-		final ResponseEntity<UploadResultResponse> uploadResult = s3Services.uploadMultiPartFile(bucketName, documentOne, propertyMap);
-		if (uploadResult.getBody() == null) {
-			LOGGER.error(AscentBanner.newBanner("Upload Failed", Level.ERROR),
-					"Error during multipart file upload to the file store service.");
-		}
-		LOGGER.info(SENDING_MESSAGE, SAMPLE_TEST_MESSAGE);
- 		final String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
-		final TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
- 		final SendMessageResponse jmsID = sqsServices.sendMessage(textMessage);
-		if (StringUtils.isEmpty(jmsID.getMessageId())) {
-			LOGGER.error(AscentBanner.newBanner("Message Failed", Level.ERROR),
-					"Error during send message to the message queue service.");
-		}
-		return ResponseEntity.ok().build();
-	}
 
-	@PostMapping(value = URL_PREFIX + "/deleteDocument")
-	@ApiOperation(value = "Delete a Document",
-			consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<String> deleteDocument(final @RequestHeader HttpHeaders headers,
-			@ApiParam(value = "Bucket Name", required = true) @RequestParam("bucketName") final String bucketName,
-			@ApiParam(value = "Key Name", required = true) @RequestParam("keyName") final String keyName) {
-	
-		DeleteFileRequest request = new DeleteFileRequest();
-		
-		request.setBucketName(bucketName);
-		request.setKeyName(keyName);
-		
-		s3Services.deleteFile(request);
+//	@PostMapping(value = URL_PREFIX + "/uploadDocumentSendMessage")
+//	@ApiOperation(value = "Upload a Document and Sends Message",
+//			consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+//			produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<String> uploadDocumentSendMessage(final @RequestHeader HttpHeaders headers,
+//			final @RequestBody MultipartFile documentOne) {
+//		final Map<String, String> propertyMap = documentService.getDocumentAttributes();
+//		final ResponseEntity<UploadResultResponse> uploadResult = s3Services.uploadMultiPartFile(bucketName, documentOne, propertyMap);
+//		if (uploadResult.getBody() == null) {
+//			LOGGER.error(AscentBanner.newBanner("Upload Failed", Level.ERROR),
+//					"Error during multipart file upload to the file store service.");
+//		}
+//		LOGGER.info(SENDING_MESSAGE, SAMPLE_TEST_MESSAGE);
+// 		final String jsonMessage = documentService.getMessageAttributes(documentOne.getOriginalFilename());
+//		final TextMessage textMessage = sqsServices.createTextMessage(jsonMessage);
+// 		final SendMessageResponse jmsID = sqsServices.sendMessage(textMessage);
+//		if (StringUtils.isEmpty(jmsID.getMessageId())) {
+//			LOGGER.error(AscentBanner.newBanner("Message Failed", Level.ERROR),
+//					"Error during send message to the message queue service.");
+//		}
+//		return ResponseEntity.ok().build();
+//	}
 
-		return ResponseEntity.ok().build();
-	}
-	
+//	@PostMapping(value = URL_PREFIX + "/deleteDocument")
+//	@ApiOperation(value = "Delete a Document",
+//			consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+//			produces = MediaType.APPLICATION_JSON_VALUE)
+//	public ResponseEntity<String> deleteDocument(final @RequestHeader HttpHeaders headers,
+//			@ApiParam(value = "Bucket Name", required = true) @RequestParam("bucketName") final String bucketName,
+//			@ApiParam(value = "Key Name", required = true) @RequestParam("keyName") final String keyName) {
+//
+//		DeleteFileRequest request = new DeleteFileRequest();
+//
+//		request.setBucketName(bucketName);
+//		request.setKeyName(keyName);
+//
+//		s3Services.deleteFile(request);
+//
+//		return ResponseEntity.ok().build();
+//	}
+
 	@PostMapping("/message")
 	public ResponseEntity<Object> sendMessage(@RequestBody final String message) {
 		LOGGER.info(SENDING_MESSAGE, message);

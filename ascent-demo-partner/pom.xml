@@ -57,7 +57,7 @@
 		<dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>el-impl</artifactId>
-            <version>2.2</version>
+            <version>${el-impl.version}</version>
         </dependency>
 
 		<!-- Apache Commons project dependencies -->
@@ -96,7 +96,7 @@
 		<plugin>
 			<groupId>org.codehaus.mojo</groupId>
 			<artifactId>jaxb2-maven-plugin</artifactId>
-			<version>1.5</version>
+			<version>${jaxb2-maven-plugin-codehaus.version}</version>
 			<configuration>
 				<bindingDirectory>${project.basedir}/src/main/resources/xsd</bindingDirectory>
 				<extension>true</extension>
@@ -129,19 +129,15 @@
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
+					<version>${lifecycle.mapping.version}</version>
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>eviware</groupId>
-										<artifactId>
-											maven-soapui-plugin
-										</artifactId>
-										<versionRange>
-											[4.5.1,)
-										</versionRange>
+										<artifactId>maven-soapui-plugin</artifactId>
+										<versionRange>[4.5.1,)</versionRange>
 										<goals>
 											<goal>mock</goal>
 										</goals>
