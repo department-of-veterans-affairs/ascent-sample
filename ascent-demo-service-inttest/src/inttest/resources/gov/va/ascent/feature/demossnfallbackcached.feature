@@ -10,8 +10,8 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
 
     @CI
     Examples: 
-      | Veteran    | tokenrequestfile | ServiceURL                                  | RequestFile                         | ResponseFile                      |
-      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demossnfallbacknotcached.Request | demossnfallbacknotcached.Response |
+      | Veteran     | tokenrequestfile  | ServiceURL                                  | RequestFile                          | ResponseFile                      |
+      | dev-janedoe | dev/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | dev/demossnfallbacknotcached.Request | demossnfallbacknotcached.Response |
 
     @VA
     Examples: 
@@ -26,10 +26,10 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
     Then the service returns status code = 200
     And the response should be same as "<ResponseFile>"
 
-    @CI
+    @DEV
     Examples: 
-      | Veteran    | tokenrequestfile | ServiceURL                                  | RequestFile                         | ResponseFile                      |
-      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demossnfallbackcachedone.Request | demossnfallbackcachedone.Response |
+      | Veteran     | tokenrequestfile  | ServiceURL                                  | RequestFile                          | ResponseFile                      |
+      | dev-janedoe | dev/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | dev/demossnfallbackcachedone.Request | demossnfallbackcachedone.Response |
 
     @VA
     Examples: 
