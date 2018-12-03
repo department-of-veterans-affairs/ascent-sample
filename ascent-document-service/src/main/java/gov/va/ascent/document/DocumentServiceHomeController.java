@@ -15,7 +15,7 @@ public class DocumentServiceHomeController {
 
     @RequestMapping("/")
     public void home(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    	response.sendRedirect(ServletUriComponentsBuilder.fromCurrentContextPath().path("/swagger-ui.html").build().toUriString());
+    	response.sendRedirect(ServletUriComponentsBuilder.fromCurrentContextPath().path("/swagger-ui.html").build().toUriString()); 
     }
 }
 
