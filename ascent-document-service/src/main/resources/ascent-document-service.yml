@@ -91,7 +91,7 @@ spring.sleuth.web.skipPattern: (/api/.*/webjars.*|/api/.*/v2/api-docs.*|/api/.*/
 ascent:
   security:
     jwt:
-      enabled: false
+      enabled: true
       filter-process-url: /v?/**
   swagger:
     title: Ascent Document Service v1 API Documentation
