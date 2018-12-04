@@ -1,20 +1,40 @@
-version: '3'
+version: '3.3'
 services:
-  ascent-demo-service:
+  demo-service:
     build:
       context: ./ascent-demo-service
+    #environment:
+      # The following line sets up the ability to connect a remote debugger process to port 8000 of the application.
+      # The application will not wait for the debugger to connect with this configuration. If you want the application to wait to
+      # start until the debugger connects, change the "suspend=n" portion of the debug config to "suspend=y"
+      #- JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+    ports:
+      - "${PORT:-8080:8080}"
+      #- 8000:8000
     logging:
       driver: json-file
+    depends_on:
+      - ascent-config
+      - redis-sentinel
+      - vault
 
-  ascent-document-service:
+  document-service:
     build:
       context: ./ascent-document-service
-    environment:
-      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
-      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
-      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
-    networks:
-      - ascentnet
+    #environment:
+      # The following line sets up the ability to connect a remote debugger process to port 8000 of the application.
+      # The application will not wait for the debugger to connect with this configuration. If you want the application to wait to
+      # start until the debugger connects, change the "suspend=n" portion of the debug config to "suspend=y"
+      #- JAVA_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=8000
+    ports:
+      - "${PORT:-8081:8080}"
+      #- 8000:8000
+    logging:
+      driver: json-file
+    depends_on:
+      - ascent-config
+      - redis-sentinel
+      - vault
 
 ####### Platform Services ########
   ascent-amqp:

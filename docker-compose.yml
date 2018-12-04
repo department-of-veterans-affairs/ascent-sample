@@ -1,7 +1,7 @@
-version: '3'
+version: '3.3'
 services:
-   ascent-demo-service:
-    image: ascent/ascent-demo-service
+  demo-service:
+    image: ascent/demo-service
     environment:
       - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
       - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
@@ -12,8 +12,37 @@ services:
         fluentd-async-connect: "true"
         fluentd-max-retries: "10"
         fluentd-retry-wait: "30s"
-    ports:
-      - ${PORT:-8080:8080}
+    healthcheck:
+      test: ["CMD", "/healthcheck", "--url", "https://localhost:8080/actuator/health"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    deploy:
+      mode: replicated
+      replicas: ${REPLICAS:-1}
+      placement:
+        constraints:
+          - node.role == worker
+      update_config:
+        parallelism: 1
+        delay: 60s
+        monitor: 60s
+        failure_action: pause
+    networks:
+      - ascentnet
+
+  document-service:
+    image: ascent/document-service
+    environment:
+      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
+    logging:
+      driver: fluentd
+      options:
+        fluentd-async-connect: "true"
+        fluentd-max-retries: "10"
+        fluentd-retry-wait: "30s"
     healthcheck:
       test: ["CMD", "/healthcheck", "--url", "https://localhost:8080/actuator/health"]
       interval: 1m
