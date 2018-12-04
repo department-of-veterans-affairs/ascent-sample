@@ -43,7 +43,7 @@ services:
     - ascentnet
     environment:
       - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
-      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+      - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN:-vaultroot}
     depends_on:
       - vault
       - consul
@@ -57,11 +57,11 @@ services:
     image: ascent/ascent-discovery
     hostname: ascent-discovery
     ports:
-    - 8761:8761
+    - 8761
     environment:
     - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
     - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
-    - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN:-vaultroot}
     - eureka.client.registerWithEureka=false
     depends_on:
       - vault
@@ -71,11 +71,11 @@ services:
   ascent-config:
     image: ascent/ascent-config
     ports:
-    - 8760:8760
+    - 8760
     environment:
     - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
     - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
-    - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+    - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN:-vaultroot}
     - VAULT_HOST=${VAULT_HOST:-vault}
     - VAULT_PORT=${VAULT_PORT:-8200}
     - VAULT_SCHEME=${VAULT_SCHEME:-http}
@@ -86,6 +86,21 @@ services:
     networks:
     - ascentnet
 
+  ascent-gateway:
+    image: ascent/ascent-gateway
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-docker-demo}
+      - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
+      - VAULT_TOKEN=${PLATFORM_VAULT_TOKEN:-vaultroot}
+      - IGNORE_EXT_CERT=${IGNORE_EXT_CERT:-true}
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+    networks:
+        - ascentnet
+    ports:
+        - 8762
 ###### Cache Services ########
 
   redis-master:
@@ -93,7 +108,7 @@ services:
     environment:
       - START_COMMAND=sh /redis/redis-wrapper.sh
       - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
-      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+      - VAULT_TOKEN=${REDIS_VAULT_TOKEN:-vaultroot}
     depends_on:
       - vault
     networks:
@@ -103,7 +118,7 @@ services:
     image: ascent/redis-sentinel
     environment:
       - VAULT_ADDR=${VAULT_ADDR:-http://vault:8200}
-      - VAULT_TOKEN=${VAULT_TOKEN:-vaultroot}
+      - VAULT_TOKEN=${REDIS_VAULT_TOKEN:-vaultroot}
     depends_on:
       - redis-master
     networks:
