@@ -14,19 +14,23 @@ microservicePipeline {
     from the associated vault token role
     */
     vaultTokens = [
-        "DEMO_SERVICE_VAULT_TOKEN": "ascent-demo",
+        "VAULT_TOKEN": "ascent-demo",
         "PLATFORM_VAULT_TOKEN": "ascent-platform",
         "REDIS_VAULT_TOKEN" : "redis",
     ]
 
     //Test Environment Definition
-    testEnvironment = ['test-env.yml']
-    deployWaitTime = 400
+    testEnvironment = ['docker-compose.yml', 'docker-compose.override.yml']
 
     //Name of the service to test
     serviceToTest = 'ascent-gateway'
 
     //Directory containing JSON files for Cucumber reports
-    cucumberReportDirectory = 'ascent-demo-service-inttest/target'
-    cucumberOpts = '--tags @CI'
+    cucumberReportDirectory = 'vetservices-refdata-inttest/target'
+    cucumberOpts = '--tags @DEV'
+    containerPort = 8080
+
+    /*********  Deployment Configuration ***********/
+    stackName = "sample"
+    serviceName = "demo-service"
 }
