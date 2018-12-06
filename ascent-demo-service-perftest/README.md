@@ -12,8 +12,11 @@ Additionally it will also hit the /token end point to generate JWT token for the
 
 ## Performance Test Configuration
 
+## Ascent sample Perftest is executed with the deafult values in the pipeline.
 The test suite can be configure to execute each test a different number of time and with different number of threads.
 To override any of the below properties please pass them as -D arguments (ex. -Ddomain=dev.internal.vetservices.gov)
+
+Below is the typical configuration values, But ascent sample is using the default values in JMX file.
 
 |Property|Description|Default Value|Perf Env Test Values|
 |-|-|-|-|
