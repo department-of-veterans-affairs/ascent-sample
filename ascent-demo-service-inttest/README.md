@@ -36,6 +36,6 @@ src/inttest/resources/config/vetservices-va.properties – STAGE configuration p
 ## Execution ##
 **Command Line:** Use this command(s) to execute the demo service Functional test. 
 
-Default Local: mvn verify -Pinttest -Ddockerfile.skip=true -Dcucumber.options="--tags @CI"
+Default Local: mvn verify -Pinttest -Ddockerfile.skip=true -Dcucumber.options="--tags @DEV"
 
-CI: mvn verify -Pinttest -Dtest.env=ci -Ddockerfile.skip=true -Dcucumber.options="--tags @CI"
+CI: mvn verify -Pinttest -Dtest.env=ci -Ddockerfile.skip=true -Dcucumber.options="--tags @DEV"
