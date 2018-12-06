@@ -30,6 +30,11 @@ microservicePipeline {
     cucumberOpts = '--tags @DEV'
     containerPort = 8080
 
+    /********* Performance Testing ************/
+
+    perfEnvironment = ['docker-compose.yml']
+    //perfTestOptions = ""
+
     /*********  Deployment Configuration ***********/
     stackName = "sample"
     serviceName = "demo-service"
