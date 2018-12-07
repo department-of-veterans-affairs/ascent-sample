@@ -1,4 +1,4 @@
-@Library('ascent@log-publish') _
+@Library('ascent') _
 
 microservicePipeline {
 
