@@ -10,8 +10,8 @@ spring:
         serviceId: ascent-config
       failFast: true
       label: development
-      username: ${ascent.security.username:admin}
-      password: ${ascent.security.password:default}
+      username: ${ascent.config.username:admin}
+      password: ${ascent.config.password:default}
       retry:
         initialInterval: 3000
         maxInterval: 5000
@@ -48,7 +48,7 @@ eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@localhost:${discovery.server.port:8761}/eureka/
+      defaultZone: http://${ascent.discovery.username:eureka}:${ascent.discovery.password:default}@localhost:${discovery.server.port:8761}/eureka/
   instance:
     hostname: "${INSTANCE_HOST_NAME:localhost}"
 ---
@@ -58,9 +58,12 @@ eureka:
   client:
     enabled: true
     serviceUrl:
-      defaultZone: http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.peer1.port:8761}/eureka/,http://${discovery.username:eureka}:${discovery.password:default}@${discovery.server.peer2.name:ascent-discovery-peer}:${discovery.server.peer2.port:8761}/eureka/
+      defaultZone: https://${ascent.discovery.username:eureka}:${ascent.discovery.password:default}@${discovery.server.peer1.name:ascent-discovery}:${discovery.server.port:8761}/eureka/,http://${ascent.discovery.username:eureka}:${ascent.discovery.password:default}@${discovery.server.peer2.name:ascent-discovery}:${discovery.server.port:8761}/eureka/
     preferSameZoneEureka: true
   instance:
+    nonSecurePortEnabled: false
+    securePortEnabled: true
+    securePort: 8080
     hostname: "${INSTANCE_HOST_NAME:@project.artifactId@}"
     preferIpAddress: false
     

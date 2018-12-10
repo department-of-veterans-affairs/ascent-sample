@@ -8,12 +8,12 @@ Feature: Demo person service API search based on SSN
     Then the service returns status code = 400
     And the response should be same as "<ResponseFile>"
 
-    @CI
+    @DEV
     Examples: 
       | Veteran    | tokenrequestfile | ServiceURL                                  | RequestFile               | ResponseFile            |
-      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demoinvalidssn.Request | demoinvalidssn.Response |
-      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demoemptyssn.Request   | demoemptyssn.Response   |
-      | ci-janedoe | ci/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | ci/demonossn.Request      | demonossn.Response      |
+      | dev-janedoe | dev/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | dev/demoinvalidssn.Request | demoinvalidssn.Response |
+      | dev-janedoe | dev/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | dev/demoemptyssn.Request   | demoemptyssn.Response   |
+      | dev-janedoe | dev/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | dev/demonossn.Request      | demonossn.Response      |
 
     @VA
     Examples: 
