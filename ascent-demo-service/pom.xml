@@ -171,7 +171,7 @@
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
                 <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>0.13.1</version>
+                <version>${maven-jaxb2-plugin-jvnet.version}</version>
                 <configuration>
 					<bindingDirectory>${project.basedir}/src/main/resources</bindingDirectory>
 					<schemaIncludes>
@@ -193,12 +193,12 @@
 						<plugin>
 							<groupId>com.github.krasa</groupId>
 							<artifactId>krasa-jaxb-tools</artifactId>
-							<version>1.5</version>
+							<version>${krasa-jaxb-tools.version}</version>
 						</plugin>
 						<plugin>
 			                <groupId>org.jvnet.jaxb2_commons</groupId>
 			                <artifactId>jaxb2-basics-annotate</artifactId>
-			                <version>1.0.2</version>
+			                <version>${jaxb2-basics-annotate.version}</version>
 			            </plugin>
 					</plugins>
 				</configuration>
@@ -220,7 +220,7 @@
             <plugin>
 				<groupId>gov.va.ascent.maven.plugins</groupId>
 				<artifactId>ascent-jsr303keygen-maven-plugin</artifactId>
-				<version>0.0.1</version>
+				<version>${ascent-jsr303keygen-maven-plugin.version}</version>
 				<dependencies>
 					<dependency>
 						<groupId>${project.groupId}</groupId>
@@ -247,21 +247,15 @@
         		<plugin>
         			<groupId>org.eclipse.m2e</groupId>
         			<artifactId>lifecycle-mapping</artifactId>
-        			<version>1.0.0</version>
+        			<version>${lifecycle.mapping.version}</version>
         			<configuration>
         				<lifecycleMappingMetadata>
         					<pluginExecutions>
         						<pluginExecution>
         							<pluginExecutionFilter>
-        								<groupId>
-        									gov.va.ascent.maven.plugins
-        								</groupId>
-        								<artifactId>
-        									ascent-jsr303keygen-maven-plugin
-        								</artifactId>
-        								<versionRange>
-        									[0.0.1,)
-        								</versionRange>
+        								<groupId>gov.va.ascent.maven.plugins</groupId>
+        								<artifactId>ascent-jsr303keygen-maven-plugin</artifactId>
+        								<versionRange>${ascent-jsr303keygen-maven-plugin.versionRange}</versionRange>
         								<goals>
         									<goal>keygen</goal>
         								</goals>
