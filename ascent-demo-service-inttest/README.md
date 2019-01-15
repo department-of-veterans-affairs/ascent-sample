@@ -16,20 +16,20 @@ and scenarios mentioned in the cucumber file for the API needs to be created in 
 src/inttest/java/gov/va/ascent/demo/service/runner - Cucumber runner class that contains all feature file entries that needs to be executed at runtime.
 The annotations provided in the cucumber runner class will assist in bridging the features to step definitions.
 
-src/inttest/resources/Request/ci – This folder contains CI request files if the body of your API call is static and needs to be sent as a XML/JSON file.
+src/inttest/resources/Request/dev – This folder contains DEV request files if the body of your API call is static and needs to be sent as a XML/JSON file.
 
 src/inttest/resources/Request/va – This folder contains VA request files if the body of your API call is static and needs to be sent as a XML/JSON file.
 
 src/inttest/resources/Response – This folder contains response files that you may need to compare output, you can store the Response files in this folder. 
 EMPTY for this project.
 
-src/test/resources/users/ci: All the property files for CI users should go under this folder.
+src/test/resources/users/dev: All the property files for DEV users should go under this folder.
 
 src/test/resources/users/va: All the property files for VA users should go under this folder.
 
 src/inttest/resources/logback-test.xml - Logback Console Appender pattern and loggers defined for this project
 
-src/inttest/resources/config/vetservices-ci.properties – CI configuration properties such as URL are specified here.
+src/inttest/resources/config/vetservices-dev.properties – DEV configuration properties such as URL are specified here.
 
 src/inttest/resources/config/vetservices-va.properties – STAGE configuration properties such as URL are specified here.
 
@@ -38,4 +38,7 @@ src/inttest/resources/config/vetservices-va.properties – STAGE configuration p
 
 Default Local: mvn verify -Pinttest -Ddockerfile.skip=true -Dcucumber.options="--tags @DEV"
 
-CI: mvn verify -Pinttest -Dtest.env=ci -Ddockerfile.skip=true -Dcucumber.options="--tags @DEV"
+DEV: mvn verify -Pinttest -Dtest.env=ci -Ddockerfile.skip=true -Dcucumber.options="--tags @DEV" 
+-Djavax.net.ssl.keyStore="path to keystore" -Djavax.net.ssl.keyStorePassword="keystore password"
+
+Note: To execute the test against dev and stagging JKS file has to be stored locally.
