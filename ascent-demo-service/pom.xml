@@ -1,42 +1,43 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    
-    <parent>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"
+>
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
 		<groupId>gov.va.ascent.sample</groupId>
 		<artifactId>ascent-sample-parentpom</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../ascent-sample-parentpom</relativePath>
 	</parent>
-	
-    <artifactId>ascent-demo-service</artifactId>
-    <packaging>jar</packaging>
-    
-    <name>ascent-demo-service</name>
-    <description>Demo project for Spring Boot Service Provider</description>
-    
-    <!-- Docker properties to add min and max memory for spring boot jar start up -->
-    <properties>
+
+	<artifactId>ascent-demo-service</artifactId>
+	<packaging>jar</packaging>
+
+	<name>ascent-demo-service</name>
+	<description>Demo project for Spring Boot Service Provider</description>
+
+	<!-- Docker properties to add min and max memory for spring boot jar start up -->
+	<properties>
 		<docker.java.opts.ms>-Xms128m</docker.java.opts.ms>
 		<docker.java.opts.mx>-Xmx512m</docker.java.opts.mx>
 	</properties>
-    
-    <dependencies>
-        <dependency>
-            <groupId>gov.va.ascent.sample</groupId>
-            <artifactId>ascent-demo-partner</artifactId>
-        </dependency>
+
+	<dependencies>
+		<dependency>
+			<groupId>gov.va.ascent.sample</groupId>
+			<artifactId>ascent-demo-partner</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>gov.va.ascent</groupId>
 			<artifactId>ascent-platform-starter</artifactId>
 		</dependency>
-		 <!-- ascent jwt authentication configurations -->
-        <dependency>
-            <groupId>gov.va.ascent</groupId>
-            <artifactId>ascent-platform-starter-security</artifactId>
-        </dependency>
-        <!-- ascent logging and audit configurations -->
+		<!-- ascent jwt authentication configurations -->
+		<dependency>
+			<groupId>gov.va.ascent</groupId>
+			<artifactId>ascent-platform-starter-security</artifactId>
+		</dependency>
+		<!-- ascent logging and audit configurations -->
 		<dependency>
 			<groupId>gov.va.ascent</groupId>
 			<artifactId>ascent-platform-starter-logger</artifactId>
@@ -50,133 +51,168 @@
 			<groupId>gov.va.ascent</groupId>
 			<artifactId>ascent-platform-starter-cache</artifactId>
 		</dependency>
-    	<!-- spring-boot dependencies -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
+		<!-- spring-boot dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-actuator-docs</artifactId>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-        </dependency>
-        <dependency>
-        	<groupId>org.springframework.boot</groupId>
-        	<artifactId>spring-boot-configuration-processor</artifactId>
-        	<optional>true</optional>
-        </dependency>
 		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        
-        <!-- spring cloud dependencies -->
-        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
+
+		<!-- spring cloud dependencies -->
+		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        
-        <!-- Spring-cloud Netflix Feign dependency for defining declarative REST clients -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-feign</artifactId>
-        </dependency>
-        <!-- Spring-cloud Netflix hystrix dependency for circuit breaker implementation -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
-        </dependency>
-        <!-- Spring-cloud sleuth dependency for generating instrumentation data for audit purposes -->
-	   <dependency> 
-	       <groupId>org.springframework.cloud</groupId>
-	       <artifactId>spring-cloud-sleuth-stream</artifactId>
-	   </dependency>
-	   <dependency> 
-	       <groupId>org.springframework.cloud</groupId>
-	       <artifactId>spring-cloud-starter-sleuth</artifactId>
-	   </dependency>		   
-	   <dependency> 
-	       <groupId>org.springframework.cloud</groupId>
-	       <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-	   </dependency>
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-        </dependency>
-        
-        <!-- additional jackson dependencies not brought in via spring-boot starters -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-base</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.jaxrs</groupId>
-            <artifactId>jackson-jaxrs-json-provider</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
-            <artifactId>jackson-module-jaxb-annotations</artifactId>
-        </dependency>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
+		</dependency>
 		<dependency>
-		    <groupId>com.fasterxml.jackson.core</groupId>
-		    <artifactId>jackson-annotations</artifactId>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka</artifactId>
 		</dependency>
-        
-        <!-- jolokia for JMX over HTTP via /jolokia -->
-        <dependency>
-		    <groupId>org.jolokia</groupId>
-		    <artifactId>jolokia-core</artifactId>
+
+		<!-- Spring-cloud Netflix Feign dependency for defining declarative REST clients -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
 		</dependency>
-        
-        <!-- misc dependencies -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-        </dependency>
-        
-        <!-- test dependencies -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.jvnet.jaxb2.maven2</groupId>
-                <artifactId>maven-jaxb2-plugin</artifactId>
-                <version>${maven-jaxb2-plugin-jvnet.version}</version>
-                <configuration>
+		<!-- Spring-cloud Netflix hystrix dependency for circuit breaker implementation -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-hystrix</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+		</dependency>
+		<!-- Spring-cloud sleuth dependency for generating instrumentation data for audit purposes -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-sleuth-stream</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream-binder-rabbit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+		</dependency>
+
+		<!-- additional jackson dependencies not brought in via spring-boot starters -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-base</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+		</dependency>
+
+		<!-- jolokia for JMX over HTTP via /jolokia -->
+		<dependency>
+			<groupId>org.jolokia</groupId>
+			<artifactId>jolokia-core</artifactId>
+		</dependency>
+
+		<!-- misc dependencies -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+
+		<!-- test dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<!--
+						To get JSR303 messages from vetservices-libfilemanager.
+						Copying this file allows ModelValidator to configure itself to include the file as a resource bundle.
+					-->
+					<execution>
+						<id>copy-libfilemanager-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/src/main/resources</outputDirectory>
+							<!-- copy resources from modelvalidator project -->
+							<resources>
+								<resource>
+									<directory>${basedir}/../../vetservices-lib-filemanager/src/main/resources/</directory>
+									<filtering>false</filtering>
+									<includes>
+										<include>LibFileManagerMessages.properties</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!--
+					JAXB/XJC config to generate resource data model classes,
+					including jsr303 custom validator annotation classes from the modelvalidators project
+				-->
+				<groupId>org.jvnet.jaxb2.maven2</groupId>
+				<artifactId>maven-jaxb2-plugin</artifactId>
+				<version>${maven-jaxb2-plugin-jvnet.version}</version>
+				<configuration>
 					<bindingDirectory>${project.basedir}/src/main/resources</bindingDirectory>
 					<schemaIncludes>
-                          <schemaInclude>**/*.xsd</schemaInclude>
-                      </schemaIncludes>
+						<schemaInclude>**/*.xsd</schemaInclude>
+					</schemaIncludes>
 					<bindingDirectory>${project.basedir}/src/main/resources/model/</bindingDirectory>
 					<bindingIncludes>
 						<include>JAXB-bindings.xjb</include>
@@ -196,28 +232,31 @@
 							<version>${krasa-jaxb-tools.version}</version>
 						</plugin>
 						<plugin>
-			                <groupId>org.jvnet.jaxb2_commons</groupId>
-			                <artifactId>jaxb2-basics-annotate</artifactId>
-			                <version>${jaxb2-basics-annotate.version}</version>
-			            </plugin>
+							<groupId>org.jvnet.jaxb2_commons</groupId>
+							<artifactId>jaxb2-basics-annotate</artifactId>
+							<version>${jaxb2-basics-annotate.version}</version>
+						</plugin>
 					</plugins>
 				</configuration>
-                <executions>
-                	<!-- to introduce a new schema/model, copy/paste this entire execution, give it a new id
-                		such as v2, give new package like v2 and new include schema directory such as v2 -->
-                    <execution>
-                    	<id>xjc-v1</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
+				<executions>
+					<!-- to introduce a new schema/model, copy/paste this entire execution, give it a new id
+						such as v2, give new package like v2 and new include schema directory such as v2 -->
+					<execution>
+						<id>xjc-v1</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
 							<generatePackage>gov.va.ascent.demo.service.api.v1.transfer</generatePackage>
 							<schemaDirectory>${project.basedir}/src/main/resources/model/v1</schemaDirectory>
 						</configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!-- Run the custom plugin to generate the error-keys HTML file that gets hacked into swagger -->
+				<!-- version is required here for automated update -->
 				<groupId>gov.va.ascent.maven.plugins</groupId>
 				<artifactId>ascent-jsr303keygen-maven-plugin</artifactId>
 				<version>0.0.5</version>
@@ -240,36 +279,37 @@
 					</execution>
 				</executions>
 			</plugin>
-        </plugins>
-        <pluginManagement>
-        	<plugins>
-        		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        		<plugin>
-        			<groupId>org.eclipse.m2e</groupId>
-        			<artifactId>lifecycle-mapping</artifactId>
-        			<version>${lifecycle.mapping.version}</version>
-        			<configuration>
-        				<lifecycleMappingMetadata>
-        					<pluginExecutions>
-        						<pluginExecution>
-        							<pluginExecutionFilter>
-        								<groupId>gov.va.ascent.maven.plugins</groupId>
-        								<artifactId>ascent-jsr303keygen-maven-plugin</artifactId>
-        								<versionRange>${ascent-jsr303keygen-maven-plugin.versionRange}</versionRange>
-        								<goals>
-        									<goal>keygen</goal>
-        								</goals>
-        							</pluginExecutionFilter>
-        							<action>
-        								<ignore></ignore>
-        							</action>
-        						</pluginExecution>
-        					</pluginExecutions>
-        				</lifecycleMappingMetadata>
-        			</configuration>
-        		</plugin>
-        	</plugins>
-        </pluginManagement>
-    </build>
+		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>${lifecycle.mapping.version}</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>gov.va.ascent.maven.plugins</groupId>
+										<artifactId>ascent-jsr303keygen-maven-plugin</artifactId>
+										<versionRange>${ascent-jsr303keygen-maven-plugin.versionRange}</versionRange>
+										<goals>
+											<goal>keygen</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
 </project>

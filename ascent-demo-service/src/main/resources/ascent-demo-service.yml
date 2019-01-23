@@ -9,6 +9,24 @@ info:
     
 # REDIS (RedisProperties)
 ascent:
+########################################
+# JSR303 properties to be added for
+# resolving message keys
+########################################
+  validation:
+    messages:
+      user-resource-bundle: LibFileManagerMessages
+##################################################
+# Feign or REST client connection timeout
+# when making inter-service or external REST calls
+##################################################
+  rest:
+    client:
+      connection-timeout: 30000
+########################################
+# REDIS Ascent Custom Cache Properties
+# Default Expiration and For Each Bucket
+########################################
   cache:
     defaultExpires: 86400 # (Seconds)
     expires:
