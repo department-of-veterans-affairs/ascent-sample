@@ -186,10 +186,10 @@ public class QueueAsyncMessageReceiver {
 					if (messageAttributes == null) {
 						return;
 					}
-					if (messageAttributes.getNumberOfRetries() >= sqsProperties.getDlqRetriesCount()) {
+					if (messageAttributes.getNumberOfRetries() >= sqsProperties.getRetries()) {
 						moveMessageToDlq(messageAttributes);
 						logger.info("Deleting the message from DLQ after {} attempts. JMS Message ID: {}",
-								sqsProperties.getDlqRetriesCount(), message.getJMSMessageID());
+								sqsProperties.getRetries(), message.getJMSMessageID());
 					} else {
 						final TextMessage txtMessage = moveMessageToQueue(messageAttributes);
 						sqsServices.sendMessage(txtMessage);
