@@ -38,6 +38,7 @@ public class DemoSsnFallBackCachedAndNotCachedSteps {
 	@When("^client request SSNnotcached \"([^\"]*)\" with SSNnotcached data \"([^\"]*)\"$")
 	public void ClientRequestPOSTWithJsondataSSNFallBackNotCached(String strURL, String requestFile) throws Throwable {
 		String baseUrl = handler.getRestConfig().getProperty("baseURL", true);
+		handler.getRestUtil().setUpRequest(requestFile, handler.getHeaderMap());
 		handler.invokeAPIUsingPost(baseUrl + strURL);
 	}
 

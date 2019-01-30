@@ -6,7 +6,7 @@ Feature: Demo person service API search based on SSN
     And invoke token API by passing header from "<tokenrequestfile>" and sets the authorization in the header
     When request search ssn "<ServiceURL>" with ssn data "<RequestFile>"
     Then the service returns status code = 400
-    And the response should be same as "<ResponseFile>"
+    And the response should contain string "<ResponseFile>"
 
     @DEV
     Examples: 

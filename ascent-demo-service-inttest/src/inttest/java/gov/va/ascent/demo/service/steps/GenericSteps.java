@@ -1,5 +1,7 @@
 package gov.va.ascent.demo.service.steps;
 
+import static org.junit.Assert.assertTrue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,9 +36,15 @@ public class GenericSteps {
 		handler.validateStatusCode(httpCode);
 	}
 
+	@And("^the response should contain string \"(.*?)\"$")
+	public void responseShouldContain(final String responseFile) throws Throwable {
+		LOGGER.info("responseFile {}", responseFile);
+		assertTrue(handler.compareExpectedResponseWithActualByRow(responseFile));
+		}
+	
 	@And("^the response should be same as \"(.*?)\"$")
 	public void responseShouldBe(final String responseFile) throws Throwable {
 		LOGGER.info("responseFile {}", responseFile);
-		handler.compareExpectedResponseWithActual(responseFile);
-	}
+		assertTrue(handler.compareExpectedResponseWithActual(responseFile));
+		}
 }

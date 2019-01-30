@@ -6,9 +6,9 @@ Feature: Demo person service SSN hystrix fallback cached and not cached
     And invoke token API by passing header from "<tokenrequestfile>" and sets the authorization in the header
     When client request SSNnotcached "<ServiceURL>" with SSNnotcached data "<RequestFile>"
     Then the service returns status code = 400
-    And the response should be same as "<ResponseFile>"
+    And the response should contain string "<ResponseFile>"
 
-    @CI
+    @DEV
     Examples: 
       | Veteran     | tokenrequestfile  | ServiceURL                                  | RequestFile                          | ResponseFile                      |
       | dev-janedoe | dev/token.Request | /api/ascent-demo-service/demo/v1/person/ssn | dev/demossnfallbacknotcached.Request | demossnfallbacknotcached.Response |
