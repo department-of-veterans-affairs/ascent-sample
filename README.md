@@ -26,7 +26,7 @@ Platform services are built and deployed to support application services in the 
 
 ## How do I get set up? ##
 
-Follow the instructions on the Quick Start Guide Wiki Page [Set Up Guide](https://github.com/department-of-veterans-affairs/ascent-sample/wiki/Ascent-Sample-Quick-Start-Guide)
+Follow the instructions on the Quick Start Guide Wiki Page [Set Up Guide](https://github.com/department-of-veterans-affairs/ascent-sample/wiki/DEV-:-Quick-Start-Guide-for-Ascent-Sample)
   
 ## Service Patterns ##
 
