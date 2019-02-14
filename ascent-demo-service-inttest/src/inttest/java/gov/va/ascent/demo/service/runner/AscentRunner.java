@@ -11,7 +11,7 @@ import cucumber.api.testng.AbstractTestNGCucumberTests;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(strict = false, plugin = { "pretty",
-		"html:target/site/cucumber-pretty", "json:target/cucumber.json" }, 
+		"html:target/site/cucumber-pretty", "json:target/site/cucumber.json" }, 
 		features = {"src/inttest/resources/gov/va/ascent/feature/demosearchssn.feature",
 		    "src/inttest/resources/gov/va/ascent/feature/demossnfallbackcached.feature"},
 		glue = { "gov.va.ascent.demo.service.steps" })
