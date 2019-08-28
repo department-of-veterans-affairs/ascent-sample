@@ -1,14 +1,17 @@
-# README #
+# This repository is no longer maintained.
 
-You are in the "master" branch of Ascent Sample Repository. This space documents all the steps that are necessary to get the *ASCENT SAMPLE DEMO SERVICE* up and running locally and other environments.
+Issue reports and pull requests will not be attended. 
 
-As we haven't promoted the code yet to any cloud environments, the most current branch is "development". So for developers who are looking to install the demo sample service or browse the codebase, switch to development branch. 
+To deploy spring boot and spring cloud microservices on BIP Platform, refer to the following repositories:
 
-There are multiple documentation pages created in Wiki section of this repository. Find some time to read those pages and provide any constructive feedback to the platform team.
+**DSVA**
+1. BIP Framework: https://github.com/department-of-veterans-affairs/bip-framework
+2. BIP Reference Person Example Service: https://github.com/department-of-veterans-affairs/bip-reference-person
+3. BIP Archetype Service: https://github.com/department-of-veterans-affairs/bip-archetype-service
+4. BIP Jenkins Library: https://github.com/department-of-veterans-affairs/os-svc-jenkins-lib/
 
-# Developers Start Guide Links #
-
-1. README Document: https://github.com/department-of-veterans-affairs/ascent-sample/tree/development
-2. Ascent Sample Quick Start Guide: https://github.com/department-of-veterans-affairs/ascent-sample/wiki/Ascent-Sample-Quick-Start-Guide
-3. Guide to Create Developer Workstation: https://github.com/department-of-veterans-affairs/ascent-developer-vm/blob/master/README.md
-4. Ascent Platform Principles for Services: https://github.com/department-of-veterans-affairs/ascent-sample/wiki/Ascent-Platform-Principles-for-Services
+**EPMO**
+1. BIP Framework: https://github.ec.va.gov/EPMO/bip-framework
+2. BIP Reference Person Example Service: https://github.ec.va.gov/EPMO/bip-reference-person
+3. BIP Archetype Service: https://github.ec.va.gov/EPMO/bip-archetype-service
+4. BIP Jenkins Library: https://github.ec.va.gov/EPMO/bip-jenkins-lib
